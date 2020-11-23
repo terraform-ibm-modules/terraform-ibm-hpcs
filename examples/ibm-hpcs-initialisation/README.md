@@ -39,7 +39,7 @@ Run `terraform destroy` when you don't need these resources.
 ### Initialise HPCS Instance using COS
 ```hcl
 module "download_from_cos" {
-  source          = "../../../modules/ibm-hpcs-initialisation/download-from-cos"
+  source          = "terraform-ibm-modules/hpcs/ibm//modules/ibm-hpcs-initialisation/download-from-cos"
   api_key         = var.api_key
   cos_crn         = var.cos_crn
   endpoint        = var.endpoint
@@ -50,7 +50,7 @@ module "download_from_cos" {
 ```hcl
 
 module "hpcs_init" {
-  source             = "../../../modules/ibm-hpcs-initialisation/hpcs-init"
+  source             = "terraform-ibm-modules/hpcs/ibm//modules/ibm-hpcs-initialisation/hpcs-init"
   module_depends_on  = module.download_from_cos.download_from_cos
   tke_files_path     = var.tke_files_path
   input_file_name    = var.input_file_name
@@ -59,7 +59,7 @@ module "hpcs_init" {
 ```
 ```hcl
 module "upload_to_cos" {
-  source             = "../../../modules/ibm-hpcs-initialisation/upload-to-cos"
+  source             = "terraform-ibm-modules/hpcs/ibm//modules/ibm-hpcs-initialisation/upload-to-cos"
   module_depends_on  = module.hpcs_init.hpcs_init
   api_key            = var.api_key
   cos_crn            = var.cos_crn
@@ -75,7 +75,7 @@ module "upload_to_cos" {
 
 ```hcl
 module "hpcs_init" {
-  source             = "../../../modules/ibm-hpcs-initialisation/hpcs-init"
+  source             = "terraform-ibm-modules/hpcs/ibm//modules/ibm-hpcs-initialisation/hpcs-init"
   tke_files_path     = var.tke_files_path
   input_file_name    = var.input_file_name
   hpcs_instance_guid = data.ibm_resource_instance.hpcs_instance.guid

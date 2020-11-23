@@ -4,7 +4,7 @@ This example is used to create a keys on HPCS Instance
 ## Example Usage
 ```
 module "ibm-hpcs-kms-key" {
-  source           = "../../modules/ibm-hpcs-kms-key/"
+  source           = "terraform-ibm-modules/hpcs/ibm//modules/ibm-hpcs-kms-key/"
   region           = var.region
   instance_id      = data.ibm_resource_instance.hpcs_instance.guid
   name             = var.name

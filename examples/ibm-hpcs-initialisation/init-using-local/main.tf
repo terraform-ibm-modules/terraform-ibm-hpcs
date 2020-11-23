@@ -24,7 +24,7 @@ data "ibm_resource_instance" "hpcs_instance" {
      The set of CLOUDTKEFILES that are obtained as an input is stored in the `tke_files_path` provided by user as a folder of secrets.
   */
 module "hpcs_init" {
-  source             = "../../../modules/ibm-hpcs-initialisation/hpcs-init"
+  source             = "terraform-ibm-modules/hpcs/ibm//modules/ibm-hpcs-initialisation/hpcs-init"
   tke_files_path     = var.tke_files_path
   input_file_name    = var.input_file_name
   hpcs_instance_guid = data.ibm_resource_instance.hpcs_instance.guid

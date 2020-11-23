@@ -41,7 +41,7 @@ Run `terraform destroy` when you don't need these resources.
 Note: `provision_instance` will determine if the instance has to be provisioned or not. If `provision_instance` is true, count will be 1 and the instance will be provisioned..
 ```hcl
 module "ibm-hpcs-instance" {
-  source = "../../modules/ibm-hpcs-instance"
+  source = "terraform-ibm-modules/hpcs/ibm//modules/ibm-hpcs-instance"
 
   provision_instance     = var.provision_instance
   resource_group_id      = data.ibm_resource_group.resource_group.id
@@ -58,7 +58,7 @@ module "ibm-hpcs-instance" {
 
 ```hcl
 module "hpcs_init" {
-  source             = "../../../modules/ibm-hpcs-initialisation/hpcs-init"
+  source             = "terraform-ibm-modules/hpcs/ibm//modules/ibm-hpcs-initialisation/hpcs-init" 
   tke_files_path     = var.tke_files_path
   input_file_name    = var.input_file_name
   hpcs_instance_guid = data.ibm_resource_instance.hpcs_instance.guid
@@ -70,7 +70,7 @@ module "hpcs_init" {
 
 ```hcl
 module "ibm-hpcs-kms-key" {
-  source           = "../../modules/ibm-hpcs-kms-key/"
+  source           = "terraform-ibm-modules/hpcs/ibm//modules/ibm-hpcs-kms-key/"
   instance_id      = data.ibm_resource_instance.hpcs_instance.guid
   name             = var.name
   standard_key     = var.standard_key

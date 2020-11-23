@@ -5,7 +5,7 @@ This example is used to create a HPCS instance.
 ## Example Usage
 ```
 module "ibm-hpcs-instance" {
-  source = "../../modules/ibm-hpcs-instance"
+  source = "terraform-ibm-modules/hpcs/ibm//modules/ibm-hpcs-instance"
 
   provision_instance     = var.provision_instance
   resource_group_id      = data.ibm_resource_group.resource_group.id
