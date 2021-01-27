@@ -1,15 +1,20 @@
 # Initialising HPCS Service Instances using Terraform Modules
 
-This is a collection of modules that make it easier to initialise HPCS Instance IBM Cloud Platform:
+This Example template is used to initialise HPCS Instance by taking input.json from local machine.
 
-* [ Download From Cos ](./download-from-cos) - It Downloads input json file from cos bucket.Json File contains Crypto Unit secrets.
-* [ Initialisation Automation ](./hpcs-init) - It takes json file as input this module ll initialise HPCS Instance
-* [ Upload TKE Files to COS ](./upload-to-cos) - It Uploads TKE Files sto COS Bucket.
-* [Remove TKE Files](./remove-tkefiles) - It removes TKE Files and input from local.
+## HPCS Initialisation Architecture
+
+![HPCS Architecture](references/diagrams/architechture.png?raw=true)
+The figure above depicts the basic architecture of the IBM Cloud HPCS Init Terraform Automation.
+The main components are..
+
+- **COS Bucket**: HPCS Crypto unit credentials that stored in a Bucket as a json file will be taken as an input by `hpcs-init` terraform module and the secret tke-files that are obtained after execution of template will be stored back as zip file in cos bucket.
+- **Terraform**: Reads the terraform configuration files and templates, execute the plan, and communicate with the plugins, manages the resource state and .tfstate file after apply.
+- **IBM Cloud TKE Plugin**: The Python script that automates the initialisation process uses IBM CLOUD TKE Plugin
 
 ## Terraform versions
 
-Terraform 0.13.
+Terraform 0.13 and above.
 
 ## Usage
 
@@ -26,57 +31,20 @@ $ terraform apply
 Run `terraform destroy` when you don't need these resources. This command zeroises the cryptounit.. to remove master keys and signature keys, Use following commands respectively `ibmcloud tke mk-rm` , `ibmcloud tke sigkey-rm`
 Please refer `ibmcloud tke help` for more info.
 
+
 ## Example Usage
 
-### Download JsonFile From COS
-```hcl
-module "download_from_cos" {
-  source          = "modules/ibm-hpcs-initialisation/download-from-cos"
-  api_key         = var.api_key
-  cos_crn         = var.cos_crn
-  endpoint        = var.endpoint
-  bucket_name     = var.bucket_name
-  input_file_name = var.input_file_name
-}
-```
-### Initialise HPCS instance using json file
+### Initialise HPCS Instance using Local
+
 ```hcl
 
 module "hpcs_init" {
-  source             = "modules/ibm-hpcs-initialisation/hpcs-init"
-  depends_on         = [module.download_from_cos]
-  tke_files_path     = var.tke_files_path
-  input_file_name    = var.input_file_name
-  hpcs_instance_guid = data.ibm_resource_instance.hpcs_instance.guid
-}
-
-```
-### Upload TKE Files to COS
-```hcl
-module "upload_to_cos" {
-  source             = "../../modules/ibm-hpcs-initialisation/upload-to-cos"
-  depends_on         = [module.hpcs_init]
-  api_key            = var.api_key
-  cos_crn            = var.cos_crn
-  endpoint           = var.endpoint
-  bucket_name        = var.bucket_name
-  tke_files_path     = var.tke_files_path
-  hpcs_instance_guid = data.ibm_resource_instance.hpcs_instance.guid
-}
-```
-### Remove TKE Files from local machine
-`Note:` This module will remove TKE files without having backup.. It is advisable to use this module after uploading TKE Files to COS
-
-```hcl
-module "remove_tke_files" {
-  source             = "../../../modules/ibm-hpcs-initialisation/remove-tkefiles"
-  depends_on         = [module.upload_to_cos]
+  source             = "../../modules/ibm-hpcs-initialisation/hpcs-init"
   tke_files_path     = var.tke_files_path
   input_file_name    = var.input_file_name
   hpcs_instance_guid = data.ibm_resource_instance.hpcs_instance.guid
 }
 ```
-`
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -98,10 +66,12 @@ module "remove_tke_files" {
 
 | Name              | Description                                                             | Type     | Required |
 |-------------------|-------------------------------------------------------------------------|----------|----------|
-| api_key           | Api key of the COS bucket.                                              | `string` | No       |
-| cos_crn           | COS instance CRN.                                                       | `string` | No       |
-| endpoint          | COS endpoint.                                                           | `string` | No       |
-| bucket_name       | COS bucket name.                                                        | `string` | No       |
+| service_name      | HPCS Instance Name.                                                     | `string` | Yes      |
+| region            | HPCS Instance Region.                                                   | `string` | Yes      |
+| api_key           | Api key of the COS bucket.                                              | `string` | Yes      |
+| cos_crn           | COS instance CRN.                                                       | `string` | Yes      |
+| endpoint          | COS endpoint.                                                           | `string` | Yes      |
+| bucket_name       | COS bucket name.                                                        | `string` | Yes      |
 | input_file_name   | Input json file name that is present in the cos-bucket or in the local. | `string` | Yes      |
 | tke_files_path    | Path to which tke files has to be exported.                             | `string` | Yes      |
 | key\_name         | Name of the key.                                                        | `string` | Yes      |
@@ -109,8 +79,6 @@ module "remove_tke_files" {
 Note: 
 * COS Credententials are required when `download_from_cos` and `upload_to_cos` null resources are used
 * Cloud TKE Files will be downloaded at `tke_files_path`+` < GUID of the Service Instance >_tkefiles`. To perform any operation after initialisation on tkefiles outside terraform `CLOUDTKEFILES` should be exported to above mentioned path
-
-
 
 ## Pre-Requisites for Initialisation:
 * python version 3.5 and above

@@ -4,12 +4,9 @@
 #########################################################################################
 
 resource "null_resource" "remove_tke_files" {
-  triggers = {
-    value = var.module_depends_on
-  }
   provisioner "local-exec" {
     command = <<EOT
-    python ${path.cwd}/../../../modules/ibm-hpcs-initialisation/scripts/remove_tkefiles.py
+    python ${path.module}/../../../modules/ibm-hpcs-initialisation/scripts/remove_tkefiles.py
         EOT
     environment = {
       CLOUDTKEFILES   = var.tke_files_path

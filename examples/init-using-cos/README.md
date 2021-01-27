@@ -1,10 +1,6 @@
 # Initialising HPCS Service Instances using Terraform Modules
 
-This Example template is used to initialise HPCS Instance IBM Cloud Platform:
-
-* [ Init-Using-Cos](./init-using-cos) - Downloads input from cos bucket, Initialises HPCS Instance and Uploads TKE Files to COS.
-* [ Init-using-Local](./init-using-local) - Given a json file as input this example ll initialise HPCS Instance
-* Managing Keys on HPCS Instance - [ Key Management Service Resource](https://cloud.ibm.com/docs/terraform?topic=terraform-kp-resources#kms-key)
+This Example template is used to initialise HPCS Instance by downloading input from cloud Object storage 
 
 ## HPCS Initialisation Architecture
 
@@ -18,7 +14,7 @@ The main components are..
 
 ## Terraform versions
 
-Terraform 0.12.
+Terraform 0.13 and above.
 
 ## Usage
 
@@ -32,14 +28,16 @@ $ terraform plan
 $ terraform apply
 ```
 
-Run `terraform destroy` when you don't need these resources.
+Run `terraform destroy` when you don't need these resources. This command zeroises the cryptounit.. to remove master keys and signature keys, Use following commands respectively `ibmcloud tke mk-rm` , `ibmcloud tke sigkey-rm`
+Please refer `ibmcloud tke help` for more info.
+
 
 ## Example Usage
 
 ### Initialise HPCS Instance using COS
 ```hcl
 module "download_from_cos" {
-  source          = "../../../modules/ibm-hpcs-initialisation/download-from-cos"
+  source          = "../../modules/ibm-hpcs-initialisation/download-from-cos"
   api_key         = var.api_key
   cos_crn         = var.cos_crn
   endpoint        = var.endpoint
@@ -50,8 +48,8 @@ module "download_from_cos" {
 ```hcl
 
 module "hpcs_init" {
-  source             = "../../../modules/ibm-hpcs-initialisation/hpcs-init"
-  module_depends_on  = module.download_from_cos.download_from_cos
+  source             = "../../modules/ibm-hpcs-initialisation/hpcs-init"
+  depends_on         = [module.download_from_cos]
   tke_files_path     = var.tke_files_path
   input_file_name    = var.input_file_name
   hpcs_instance_guid = data.ibm_resource_instance.hpcs_instance.guid
@@ -59,8 +57,8 @@ module "hpcs_init" {
 ```
 ```hcl
 module "upload_to_cos" {
-  source             = "../../../modules/ibm-hpcs-initialisation/upload-to-cos"
-  module_depends_on  = module.hpcs_init.hpcs_init
+  source             = "../../modules/ibm-hpcs-initialisation/upload-to-cos"
+  depends_on         = [module.hpcs_init]
   api_key            = var.api_key
   cos_crn            = var.cos_crn
   endpoint           = var.endpoint
@@ -70,25 +68,15 @@ module "upload_to_cos" {
 }
 ```
 
-
-### Initialize HPCS Instance using local json file
-
-```hcl
-module "hpcs_init" {
-  source             = "../../../modules/ibm-hpcs-initialisation/hpcs-init"
-  tke_files_path     = var.tke_files_path
-  input_file_name    = var.input_file_name
-  hpcs_instance_guid = data.ibm_resource_instance.hpcs_instance.guid
-}
-```
-`
-
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| terraform | ~> 0.12 |
+| terraform | ~> 0.13 |
+| OS | Mac/Linux |
+| python | ~> 3.5 |
+| pip | should supports python 3 |
 
 ## Providers
 
@@ -100,21 +88,32 @@ module "hpcs_init" {
 
 | Name              | Description                                                             | Type     | Required |
 |-------------------|-------------------------------------------------------------------------|----------|----------|
-| api_key           | Api key of the COS bucket.                                              | `string` | No       |
-| cos_crn           | COS instance CRN.                                                       | `string` | No       |
-| endpoint          | COS endpoint.                                                           | `string` | No       |
-| bucket_name       | COS bucket name.                                                        | `string` | No       |
+| service_name      | HPCS Instance Name.                                                     | `string` | Yes      |
+| region            | HPCS Instance Region.                                                   | `string` | Yes      |
 | input_file_name   | Input json file name that is present in the cos-bucket or in the local. | `string` | Yes      |
 | tke_files_path    | Path to which tke files has to be exported.                             | `string` | Yes      |
-| key\_name         | Name of the key.                                                        | `string` | Yes      |
 
-Note: COS Credententials are required when `download_from_cos` and `upload_to_cos` null resources are used
-
+Note: 
+* COS Credententials are required when `download_from_cos` and `upload_to_cos` null resources are used
+* Cloud TKE Files will be downloaded at `tke_files_path`+` < GUID of the Service Instance >_tkefiles`. To perform any operation after initialisation on tkefiles outside terraform `CLOUDTKEFILES` should be exported to above mentioned path
 
 ## Pre-Requisites for Initialisation:
-* Login to IBM Cloud Account using cli `ibmcloud login --apikey= <Your IC Api Key> -a cloud.ibm.com`
-* Target Resource group and region `ibmcloud target -g <resource group name>` `ibmcloud target -r <region>`
+* python version 3.5 and above
+* pip version 3 and above
+
+``` hcl 
+  pip install pexpect
+```
+`ibm-cos-sdk` package is required if initialisation is performed using objeck storage example..
+``` hcl 
+pip install ibm-cos-sdk
+```
+* Login to IBM Cloud Account using cli 
+```hcl 
+ibmcloud login --apikey `<XXXYourAPIKEYXXXXX>` -r `<region>` -g `<resource_group>` -a `< cloud endpoint>
+```
 * Generate oauth-tokens `ibmcloud iam oauth-tokens`. This step should be done as and when token expires. 
+* To install tke plugin `ibmcloud plugin install tke`. find more info on tke plugin [here](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm#initialize-crypto-prerequisites) 
 
 ## Notes On Initialization:
 * The current script adds only one signature key admin.
@@ -130,3 +129,6 @@ Note: COS Credententials are required when `download_from_cos` and `upload_to_co
 * Automation of Pre-Requisites.
 * Capability to add and select one or more admin.
 * Integration with Hashicorp vault.
+
+## References:
+[Initializing  HPCS service instances with the IBM Cloud TKE CLI plug-in](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm#load-master-keys)

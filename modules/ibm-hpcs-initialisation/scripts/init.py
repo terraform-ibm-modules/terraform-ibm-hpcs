@@ -1,7 +1,6 @@
 import json
 import pexpect
 import os
-from packages import object_storage as object_storage
 from packages import hpcs as hpcs
 from packages import custom as custom
 import re

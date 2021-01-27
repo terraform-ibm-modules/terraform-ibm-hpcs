@@ -6,8 +6,6 @@ This example is used to create a HPCS instance.
 ```
 module "ibm-hpcs-instance" {
   source = "../../modules/ibm-hpcs-instance"
-
-  provision_instance     = var.provision_instance
   resource_group_id      = data.ibm_resource_group.resource_group.id
   service_name           = var.service_name
   region                 = var.region

@@ -3,16 +3,9 @@
 # Copyright 2020 IBM
 #########################################################################################
 
-# Enable `provision_instance` to true to create hpcs instance
 variable "resource_group_name" {
   type        = string
   description = "Resource group of instance"
-}
-
-variable "provision_instance" {
-  type        = bool
-  default     = false
-  description = "Determines if the instance has to be created or not"
 }
 
 variable "service_name" {
@@ -24,7 +17,6 @@ variable "region" {
   description = "Location of HPCS Instance"
 }
 variable "plan" {
-  default     = "standard"
   type        = string
   description = "Plan of HPCS Instance"
 }

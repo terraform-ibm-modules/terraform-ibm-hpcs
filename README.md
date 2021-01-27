@@ -3,7 +3,7 @@
 This is a collection of modules that make it easier to provision and manage HPCS Instance IBM Cloud Platform:
 
 * [Provisioning HPCS Instances](./examples/ibm-hpcs-instance)
-* [Initialising HPCS Instance](./examples/ibm-hpcs-initialisation)
+* [Initialising HPCS Instance](./examples/init-using-local)
 * [Managing Keys on HPCS Instance](./examples/ibm-hpcs-kms-key)
 
 ## HPCS Initialisation Architecture
@@ -18,7 +18,7 @@ The main components are..
 
 ## Terraform versions
 
-Terraform 0.12.
+Terraform 0.13.
 
 ## Usage
 
@@ -32,18 +32,17 @@ $ terraform plan
 $ terraform apply
 ```
 
-Run `terraform destroy` when you don't need these resources.
+Run `terraform destroy` when you don't need these resources. This command zeroises the cryptounit.. to remove master keys and signature keys, Use following commands respectively `ibmcloud tke mk-rm` , `ibmcloud tke sigkey-rm`
+Please refer `ibmcloud tke help` for more info.
 
 ## Example Usage
 
 ### Provision HPCS Instance
 
-Note: `provision_instance` will determine if the instance has to be provisioned or not. If `provision_instance` is true, count will be 1 and the instance will be provisioned..
+
 ```hcl
 module "ibm-hpcs-instance" {
   source = "../../modules/ibm-hpcs-instance"
-
-  provision_instance     = var.provision_instance
   resource_group_id      = data.ibm_resource_group.resource_group.id
   service_name           = var.service_name
   region                 = var.region
@@ -58,7 +57,7 @@ module "ibm-hpcs-instance" {
 
 ```hcl
 module "hpcs_init" {
-  source             = "../../../modules/ibm-hpcs-initialisation/hpcs-init"
+  source             = "../../modules/ibm-hpcs-initialisation/hpcs-init"
   tke_files_path     = var.tke_files_path
   input_file_name    = var.input_file_name
   hpcs_instance_guid = data.ibm_resource_instance.hpcs_instance.guid
@@ -88,7 +87,11 @@ module "ibm-hpcs-kms-key" {
 
 | Name | Version |
 |------|---------|
-| terraform | ~> 0.12 |
+| terraform | ~> 0.13 |
+| OS | Mac/Linux |
+| python | ~> 3.5 |
+| pip | should supports python 3 |
+
 
 ## Providers
 
@@ -124,19 +127,33 @@ module "ibm-hpcs-kms-key" {
 | expiration_date          | Expination Date.                                                        |`string`| n/a     | no      |
 
 
-Note: COS Credententials are required when `download_from_cos` and `upload_to_cos` null resources are used
-
+Note: 
+* COS Credententials are required when `download_from_cos` and `upload_to_cos` null resources are used
+* Cloud TKE Files will be downloaded at `tke_files_path`+` < GUID of the Service Instance >_tkefiles`. To perform any operation after initialisation on tkefiles outside terraform `CLOUDTKEFILES` should be exported to above mentioned path
 
 ## Pre-Requisites for Initialisation:
-* Login to IBM Cloud Account using cli `ibmcloud login --apikey= <Your IC Api Key> -a cloud.ibm.com`
-* Target Resource group and region `ibmcloud target -g <resource group name>` `ibmcloud target -r <region>`
+* python version 3.5 and above
+* pip version 3 and above
+
+``` hcl 
+  pip install pexpect
+```
+* `ibm-cos-sdk` package is required if initialisation is performed using objeck storage example..
+``` hcl 
+pip install ibm-cos-sdk
+```
+* Login to IBM Cloud Account using cli 
+```hcl 
+ibmcloud login --apikey `<XXXYourAPIKEYXXXXX>` -r `<region>` -g `<resource_group>` -a `< cloud endpoint>
+```
 * Generate oauth-tokens `ibmcloud iam oauth-tokens`. This step should be done as and when token expires. 
+* To install tke plugin `ibmcloud plugin install tke`. find more info on tke plugin [here](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm#initialize-crypto-prerequisites) 
 
 ## Notes On Initialization:
 * The current script adds only one signature key admin.
 * The signature key associated with the Admin name given in the json file will be selected as the current signature key.
 * If number of master keys added is more than three, Master key registry will be `loaded`, `commited` and `setimmidiate` with last three added master keys.
-* Please find the example json [here](./examples/ibm-hpcs-initialisation/references/input.json).
+* Please find the example json [here](references/input.json).
 * Input can be fed in two ways either through local or through IBM Cloud Object Storage
 * The input file is download from the cos bucket using `download_from_cos` null resource
 * Secret TKE Files that are obtained after initialisation can be stored back in the COS Bucket as a Zip File using `upload_to_cos`null resource

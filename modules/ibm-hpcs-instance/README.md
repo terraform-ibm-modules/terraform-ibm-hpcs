@@ -4,18 +4,15 @@ This module is used to create a HPCS instance.
 
 ## Example Usage
 ```
-resource "ibm_resource_instance" "hpcs_instance" {
-  count             = (var.provision_instance == true ? 1 : 0)
-  name              = var.service_name
-  service           = "hs-crypto"
-  plan              = var.plan
-  resource_group_id = var.resource_group_id
-  tags              = (var.tags != null ? var.tags : null)
-  service_endpoints = (var.service_endpoints != null ? var.service_endpoints : null)
-  location          = var.region
-  parameters = {
-    units = var.number_of_crypto_units
-  }
+module "ibm-hpcs-instance" {
+  source = "../../modules/ibm-hpcs-instance"
+  resource_group_id      = data.ibm_resource_group.resource_group.id
+  service_name           = var.service_name
+  region                 = var.region
+  plan                   = var.plan
+  tags                   = var.tags
+  service_endpoints      = var.service_endpoints
+  number_of_crypto_units = var.number_of_crypto_units
 }
 
 
@@ -26,7 +23,6 @@ resource "ibm_resource_instance" "hpcs_instance" {
 
 | Name                     | Description                                                    | Type   |Default  |Required |
 |--------------------------|----------------------------------------------------------------|--------|---------|---------|
-| provision_instance       | Determines if the instance has to be created or not.           | `bool` | false   | yes     |
 | service_name             | A descriptive name used to identify the resource instance      |`string`| n/a     | yes     |
 | plan                     | The name of the plan type supported by service.                |`string`| n/a     | yes     |
 | region                   | Target location or environment to create the resource instance |`string`| n/a     | yes     |

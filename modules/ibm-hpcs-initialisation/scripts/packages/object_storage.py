@@ -8,7 +8,7 @@ def download_file_cos(api_key,service_crn,endpoint,bucket,input_file):
     ibm_service_instance_id=service_crn,
     ibm_auth_endpoint="https://iam.cloud.ibm.com/identity/token",
     config=Config(signature_version='oauth'),
-    endpoint_url=endpoint)
+    endpoint_url="https://"+endpoint)
 
     try:
         _=cos.download_file(Bucket=bucket,Key=input_file,Filename=input_file)
@@ -25,7 +25,7 @@ def upload_file_cos(api_key,service_crn,endpoint,bucket,zip_file_path,output_zip
     ibm_service_instance_id=service_crn,
     ibm_auth_endpoint="https://iam.cloud.ibm.com/identity/token",
     config=Config(signature_version='oauth'),
-    endpoint_url=endpoint)
+    endpoint_url="https://"+endpoint)
 
     try:
         _=cos.upload_file(Filename=zip_file_path, Bucket=bucket,Key=output_zip)

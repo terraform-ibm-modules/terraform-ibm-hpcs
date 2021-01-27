@@ -3,11 +3,6 @@
 # Copyright 2020 IBM
 #########################################################################################
 
-variable "module_depends_on" {
-  description = "module_depends_on"
-  type        = string
-}
-
 # Path to which CLOUDTKEFILES has to be exported
 variable "tke_files_path" {
   type        = string

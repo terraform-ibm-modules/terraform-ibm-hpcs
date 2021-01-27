@@ -24,7 +24,7 @@ data "ibm_resource_instance" "hpcs_instance" {
      This block can be commented if user doesnt wish to download input from cos-bucket
   */
 module "download_from_cos" {
-  source          = "../../../modules/ibm-hpcs-initialisation/download-from-cos"
+  source          = "../../modules/ibm-hpcs-initialisation/download-from-cos"
   api_key         = var.api_key
   cos_crn         = var.cos_crn
   endpoint        = var.endpoint
@@ -38,8 +38,8 @@ module "download_from_cos" {
      The set of CLOUDTKEFILES that are obtained as an input is stored in the `tke_files_path` provided by user as a folder of secrets.
   */
 module "hpcs_init" {
-  source             = "../../../modules/ibm-hpcs-initialisation/hpcs-init"
-  module_depends_on  = module.download_from_cos.download_from_cos
+  source             = "../../modules/ibm-hpcs-initialisation/hpcs-init"
+  depends_on = [module.download_from_cos]
   tke_files_path     = var.tke_files_path
   input_file_name    = var.input_file_name
   hpcs_instance_guid = data.ibm_resource_instance.hpcs_instance.guid
@@ -51,8 +51,8 @@ module "hpcs_init" {
      Different cos credentials can also be used to upload files
   */
 module "upload_to_cos" {
-  source             = "../../../modules/ibm-hpcs-initialisation/upload-to-cos"
-  module_depends_on  = module.hpcs_init.hpcs_init
+  source             = "../../modules/ibm-hpcs-initialisation/upload-to-cos"
+  depends_on = [module.hpcs_init]
   api_key            = var.api_key
   cos_crn            = var.cos_crn
   endpoint           = var.endpoint
@@ -66,7 +66,7 @@ module "upload_to_cos" {
   */
 # module "remove_tke_files" {
 #   source             = "../../../modules/ibm-hpcs-initialisation/remove-tkefiles"
-#   module_depends_on  = module.upload_to_cos.upload_to_cos
+#   depends_on         = [module.upload_to_cos]
 #   tke_files_path     = var.tke_files_path
 #   input_file_name    = var.input_file_name
 #   hpcs_instance_guid = data.ibm_resource_instance.hpcs_instance.guid

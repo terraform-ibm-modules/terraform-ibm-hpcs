@@ -4,12 +4,9 @@
 #########################################################################################
 
 resource "null_resource" "upload_to_cos" {
-  triggers = {
-    value = var.module_depends_on
-  }
   provisioner "local-exec" {
     command = <<EOT
-    python ${path.cwd}/../../../modules/ibm-hpcs-initialisation/scripts/upload_to_cos.py
+    python ${path.module}/../../../modules/ibm-hpcs-initialisation/scripts/upload_to_cos.py
         EOT
     environment = {
       API_KEY         = var.api_key

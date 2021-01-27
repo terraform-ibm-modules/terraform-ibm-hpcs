@@ -210,3 +210,18 @@ def list_mk_registry():
     print (mk_registry)
     return mk_registry
     
+def crypto_unit_zeroize(admin_password):
+    print("########### ibmcloud tke cryptounit-zeroize ########### \n")
+    if admin_password == "":
+        print ("[ERROR] the password is invalid")
+        return
+    child = pexpect.spawn('ibmcloud tke cryptounit-zeroize', encoding='utf-8')
+    child.expect ('Are you sure you want to zeroize the selected crypto units?')
+    time.sleep(1)
+    child.sendline ('y')
+    child.expect ('Enter the password for the signature key identified by:')
+    child.sendline (admin_password)
+    out= child.readlines()
+    zeroized = "".join(out)
+    print (zeroized)
+    return zeroized

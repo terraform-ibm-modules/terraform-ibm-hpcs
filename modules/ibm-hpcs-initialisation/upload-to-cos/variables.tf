@@ -4,11 +4,6 @@
 #########################################################################################
 
 
-variable "module_depends_on" {
-  description = "module_depends_on"
-  type        = string
-}
-
 # COS Credentials
 variable "api_key" {
   type        = string

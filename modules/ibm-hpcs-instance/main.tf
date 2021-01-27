@@ -4,7 +4,6 @@
 #########################################################################################
 
 resource "ibm_resource_instance" "hpcs_instance" {
-  count             = (var.provision_instance == true ? 1 : 0)
   name              = var.service_name
   service           = "hs-crypto"
   plan              = var.plan

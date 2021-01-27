@@ -7,7 +7,7 @@ resource "null_resource" "download_from_cos" {
 
   provisioner "local-exec" {
     command = <<EOT
-    python ${path.cwd}/../../../modules/ibm-hpcs-initialisation/scripts/download_from_cos.py
+    python ${path.module}/../../../modules/ibm-hpcs-initialisation/scripts/download_from_cos.py
         EOT
     environment = {
       API_KEY         = var.api_key
