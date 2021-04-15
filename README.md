@@ -6,7 +6,7 @@ This is a collection of modules that make it easier to provision and manage HPCS
 * [Initialising HPCS Instance](./examples/init-using-local)
 * [Managing Keys on HPCS Instance](./examples/ibm-hpcs-kms-key)
 
-## HPCS Initialisation Architecture
+## HPCS Initialisation Architecture 
 
 ![HPCS Architecture](./examples/ibm-hpcs-initialisation/references/diagrams/architechture.png?raw=true)
 The figure above depicts the basic architecture of the IBM Cloud HPCS Init Terraform Automation.
