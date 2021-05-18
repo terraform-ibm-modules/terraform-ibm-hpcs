@@ -209,7 +209,7 @@ def list_mk_registry():
     mk_registry = "".join(out)
     print (mk_registry)
     return mk_registry
-    
+
 def crypto_unit_zeroize(admin_password):
     print("########### ibmcloud tke cryptounit-zeroize ########### \n")
     if admin_password == "":

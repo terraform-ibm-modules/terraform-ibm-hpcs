@@ -2,7 +2,7 @@ from ibm_botocore.client import Config
 import ibm_boto3
 import os
 
-def download_file_cos(api_key,service_crn,endpoint,bucket,input_file):  
+def download_file_cos(api_key,service_crn,endpoint,bucket,input_file):
     cos = ibm_boto3.client(service_name='s3',
     ibm_api_key_id=api_key,
     ibm_service_instance_id=service_crn,
@@ -19,7 +19,7 @@ def download_file_cos(api_key,service_crn,endpoint,bucket,input_file):
         return input_file
 
 
-def upload_file_cos(api_key,service_crn,endpoint,bucket,zip_file_path,output_zip): 
+def upload_file_cos(api_key,service_crn,endpoint,bucket,zip_file_path,output_zip):
     cos = ibm_boto3.client(service_name='s3',
     ibm_api_key_id=api_key,
     ibm_service_instance_id=service_crn,

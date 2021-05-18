@@ -57,7 +57,7 @@ else:
     hpcs.crypto_unit_add(cu_num)
 
     # --------------------------------------------
-    # List signkeys 
+    # List signkeys
     # --------------------------------------------
     sig_key_list = hpcs.list_sig_keys()
 
@@ -72,7 +72,7 @@ else:
     key_num = custom.get_keynum(sig_key_list)
 
     # --------------------------------------------
-    # Select signkeys 
+    # Select signkeys
     # --------------------------------------------
     selected_sigkey =  hpcs.sigkey_select(key_num,admin_password)
 
@@ -102,7 +102,7 @@ else:
             description = mk["description"]
             password = mk["password"]
             mk_random = hpcs.mk_random_add(description,password)
-            
+
 
     if len(custom_mk) >0:
         for mk in custom_mk:
@@ -111,8 +111,8 @@ else:
             password = mk["password"]
             key = mk["key"]
             mk_custom = hpcs.mk_custom_add(description,password,key)
-            
-    reversed_mk_total = mk_total[::-1] 
+
+    reversed_mk_total = mk_total[::-1]
 
     # ---------------------------------------------------------------------
     # List and format Master keys output to get key num and password values
