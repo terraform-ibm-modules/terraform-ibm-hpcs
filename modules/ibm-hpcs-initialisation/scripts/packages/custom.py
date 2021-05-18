@@ -17,7 +17,7 @@ def conv_list_dict(list,keys):
         if key != "" and key.find("selected as the current signature key")== -1:
             d= dict(zip(keys,tuple(key.split())))
             key_dict.append(d)
-    reversed_key_dict = key_dict[::-1] 
+    reversed_key_dict = key_dict[::-1]
     return reversed_key_dict
 
 #converts cryptounit list cli output to map of guid:cu_num
@@ -73,11 +73,11 @@ def custom_tke_files_path(output_path,hpcs_id):
     if output_path == "":
         output_path=os.curdir
     resultDir = ComputeTKEFilesDir(output_path, hpcs_id)
-    try: 
-        os.makedirs(resultDir, exist_ok = True) 
-        print("Directory '%s' created successfully" % resultDir) 
-    except OSError as error: 
-        print("Directory '%s' can not be created|already exists" % resultDir,error) 
+    try:
+        os.makedirs(resultDir, exist_ok = True)
+        print("Directory '%s' created successfully" % resultDir)
+    except OSError as error:
+        print("Directory '%s' can not be created|already exists" % resultDir,error)
     else:
         return resultDir
 
@@ -88,7 +88,7 @@ def get_cu_num(hpcs_guid,cu_num_dict):
                 cu_num = v
                 break
     except AttributeError as error:
-        print("[ERROR] Unable to fetch details from dictionary",error) 
+        print("[ERROR] Unable to fetch details from dictionary",error)
         return
     else:
         print ("[INFO] Selected Crypto Units are: "+cu_num)

@@ -10,7 +10,7 @@ resource "null_resource" "hpcs_init" {
     HPCS_GUID     = var.hpcs_instance_guid
   }
   provisioner "local-exec" {
-    when = create
+    when    = create
     command = <<EOT
     python ${path.module}/../../../modules/ibm-hpcs-initialisation/scripts/init.py
         EOT
@@ -21,7 +21,7 @@ resource "null_resource" "hpcs_init" {
     }
   }
   provisioner "local-exec" {
-    when = destroy
+    when    = destroy
     command = <<EOT
     python ${path.module}/../../../modules/ibm-hpcs-initialisation/scripts/destroy.py
         EOT

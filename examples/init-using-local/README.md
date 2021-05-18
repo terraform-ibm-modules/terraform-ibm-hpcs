@@ -76,7 +76,7 @@ module "hpcs_init" {
 | tke_files_path    | Path to which tke files has to be exported.                             | `string` | Yes      |
 | key\_name         | Name of the key.                                                        | `string` | Yes      |
 
-Note: 
+Note:
 * COS Credententials are required when `download_from_cos` and `upload_to_cos` null resources are used
 * Cloud TKE Files will be downloaded at `tke_files_path`+` < GUID of the Service Instance >_tkefiles`. To perform any operation after initialisation on tkefiles outside terraform `CLOUDTKEFILES` should be exported to above mentioned path
 
@@ -84,19 +84,19 @@ Note:
 * python version 3.5 and above
 * pip version 3 and above
 
-``` hcl 
+``` hcl
   pip install pexpect
 ```
 `ibm-cos-sdk` package is required if initialisation is performed using objeck storage example..
-``` hcl 
+``` hcl
 pip install ibm-cos-sdk
 ```
-* Login to IBM Cloud Account using cli 
-```hcl 
+* Login to IBM Cloud Account using cli
+```hcl
 ibmcloud login --apikey `<XXXYourAPIKEYXXXXX>` -r `<region>` -g `<resource_group>` -a `< cloud endpoint>
 ```
-* Generate oauth-tokens `ibmcloud iam oauth-tokens`. This step should be done as and when token expires. 
-* To install tke plugin `ibmcloud plugin install tke`. find more info on tke plugin [here](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm#initialize-crypto-prerequisites) 
+* Generate oauth-tokens `ibmcloud iam oauth-tokens`. This step should be done as and when token expires.
+* To install tke plugin `ibmcloud plugin install tke`. find more info on tke plugin [here](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm#initialize-crypto-prerequisites)
 
 ## Notes On Initialization:
 * The current script adds only one signature key admin.
