@@ -1,3 +1,7 @@
+provider "ibm" {
+  region = var.region
+}
+
 terraform {
   required_providers {
     ibm = {

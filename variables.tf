@@ -143,5 +143,11 @@ variable "key_alias" {
 variable "key_ring_id" {
   type        = string
   default     = null
-  description = "Key ring id that has to be created"
+  description = "Key ring id that has to be created /  used in kms_key resource"
+}
+
+variable "create_key_ring" {
+  default     = false
+  type        = bool
+  description = "If true, this module creates a key ring"
 }
