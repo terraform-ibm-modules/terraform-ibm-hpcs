@@ -1,175 +1,176 @@
-# Managing HPCS Service Instances using Terraform Modules
+<!-- BEGIN MODULE HOOK -->
 
-This is a collection of modules that make it easier to provision and manage HPCS Instance IBM Cloud Platform:
+<!-- Update the title to match the module name and add a description -->
+# Terraform Modules Template Project
+<!-- UPDATE BADGE: Update the link for the following badge-->
+[![Incubating (Not yet consumable)](https://img.shields.io/badge/status-Incubating%20(Not%20yet%20consumable)-red)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
+[![Build status](https://github.com/terraform-ibm-modules/terraform-ibm-module-template/actions/workflows/ci.yml/badge.svg)](https://github.com/terraform-ibm-modules/terraform-ibm-module-template/actions/workflows/ci.yml)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+[![latest release](https://img.shields.io/github/v/release/terraform-ibm-modules/terraform-ibm-module-template?logo=GitHub&sort=semver)](https://github.com/terraform-ibm-modules/terraform-ibm-module-template/releases/latest)
+[![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-* [Provisioning HPCS Instances](./examples/ibm-hpcs-instance)
-* [Initialising HPCS Instance](./examples/init-using-local)
-* [Managing Keys on HPCS Instance](./examples/ibm-hpcs-kms-key)
+<!-- Remove the content in this H2 heading after completing the steps -->
 
-## HPCS Initialisation Architecture
+## Submit a new module
 
-![HPCS Architecture](./examples/ibm-hpcs-initialisation/references/diagrams/architechture.png?raw=true)
-The figure above depicts the basic architecture of the IBM Cloud HPCS Init Terraform Automation.
-The main components are..
+:+1::tada: Thank you for taking the time to contribute! :tada::+1:
 
-- **COS Bucket**: HPCS Crypto unit credentials that stored in a Bucket as a json file will be taken as an input by `hpcs-init` terraform module and the secret tke-files that are obtained after execution of template will be stored back as zip file in cos bucket.
-- **Terraform**: Reads the terraform configuration files and templates, execute the plan, and communicate with the plugins, manages the resource state and .tfstate file after apply.
-- **IBM Cloud TKE Plugin**: The Python script that automates the initialisation process uses IBM CLOUD TKE Plugin
+This template repository exists to help you create Terraform modules for IBM Cloud.
 
-## Terraform versions
+The default structure includes the following files:
 
-Terraform 0.13.
+- `README.md`: A description of the module
+- `main.tf`: The logic for the module
+- `version.tf`: The required terraform and provider versions
+- `variables.tf`: The input variables for the module
+- `outputs.tf`: The values that are output from the module
+For more information, see [Module structure](https://terraform-ibm-modules.github.io/documentation/#/module-structure) in the project documentation.
+
+You can add other content to support what your module does and how it works. For example, you might add a `scripts/` directory that contains shell scripts that are run by a `local-exec` `null_resource` in the Terraform module.
+
+Follow this process to create and submit a Terraform module.
+
+### Create a repo from this repo template
+
+1.  Create a repository from this repository template by clicking `Use this template` in the upper right of the GitHub UI.
+&emsp;&emsp;&emsp;&emsp;<br>For more information about creating a repository from a template, see the [GitHub docs](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
+1.  Select `terraform-ibm-modules` as the owner.
+1.  Enter a name for the module in format `terraform-ibm-<NAME>`, where `<NAME>` reflects the type of infrastructure that the module manages.
+&emsp;&emsp;&emsp;&emsp;<br>Use hyphens as delimiters for names with multiple words (for example, terraform-ibm-`activity-tracker`).
+1.  Provide a short description of the module.
+&emsp;&emsp;&emsp;&emsp;<br>The description is displayed under the repository name on the [organization page](https://github.com/terraform-ibm-modules) and in the **About** section of the repository. Use the description to help users understand the purpose of your module. For more information, see [module names and descriptions](https://terraform-ibm-modules.github.io/documentation/#/implementation-guidelines?id=module-names-and-descriptions) in the docs.
+
+### Clone the repo and set up your development environment
+
+Locally clone the new repository and set up your development environment by completing the tasks in [Local development setup](https://terraform-ibm-modules.github.io/documentation/#/local-dev-setup) in the project documentation.
+
+### Update the repo name and description in source control
+
+To help make sure that the repo name and description are not changed except through pull requests, they are defined in the `settings.yml` file.
+
+Check to make sure that values are uncommented and correct:
+
+1.  Open the [settings.yml](.github/settings.yml) file.
+1.  If not already updated, uncomment the `name` and `description` properties and set the values to what you specified when you requested the repo.
+
+### Update the Terraform files
+
+Implement the logic for your module by updating the `main.tf`, `version.tf`, `variables.tf`, and `outputs.tf` Terraform files. For more information, see [Creating Terraform on IBM Cloud templates](https://cloud.ibm.com/docs/ibm-cloud-provider-for-terraform?topic=ibm-cloud-provider-for-terraform-create-tf-config).
+
+### Create examples and tests
+
+Add one or more examples in the `examples` directory that consume your new module, and configure tests for them in the `tests` directory. For more information about tests, see [Tests](https://terraform-ibm-modules.github.io/documentation/#/tests).
+
+### Update the content in the readme file
+
+After you implement the logic for your module and create examples and tests, update this readme file in your repository by following these steps:
+
+1.  Update the title heading and add a description about your module.
+1.  Update the badge links.
+1.  Remove all the content in this H2 heading section.
+1.  Complete the [Usage](#usage) and [Required IAM access policies](#required-iam-access-policies) sections. The [Examples](#examples) and [Requirements](#requirements) section are populated by a pre-commit hook.
+
+### Commit your code and submit your module for review
+
+1.  Before you commit any code, review [Contributing to the IBM Cloud Terraform modules project](https://terraform-ibm-modules.github.io/documentation/#/contribute-module) in the project documentation.
+1.  Create a pull request for review.
+
+### Post-merge steps
+
+After the first PR for your module is merged, follow these post-merge steps:
+
+1.  Create a PR to enable the upgrade test by removing the `t.Skip` line in `tests/pr_test.go`.
+
+<!-- Remove the content in this previous H2 heading -->
+## Reference architectures
+
+<!--
+Add links to any reference architectures for this module.
+(Usually in the `/reference-architectures` directory.)
+See "Reference architecture" in Authoring Guidelines in the public documentation at
+https://terraform-ibm-modules.github.io/documentation/#/implementation-guidelines?id=reference-architecture
+-->
 
 ## Usage
 
-Full example is in [main.tf](main.tf)
+<!--
+Add an example of the use of the module in the following code block.
 
-To run this example you need to execute:
-
-```bash
-$ terraform init
-$ terraform plan
-$ terraform apply
-```
-
-Run `terraform destroy` when you don't need these resources. This command zeroises the cryptounit.. to remove master keys and signature keys, Use following commands respectively `ibmcloud tke mk-rm` , `ibmcloud tke sigkey-rm`
-Please refer `ibmcloud tke help` for more info.
-
-## Example Usage
-
-### Provision HPCS Instance
-
+Use real values instead of "var.<var_name>" or other placeholder values
+unless real values don't help users know what to change.
+-->
 
 ```hcl
-module "ibm-hpcs-instance" {
-  source = "../../modules/ibm-hpcs-instance"
-  resource_group_id      = data.ibm_resource_group.resource_group.id
-  service_name           = var.service_name
-  region                 = var.region
-  plan                   = var.plan
-  tags                   = var.tags
-  service_endpoints      = var.service_endpoints
-  number_of_crypto_units = var.number_of_crypto_units
-}
+
 ```
 
-### Initialize HPCS Instance
+## Required IAM access policies
 
-```hcl
-module "hpcs_init" {
-  source             = "../../modules/ibm-hpcs-initialisation/hpcs-init"
-  tke_files_path     = var.tke_files_path
-  input_file_name    = var.input_file_name
-  hpcs_instance_guid = data.ibm_resource_instance.hpcs_instance.guid
-}
-```
+<!-- PERMISSIONS REQUIRED TO RUN MODULE
+If this module requires permissions, uncomment the following block and update
+the sample permissions, following the format.
+Replace the sample Account and IBM Cloud service names and roles with the
+information in the console at
+Manage > Access (IAM) > Access groups > Access policies.
+-->
 
-### Manage HPCS Keys
-`Note:` To Manage Keys, Instance should be Initialized..
+<!--
+You need the following permissions to run this module.
 
-```hcl
-module "ibm-hpcs-kms-key" {
-  source           = "../../modules/ibm-hpcs-kms-key/"
-  instance_id      = data.ibm_resource_instance.hpcs_instance.guid
-  name             = var.name
-  standard_key     = var.standard_key
-  force_delete     = var.force_delete
-  endpoint_type    = var.endpoint_type
-  key_material     = var.key_material
-  encrypted_nonce  = var.encrypted_nonce
-  iv_value         = var.iv_value
-  expiration_date  = var.expiration_date
-}
-```
+- Account Management
+    - **Sample Account Service** service
+        - `Editor` platform access
+        - `Manager` service access
+    - IAM Services
+        - **Sample Cloud Service** service
+            - `Administrator` platform access
+-->
 
+<!-- NO PERMISSIONS FOR MODULE
+If no permissions are required for the module, uncomment the following
+statement instead the previous block.
+-->
+
+<!-- No permissions are needed to run this module.-->
+<!-- END MODULE HOOK -->
+<!-- BEGIN EXAMPLES HOOK -->
+## Examples
+
+- [ Default example](examples/default)
+- [ Example that uses existing resources](examples/existing-resources)
+- [ Non default example](examples/non-default)
+<!-- END EXAMPLES HOOK -->
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| terraform | ~> 0.13 |
-| OS | Mac/Linux |
-| python | ~> 3.5 |
-| pip | should supports python 3 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0 |
 
+## Modules
 
-## Providers
+No modules.
 
-| Name | Version |
-|------|---------|
-| ibm | n/a |
+## Resources
+
+No resources.
 
 ## Inputs
 
-| Name              | Description                                                                    | Type   |Default  | Required|
-|-------------------|--------------------------------------------------------------------------------|--------|---------|---------|
-| service_name             | A descriptive name used to identify the resource instance               |`string`| n/a     | yes     |
-| plan                     | The name of the plan type supported by service.                         |`string`| n/a     | yes     |
-| region                   | Target location or environment to create the resource instance          |`string`| n/a     | yes     |
-| resource\_group_name     | Name of the resource group                                              |`string`| n/a     | yes     |
-| tags                     | Tags for the database                                                   |`set`   | n/a     | no      |
-| service_endpoints        | Types of the service endpoints.                                         |`string`| n/a     | no      |
-| number_of_crypto_units   | Number of Crypto Units to be attached to instance                       |`string`| n/a     | no      |
-| api_key                  | Api key of the COS bucket.                                              |`string`| n/a     | no      |
-| cos_crn                  | COS instance CRN.                                                       |`string`| n/a     | no      |
-| endpoint                 | COS endpoint.                                                           |`string`| n/a     | no      |
-| bucket_name              | COS bucket name.                                                        |`string`| n/a     | no      |
-| input_file_name          | Input json file name that is present in the cos-bucket or in the local. |`string`| n/a     | yes     |
-| tke_files_path           | Path to which tke files has to be exported.                             |`string`| n/a     | yes     |
-| key\_name                | Name of the key.                                                        |`string`| n/a     | yes     |
-| name                     | Name of the Key                                                         |`string`| n/a     | no      |
-| standard_key             | Determines if it has to be a standard key or root key                   |`bool`  | false   | no      |
-| force_delete             | Determines if it has to be force deleted                                |`bool`  | false   | no      |
-| endpoint_type            | public or private                                                       |`string`| `public`| no      |
-| key_material             | Key Payload.                                                            |`string`| n/a     | no      |
-| encrypted_nonce          | Encrypted Nonce. Only for imported root key.                            |`string`| n/a     | no      |
-| iv_value                 | IV Value. Only for imported root key.                                   |`string`| n/a     | no      |
-| expiration_date          | Expination Date.                                                        |`string`| n/a     | no      |
+No inputs.
 
+## Outputs
 
-Note:
-* COS Credententials are required when `download_from_cos` and `upload_to_cos` null resources are used
-* Cloud TKE Files will be downloaded at `tke_files_path`+` < GUID of the Service Instance >_tkefiles`. To perform any operation after initialisation on tkefiles outside terraform `CLOUDTKEFILES` should be exported to above mentioned path
+No outputs.
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN CONTRIBUTING HOOK -->
 
-## Pre-Requisites for Initialisation:
-* python version 3.5 and above
-* pip version 3 and above
+<!-- Leave this section as is so that your module has a link to local development environment set up steps for contributors to follow -->
+## Contributing
 
-``` hcl
-  pip install pexpect
-```
-* `ibm-cos-sdk` package is required if initialisation is performed using objeck storage example..
-``` hcl
-pip install ibm-cos-sdk
-```
-* Login to IBM Cloud Account using cli
-```hcl
-ibmcloud login --apikey `<XXXYourAPIKEYXXXXX>` -r `<region>` -g `<resource_group>` -a `< cloud endpoint>
-```
-* Generate oauth-tokens `ibmcloud iam oauth-tokens`. This step should be done as and when token expires.
-* To install tke plugin `ibmcloud plugin install tke`. find more info on tke plugin [here](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm#initialize-crypto-prerequisites)
+You can report issues and request features for this module in GitHub issues in the module repo. See [Report an issue or request a feature](https://github.com/terraform-ibm-modules/.github/blob/main/.github/SUPPORT.md).
 
-### Pre-commit Hooks
-
-Run the following command to execute the pre-commit hooks defined in `.pre-commit-config.yaml` file
-
-  `pre-commit run -a`
-
-We can install pre-coomit tool using
-
-  `pip install pre-commit`
-
-## Notes On Initialization:
-* The current script adds only one signature key admin.
-* The signature key associated with the Admin name given in the json file will be selected as the current signature key.
-* If number of master keys added is more than three, Master key registry will be `loaded`, `commited` and `setimmidiate` with last three added master keys.
-* Please find the example json [here](references/input.json).
-* Input can be fed in two ways either through local or through IBM Cloud Object Storage
-* The input file is download from the cos bucket using `download_from_cos` null resource
-* Secret TKE Files that are obtained after initialisation can be stored back in the COS Bucket as a Zip File using `upload_to_cos`null resource
-* After uploading zip file to COS Bucket all the secret files and input file can be deleted from the local machine using `remove_tke_files` null resource.
-
-## Future Enhancements:
-* Automation of Pre-Requisites.
-* Capability to add and select one or more admin.
-* Integration with Hashicorp vault.
+To set up your local development environment, see [Local development setup](https://terraform-ibm-modules.github.io/documentation/#/local-dev-setup) in the project documentation.
+<!-- Source for this readme file: https://github.com/terraform-ibm-modules/common-dev-assets/tree/main/module-assets/ci/module-template-automation -->
+<!-- END CONTRIBUTING HOOK -->
