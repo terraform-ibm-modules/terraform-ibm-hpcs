@@ -1,12 +1,240 @@
 {
   "path": ".",
-  "variables": {},
+  "variables": {
+    "failover_units": {
+      "name": "failover_units",
+      "type": "number",
+      "description": "The number of failover crypto units for your service instance",
+      "default": 0,
+      "pos": {
+        "filename": "variables.tf",
+        "line": 105
+      }
+    },
+    "initialization_using_recovery_crypto_units": {
+      "name": "initialization_using_recovery_crypto_units",
+      "type": "bool",
+      "description": "Set to true if initialization using recovery crypto units is required",
+      "default": false,
+      "source": [
+        "ibm_hpcs.hpcs_instance.count",
+        "ibm_resource_instance.hpcs_instance1.count"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 64
+      }
+    },
+    "number_of_crypto_units": {
+      "name": "number_of_crypto_units",
+      "type": "string",
+      "description": "The number of operational crypto units for your service instance",
+      "default": 2,
+      "required": true,
+      "source": [
+        "ibm_hpcs.hpcs_instance.units",
+        "ibm_resource_instance.hpcs_instance1.parameters"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 48
+      }
+    },
+    "plan": {
+      "name": "plan",
+      "type": "string",
+      "description": "The name of the service plan that you choose for your Hyper Protect Crypto Service instance",
+      "default": "standard",
+      "required": true,
+      "source": [
+        "ibm_hpcs.hpcs_instance.plan",
+        "ibm_resource_instance.hpcs_instance1.plan"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 38
+      }
+    },
+    "region": {
+      "name": "region",
+      "type": "string",
+      "description": "The region where you want to deploy your instance.",
+      "default": "us-south",
+      "required": true,
+      "source": [
+        "ibm_hpcs.hpcs_instance.location",
+        "ibm_resource_instance.hpcs_instance1.location"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 26
+      },
+      "cloud_data_type": "region",
+      "immutable": true
+    },
+    "resource_group_id": {
+      "name": "resource_group_id",
+      "type": "string",
+      "description": "The resource group ID where the Hyper Protect Crypto Service instance will be created",
+      "default": "default",
+      "source": [
+        "ibm_resource_instance.hpcs_instance1.resource_group_id"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 12
+      },
+      "cloud_data_type": "resource_group",
+      "immutable": true,
+      "computed": true,
+      "cloud_data_range": [
+        "resolved_to:id"
+      ]
+    },
+    "revocation_threshold": {
+      "name": "revocation_threshold",
+      "type": "number",
+      "description": "The number of administrator signatures that is required to remove an administrator after you leave imprint mode",
+      "default": 1,
+      "required": true,
+      "source": [
+        "ibm_hpcs.hpcs_instance.revocation_threshold"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 80
+      }
+    },
+    "service_endpoints": {
+      "name": "service_endpoints",
+      "type": "string",
+      "description": "The service_endpoints to access your service instance. Valid values are public-and-private and private-only",
+      "default": "public-and-private",
+      "source": [
+        "ibm_resource_instance.hpcs_instance1.service_endpoints"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 111
+      },
+      "computed": true
+    },
+    "service_name": {
+      "name": "service_name",
+      "type": "string",
+      "description": "The name to give the Hyper Protect Crypto Service instance",
+      "required": true,
+      "source": [
+        "ibm_hpcs.hpcs_instance.name",
+        "ibm_resource_instance.hpcs_instance1.name"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 33
+      }
+    },
+    "signature_server_url": {
+      "name": "signature_server_url",
+      "type": "string",
+      "description": "The URL and port number where the signing service. Required if you are using a third-party signing service to provide administrator signature keys",
+      "default": "",
+      "pos": {
+        "filename": "variables.tf",
+        "line": 90
+      }
+    },
+    "signature_threshold": {
+      "name": "signature_threshold",
+      "type": "number",
+      "description": "The number of administrator signatures that is required to execute administrative commands",
+      "default": 1,
+      "required": true,
+      "source": [
+        "ibm_hpcs.hpcs_instance.signature_threshold"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 70
+      }
+    },
+    "tags": {
+      "name": "tags",
+      "type": "list(string)",
+      "description": "List of resource tags to apply to resources created by this module.",
+      "default": [],
+      "source": [
+        "ibm_resource_instance.hpcs_instance1.tags"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 58
+      },
+      "min_length": 1,
+      "max_length": 128,
+      "matches": "^[A-Za-z0-9:_ .-]+$",
+      "computed": true,
+      "elem": {
+        "type": "TypeString"
+      }
+    }
+  },
   "outputs": {},
   "required_core": [
-    "\u003e= 1.0.0"
+    "\u003e= 1.3.0"
   ],
-  "required_providers": {},
-  "managed_resources": {},
+  "required_providers": {
+    "ibm": {
+      "source": "IBM-Cloud/ibm",
+      "version_constraints": [
+        "\u003e= 1.49.0"
+      ]
+    }
+  },
+  "managed_resources": {
+    "ibm_hpcs.hpcs_instance": {
+      "mode": "managed",
+      "type": "ibm_hpcs",
+      "name": "hpcs_instance",
+      "attributes": {
+        "count": "initialization_using_recovery_crypto_units",
+        "location": "region",
+        "name": "service_name",
+        "plan": "plan",
+        "revocation_threshold": "revocation_threshold",
+        "signature_threshold": "signature_threshold",
+        "units": "number_of_crypto_units"
+      },
+      "provider": {
+        "name": "ibm"
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 11
+      }
+    },
+    "ibm_resource_instance.hpcs_instance1": {
+      "mode": "managed",
+      "type": "ibm_resource_instance",
+      "name": "hpcs_instance1",
+      "attributes": {
+        "count": "initialization_using_recovery_crypto_units",
+        "location": "region",
+        "name": "service_name",
+        "parameters": "number_of_crypto_units",
+        "plan": "plan",
+        "resource_group_id": "resource_group_id",
+        "service_endpoints": "service_endpoints",
+        "tags": "tags"
+      },
+      "provider": {
+        "name": "ibm"
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 32
+      }
+    }
+  },
   "data_resources": {},
   "module_calls": {}
 }
