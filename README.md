@@ -1,96 +1,16 @@
 <!-- BEGIN MODULE HOOK -->
 
 <!-- Update the title to match the module name and add a description -->
-# Terraform Modules Template Project
+# IBM Cloud Hyper Protect Crypto Services
 <!-- UPDATE BADGE: Update the link for the following badge-->
 [![Incubating (Not yet consumable)](https://img.shields.io/badge/status-Incubating%20(Not%20yet%20consumable)-red)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
-[![Build status](https://github.com/terraform-ibm-modules/terraform-ibm-module-template/actions/workflows/ci.yml/badge.svg)](https://github.com/terraform-ibm-modules/terraform-ibm-module-template/actions/workflows/ci.yml)
+[![Build status](https://github.com/terraform-ibm-modules/terraform-ibm-hpcs/actions/workflows/ci.yml/badge.svg)](https://github.com/terraform-ibm-modules/terraform-ibm-hpcs/actions/workflows/ci.yml)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
-[![latest release](https://img.shields.io/github/v/release/terraform-ibm-modules/terraform-ibm-module-template?logo=GitHub&sort=semver)](https://github.com/terraform-ibm-modules/terraform-ibm-module-template/releases/latest)
+[![latest release](https://img.shields.io/github/v/release/terraform-ibm-modules/terraform-ibm-hpcs?logo=GitHub&sort=semver)](https://github.com/terraform-ibm-modules/terraform-ibm-hpcs/releases/latest)
 [![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-<!-- Remove the content in this H2 heading after completing the steps -->
-
-## Submit a new module
-
-:+1::tada: Thank you for taking the time to contribute! :tada::+1:
-
-This template repository exists to help you create Terraform modules for IBM Cloud.
-
-The default structure includes the following files:
-
-- `README.md`: A description of the module
-- `main.tf`: The logic for the module
-- `version.tf`: The required terraform and provider versions
-- `variables.tf`: The input variables for the module
-- `outputs.tf`: The values that are output from the module
-For more information, see [Module structure](https://terraform-ibm-modules.github.io/documentation/#/module-structure) in the project documentation.
-
-You can add other content to support what your module does and how it works. For example, you might add a `scripts/` directory that contains shell scripts that are run by a `local-exec` `null_resource` in the Terraform module.
-
-Follow this process to create and submit a Terraform module.
-
-### Create a repo from this repo template
-
-1.  Create a repository from this repository template by clicking `Use this template` in the upper right of the GitHub UI.
-&emsp;&emsp;&emsp;&emsp;<br>For more information about creating a repository from a template, see the [GitHub docs](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
-1.  Select `terraform-ibm-modules` as the owner.
-1.  Enter a name for the module in format `terraform-ibm-<NAME>`, where `<NAME>` reflects the type of infrastructure that the module manages.
-&emsp;&emsp;&emsp;&emsp;<br>Use hyphens as delimiters for names with multiple words (for example, terraform-ibm-`activity-tracker`).
-1.  Provide a short description of the module.
-&emsp;&emsp;&emsp;&emsp;<br>The description is displayed under the repository name on the [organization page](https://github.com/terraform-ibm-modules) and in the **About** section of the repository. Use the description to help users understand the purpose of your module. For more information, see [module names and descriptions](https://terraform-ibm-modules.github.io/documentation/#/implementation-guidelines?id=module-names-and-descriptions) in the docs.
-
-### Clone the repo and set up your development environment
-
-Locally clone the new repository and set up your development environment by completing the tasks in [Local development setup](https://terraform-ibm-modules.github.io/documentation/#/local-dev-setup) in the project documentation.
-
-### Update the repo name and description in source control
-
-To help make sure that the repo name and description are not changed except through pull requests, they are defined in the `settings.yml` file.
-
-Check to make sure that values are uncommented and correct:
-
-1.  Open the [settings.yml](.github/settings.yml) file.
-1.  If not already updated, uncomment the `name` and `description` properties and set the values to what you specified when you requested the repo.
-
-### Update the Terraform files
-
-Implement the logic for your module by updating the `main.tf`, `version.tf`, `variables.tf`, and `outputs.tf` Terraform files. For more information, see [Creating Terraform on IBM Cloud templates](https://cloud.ibm.com/docs/ibm-cloud-provider-for-terraform?topic=ibm-cloud-provider-for-terraform-create-tf-config).
-
-### Create examples and tests
-
-Add one or more examples in the `examples` directory that consume your new module, and configure tests for them in the `tests` directory. For more information about tests, see [Tests](https://terraform-ibm-modules.github.io/documentation/#/tests).
-
-### Update the content in the readme file
-
-After you implement the logic for your module and create examples and tests, update this readme file in your repository by following these steps:
-
-1.  Update the title heading and add a description about your module.
-1.  Update the badge links.
-1.  Remove all the content in this H2 heading section.
-1.  Complete the [Usage](#usage) and [Required IAM access policies](#required-iam-access-policies) sections. The [Examples](#examples) and [Requirements](#requirements) section are populated by a pre-commit hook.
-
-### Commit your code and submit your module for review
-
-1.  Before you commit any code, review [Contributing to the IBM Cloud Terraform modules project](https://terraform-ibm-modules.github.io/documentation/#/contribute-module) in the project documentation.
-1.  Create a pull request for review.
-
-### Post-merge steps
-
-After the first PR for your module is merged, follow these post-merge steps:
-
-1.  Create a PR to enable the upgrade test by removing the `t.Skip` line in `tests/pr_test.go`.
-
-<!-- Remove the content in this previous H2 heading -->
-## Reference architectures
-
-<!--
-Add links to any reference architectures for this module.
-(Usually in the `/reference-architectures` directory.)
-See "Reference architecture" in Authoring Guidelines in the public documentation at
-https://terraform-ibm-modules.github.io/documentation/#/implementation-guidelines?id=reference-architecture
--->
+You can use this module to provision and configure an IBM Cloud Hyper Protect Crypto Services instance.
 
 ## Usage
 
@@ -102,42 +22,39 @@ unless real values don't help users know what to change.
 -->
 
 ```hcl
+provider "ibm" {
+  ibmcloud_api_key = "XXXXXXXXXX"
+  region           = "us-south"
+}
 
+module "hpcs" {
+  # replace "main" with a GIT release version to lock into a specific release
+  source            = ""git::https://github.com/terraform-ibm-modules/terraform-ibm-hpcs?ref=main""
+  resource_group_id = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+  region            = "us-south"
+  service_name     = "my-hpcs-instance"
+}
 ```
 
 ## Required IAM access policies
-
-<!-- PERMISSIONS REQUIRED TO RUN MODULE
-If this module requires permissions, uncomment the following block and update
-the sample permissions, following the format.
-Replace the sample Account and IBM Cloud service names and roles with the
-information in the console at
-Manage > Access (IAM) > Access groups > Access policies.
--->
-
-<!--
 You need the following permissions to run this module.
 
 - Account Management
-    - **Sample Account Service** service
+    - **Resource Group** service
+        - `Viewer` platform access
+- IAM Services
+    - **Key Protect** service
         - `Editor` platform access
         - `Manager` service access
-    - IAM Services
-        - **Sample Cloud Service** service
-            - `Administrator` platform access
--->
+    - **Hyper Protect Crypto Services** service
+        - `Editor` platform access
+        - `Manager` service access
 
-<!-- NO PERMISSIONS FOR MODULE
-If no permissions are required for the module, uncomment the following
-statement instead the previous block.
--->
-
-<!-- No permissions are needed to run this module.-->
 <!-- END MODULE HOOK -->
 <!-- BEGIN EXAMPLES HOOK -->
 ## Examples
 
-- [ Default example](examples/default)
+- [ Basic example](examples/basic)
 - [ Example that uses existing resources](examples/existing-resources)
 - [ Non default example](examples/non-default)
 <!-- END EXAMPLES HOOK -->
@@ -146,7 +63,8 @@ statement instead the previous block.
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.49.0 |
 
 ## Modules
 
@@ -154,15 +72,36 @@ No modules.
 
 ## Resources
 
-No resources.
+| Name | Type |
+|------|------|
+| [ibm_hpcs.hpcs_instance](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/hpcs) | resource |
+| [ibm_resource_instance.base_hpcs_instance](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/resource_instance) | resource |
 
 ## Inputs
 
-No inputs.
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_failover_units"></a> [failover\_units](#input\_failover\_units) | The number of failover crypto units for your service instance | `number` | `0` | no |
+| <a name="input_initialization_using_recovery_crypto_units"></a> [initialization\_using\_recovery\_crypto\_units](#input\_initialization\_using\_recovery\_crypto\_units) | Set to true if initialization using recovery crypto units is required | `bool` | `false` | no |
+| <a name="input_number_of_crypto_units"></a> [number\_of\_crypto\_units](#input\_number\_of\_crypto\_units) | The number of operational crypto units for your service instance | `string` | `2` | no |
+| <a name="input_plan"></a> [plan](#input\_plan) | The name of the service plan that you choose for your Hyper Protect Crypto Service instance | `string` | `"standard"` | no |
+| <a name="input_region"></a> [region](#input\_region) | The region where you want to deploy your instance. | `string` | `"us-south"` | no |
+| <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The resource group ID where the Hyper Protect Crypto Service instance will be created | `string` | `"default"` | no |
+| <a name="input_revocation_threshold"></a> [revocation\_threshold](#input\_revocation\_threshold) | The number of administrator signatures that is required to remove an administrator after you leave imprint mode | `number` | `1` | no |
+| <a name="input_service_endpoints"></a> [service\_endpoints](#input\_service\_endpoints) | The service\_endpoints to access your service instance. Valid values are public-and-private and private-only | `string` | `"public-and-private"` | no |
+| <a name="input_service_name"></a> [service\_name](#input\_service\_name) | The name to give the Hyper Protect Crypto Service instance | `string` | n/a | yes |
+| <a name="input_signature_server_url"></a> [signature\_server\_url](#input\_signature\_server\_url) | The URL and port number where the signing service. Required if you are using a third-party signing service to provide administrator signature keys | `string` | `""` | no |
+| <a name="input_signature_threshold"></a> [signature\_threshold](#input\_signature\_threshold) | The number of administrator signatures that is required to execute administrative commands | `number` | `1` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | List of resource tags to apply to resources created by this module. | `list(string)` | `[]` | no |
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_crn"></a> [crn](#output\_crn) | HPCS instance crn |
+| <a name="output_guid"></a> [guid](#output\_guid) | HPCS instance guid |
+| <a name="output_hpcs_name"></a> [hpcs\_name](#output\_hpcs\_name) | HPCS instance name |
+| <a name="output_id"></a> [id](#output\_id) | HPCS instance id |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 <!-- BEGIN CONTRIBUTING HOOK -->
 

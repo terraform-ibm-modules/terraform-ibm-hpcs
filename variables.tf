@@ -27,7 +27,10 @@ variable "region" {
   type        = string
   description = "The region where you want to deploy your instance."
   default     = "us-south"
-  // available regions are us-south and us-east only
+  validation {
+    condition     = contains(["us-south", "us-east"], var.region)
+    error_message = "Currently, only us-south and us-east are the supported regions"
+  }
 }
 
 variable "service_name" {

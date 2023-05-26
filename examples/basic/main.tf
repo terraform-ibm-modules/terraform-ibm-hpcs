@@ -9,11 +9,12 @@ module "resource_group" {
   existing_resource_group_name = var.resource_group
 }
 
-resource "ibm_resource_instance" "cos_instance" {
-  name              = "${var.prefix}-cos"
-  resource_group_id = module.resource_group.resource_group_id
-  service           = "cloud-object-storage"
-  plan              = "standard"
-  location          = "global"
-  tags              = var.resource_tags
+module "hpcs_instance" {
+  source                                     = "../.."
+  service_name                               = "${var.prefix}-hpcs"
+  region                                     = var.region
+  tags                                       = var.resource_tags
+  plan                                       = "standard"
+  resource_group_id                          = module.resource_group.resource_group_id
+  initialization_using_recovery_crypto_units = false
 }

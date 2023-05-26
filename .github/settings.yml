@@ -10,16 +10,5 @@ _extends: repo-settings:.github/common-settings-v2.yml
 # repo-specific settings
 #
 repository:
-  # See https://terraform-ibm-modules.github.io/documentation/#/implementation-guidelines?id=module-names-and-descriptions
-
-  # By changing this field, you rename the repository.
-
-  # Uncomment this name property and set the name to the current repo name.
-  # name: ""
-
-  # The description is displayed under the repository name on the
-  # organization page and in the 'About' section of the repository.
-
-  # Uncomment this description property
-  # and update the description to the current repo description.
-  # description: ""
+  name: "terraform-ibm-hpcs"
+  description: "Create and configure an IBM Cloud Hyper Protect Crypto Services instance."

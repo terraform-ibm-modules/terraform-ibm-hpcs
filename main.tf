@@ -29,9 +29,8 @@ resource "ibm_hpcs" "hpcs_instance" {
 }
 
 
-resource "ibm_resource_instance" "hpcs_instance1" {
-  count = var.initialization_using_recovery_crypto_units ? 0 : 1
-
+resource "ibm_resource_instance" "base_hpcs_instance" {
+  count             = var.initialization_using_recovery_crypto_units ? 0 : 1
   name              = var.service_name
   service           = "hs-crypto"
   location          = var.region
@@ -40,6 +39,8 @@ resource "ibm_resource_instance" "hpcs_instance1" {
   tags              = (var.tags != null ? var.tags : null)
   service_endpoints = (var.service_endpoints != null ? var.service_endpoints : null)
   parameters = {
-    units = var.number_of_crypto_units
+    units                = var.number_of_crypto_units
+    signature_threshold  = var.signature_threshold
+    revocation_threshold = var.revocation_threshold
   }
 }
