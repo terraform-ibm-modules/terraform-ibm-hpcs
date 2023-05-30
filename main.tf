@@ -16,15 +16,14 @@ resource "ibm_hpcs" "hpcs_instance" {
   units                = var.number_of_crypto_units
   signature_threshold  = var.signature_threshold
   revocation_threshold = var.revocation_threshold
-  admins {
-    name  = "admin1"
-    key   = "/tke-files/1.sigkey"
-    token = "<sensitive>"
-  }
-  admins {
-    name  = "admin2"
-    key   = "/tke-files/2.sigkey"
-    token = "<sensitive>"
+
+  dynamic "admins" {
+    for_each = var.admins
+    content {
+      name = admins.value["name"]
+      key = admins.value["key"]
+      token = admins.value["token"]
+    }
   }
 }
 

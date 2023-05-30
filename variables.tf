@@ -105,6 +105,28 @@ variable "signature_server_url" {
 #     description = "The list of administrators for the instance crypto units"
 # }
 
+variable "admins" {
+  type = list(object({
+    name    = string # max length: 30 chars
+    key     = string # the absolute path and the file name of the signature key file
+    token   = string # sensitive: the administrator password to access the corresponding signature key file
+  }))
+  default     = [
+    {
+    name  = "admin1"
+    key   = "/tke-files/1.sigkey"
+    token = "<sensitive>"
+  },
+  {
+    name  = "admin2"
+    key   = "/tke-files/2.sigkey"
+    token = "<sensitive>"
+  }
+  ]
+#   sensitive   = true
+  description = "A list of administrators for the instance crypto units. You can set up to 8 administrators and the number needs to be equal to or greater than the thresholds that you specify."
+}
+
 variable "failover_units" {
   type        = number
   description = "The number of failover crypto units for your service instance"
