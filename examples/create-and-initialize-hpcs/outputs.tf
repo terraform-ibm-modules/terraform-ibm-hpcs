@@ -2,7 +2,8 @@
 # Outputs
 ##############################################################################
 
-output "vpc_id" {
-  description = "ID of the existing VPC"
-  value       = data.ibm_is_vpc.example.id
+output "hpcs_instance_details" {
+  description = "Details of HPCS instance"
+  value       = module.ibm_hpcs
+  # sensitive = true
 }
