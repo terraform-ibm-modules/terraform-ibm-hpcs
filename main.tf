@@ -11,7 +11,7 @@ locals {
   validate_admins_and_threshold = length(var.admins) >= var.signature_threshold ? true : tobool("The adminstrators of the instance crypto units need to be equal to or greater than the threshold value.")
   # tflint-ignore: terraform_unused_declarations
   validate_num_of_failover_units = var.number_of_failover_units <= var.number_of_crypto_units ? true : tobool("Number of failover_units must be less than or equal to the number of operational crypto units")
-  //failover units - Currently, you can enable this option only in the us-south and us-east region.
+  # failover units - Currently, you can enable this option only in the us-south and us-east region.
 }
 
 resource "ibm_hpcs" "hpcs_instance" {
@@ -25,6 +25,7 @@ resource "ibm_hpcs" "hpcs_instance" {
   signature_threshold  = var.signature_threshold
   revocation_threshold = var.revocation_threshold
   failover_units       = var.number_of_failover_units
+  signature_server_url = var.signature_server_url
 
   dynamic "admins" {
     for_each = nonsensitive(var.admins != null ? var.admins : [])

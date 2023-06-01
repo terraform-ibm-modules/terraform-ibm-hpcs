@@ -152,6 +152,9 @@
       "type": "string",
       "description": "The URL and port number of the signing service. Required if you are using a third-party signing service to provide administrator signature keys",
       "default": "",
+      "source": [
+        "ibm_hpcs.hpcs_instance.signature_server_url"
+      ],
       "pos": {
         "filename": "variables.tf",
         "line": 72
@@ -251,6 +254,7 @@
         "plan": "plan",
         "resource_group_id": "resource_group_id",
         "revocation_threshold": "revocation_threshold",
+        "signature_server_url": "signature_server_url",
         "signature_threshold": "signature_threshold",
         "tags": "tags",
         "units": "number_of_crypto_units"
@@ -282,7 +286,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 40
+        "line": 41
       }
     }
   },
