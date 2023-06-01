@@ -44,7 +44,7 @@ variable "number_of_crypto_units" {
 }
 
 variable "tags" {
-  description = "List of resource tags to apply to resources created by this module."
+  description = "Optional list of resource tags to apply to resources created"
   type        = list(string)
   default     = []
 }
@@ -54,7 +54,7 @@ variable "signature_threshold" {
   description = "The number of administrator signatures that is required to execute administrative commands"
   default     = 1
   validation {
-    condition     = contains([1, 2, 3, 4, 5, 6, 7, 8], var.signature_threshold)
+    condition     = var.signature_threshold >= 1 && var.signature_threshold <= 8
     error_message = "Allowed values of signature_threshold is between 1 and 8"
   }
 }
@@ -64,7 +64,7 @@ variable "revocation_threshold" {
   description = "The number of administrator signatures that is required to remove an administrator after you leave imprint mode"
   default     = 1
   validation {
-    condition     = contains([1, 2, 3, 4, 5, 6, 7, 8], var.revocation_threshold)
+    condition     = var.revocation_threshold >= 1 && var.revocation_threshold <= 8
     error_message = "Allowed values of revocation_threshold is between 1 and 8"
   }
 }
@@ -89,7 +89,7 @@ variable "admins" {
 variable "number_of_failover_units" {
   type        = number
   description = "The number of failover crypto units for your service instance. Default is 0 if not specified and cross-region high availability will not be enabled."
-  default     = 0
+  default = 0
   validation {
     condition     = contains([0, 2, 3], var.number_of_failover_units)
     error_message = "Allowed values of failover_units is 0, 2, 3."

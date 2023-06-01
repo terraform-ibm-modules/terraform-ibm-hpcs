@@ -17,6 +17,7 @@ resource "ibm_hpcs" "hpcs_instance" {
   resource_group_id   = var.resource_group_id
   name                 = var.service_name
   plan                 = var.plan
+  tags              = (var.tags != null ? var.tags : null)
   units                = var.number_of_crypto_units
   signature_threshold  = var.signature_threshold
   revocation_threshold = var.revocation_threshold
