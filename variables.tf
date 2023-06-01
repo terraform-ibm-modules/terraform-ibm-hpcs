@@ -77,11 +77,12 @@ variable "signature_server_url" {
 
 variable "admins" {
   type = list(object({
-    name    = string # max length: 30 chars
-    key     = string # the absolute path and the file name of the signature key file if key files are created using TKE CLI and are not using a third-party signing service
-    # if you are using a signing service, the key name is appended to a URI that will be sent to the signing service 
-    token   = string # sensitive: the administrator password/token to authorize and access the corresponding signature key file
+    name = string # max length: 30 chars
+    key  = string # the absolute path and the file name of the signature key file if key files are created using TKE CLI and are not using a third-party signing service
+    # if you are using a signing service, the key name is appended to a URI that will be sent to the signing service
+    token = string # sensitive: the administrator password/token to authorize and access the corresponding signature key file
   }))
+  default     = []
   sensitive   = true
   description = "A list of administrators for the instance crypto units. You can set up to 8 administrators."
 }
@@ -89,7 +90,7 @@ variable "admins" {
 variable "number_of_failover_units" {
   type        = number
   description = "The number of failover crypto units for your service instance. Default is 0 if not specified and cross-region high availability will not be enabled."
-  default = 0
+  default     = 0
   validation {
     condition     = contains([0, 2, 3], var.number_of_failover_units)
     error_message = "Allowed values of failover_units is 0, 2, 3."
@@ -101,7 +102,7 @@ variable "service_endpoints" {
   description = "The service_endpoints to access your service instance. Default value is public-and-private if not specified."
   default     = "public-and-private"
   validation {
-    condition     = contains(["public-and-private" , "private-only" ], var.service_endpoints)
+    condition     = contains(["public-and-private", "private-only"], var.service_endpoints)
     error_message = "Allowed values of service_endpoints are public-and-private and private-only"
   }
 }

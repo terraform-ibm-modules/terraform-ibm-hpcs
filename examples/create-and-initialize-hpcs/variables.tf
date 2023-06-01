@@ -44,11 +44,5 @@ variable "admins" {
   }))
   sensitive   = true
   description = "A list of administrators for the instance crypto units. You can set up to 8 administrators."
-  default = [
-    {
-      name  = "admin1"
-      key   = "/Users/shikhamaheshwari/Documents/IBM_Cloud/GoldenEye/HPCS/tke-files/1.sigkey"
-      token = "admin123"
-    }
-  ]
+  default     = []
 }

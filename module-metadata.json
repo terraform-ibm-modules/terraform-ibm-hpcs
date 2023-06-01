@@ -1,14 +1,15 @@
 {
   "path": ".",
   "variables": {
-    "failover_units": {
-      "name": "failover_units",
-      "type": "number",
-      "description": "The number of failover crypto units for your service instance",
-      "default": 0,
+    "admins": {
+      "name": "admins",
+      "type": "list(object({\n    name = string # max length: 30 chars\n    key  = string # the absolute path and the file name of the signature key file if key files are created using TKE CLI and are not using a third-party signing service\n    # if you are using a signing service, the key name is appended to a URI that will be sent to the signing service\n    token = string # sensitive: the administrator password/token to authorize and access the corresponding signature key file\n  }))",
+      "description": "A list of administrators for the instance crypto units. You can set up to 8 administrators.",
+      "default": [],
+      "sensitive": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 105
+        "line": 78
       }
     },
     "initialization_using_recovery_crypto_units": {
@@ -18,26 +19,39 @@
       "default": false,
       "source": [
         "ibm_hpcs.hpcs_instance.count",
-        "ibm_resource_instance.hpcs_instance1.count"
+        "ibm_resource_instance.base_hpcs_instance.count"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 64
+        "line": 30
       }
     },
     "number_of_crypto_units": {
       "name": "number_of_crypto_units",
-      "type": "string",
+      "type": "number",
       "description": "The number of operational crypto units for your service instance",
       "default": 2,
       "required": true,
       "source": [
         "ibm_hpcs.hpcs_instance.units",
-        "ibm_resource_instance.hpcs_instance1.parameters"
+        "ibm_resource_instance.base_hpcs_instance.parameters"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 48
+        "line": 36
+      }
+    },
+    "number_of_failover_units": {
+      "name": "number_of_failover_units",
+      "type": "number",
+      "description": "The number of failover crypto units for your service instance. Default is 0 if not specified and cross-region high availability will not be enabled.",
+      "default": 0,
+      "source": [
+        "ibm_hpcs.hpcs_instance.failover_units"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 90
       }
     },
     "plan": {
@@ -48,26 +62,25 @@
       "required": true,
       "source": [
         "ibm_hpcs.hpcs_instance.plan",
-        "ibm_resource_instance.hpcs_instance1.plan"
+        "ibm_resource_instance.base_hpcs_instance.plan"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 38
+        "line": 20
       }
     },
     "region": {
       "name": "region",
       "type": "string",
       "description": "The region where you want to deploy your instance.",
-      "default": "us-south",
       "required": true,
       "source": [
         "ibm_hpcs.hpcs_instance.location",
-        "ibm_resource_instance.hpcs_instance1.location"
+        "ibm_resource_instance.base_hpcs_instance.location"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 26
+        "line": 10
       },
       "cloud_data_type": "region",
       "immutable": true
@@ -75,14 +88,15 @@
     "resource_group_id": {
       "name": "resource_group_id",
       "type": "string",
-      "description": "The resource group ID where the Hyper Protect Crypto Service instance will be created",
-      "default": "default",
+      "description": "The resource group name where the Hyper Protect Crypto Service instance will be created",
+      "required": true,
       "source": [
-        "ibm_resource_instance.hpcs_instance1.resource_group_id"
+        "ibm_hpcs.hpcs_instance.resource_group_id",
+        "ibm_resource_instance.base_hpcs_instance.resource_group_id"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 12
+        "line": 5
       },
       "cloud_data_type": "resource_group",
       "immutable": true,
@@ -102,45 +116,45 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 80
+        "line": 62
       }
     },
     "service_endpoints": {
       "name": "service_endpoints",
       "type": "string",
-      "description": "The service_endpoints to access your service instance. Valid values are public-and-private and private-only",
+      "description": "The service_endpoints to access your service instance. Default value is public-and-private if not specified.",
       "default": "public-and-private",
       "source": [
-        "ibm_resource_instance.hpcs_instance1.service_endpoints"
+        "ibm_resource_instance.base_hpcs_instance.service_endpoints"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 111
+        "line": 100
       },
       "computed": true
     },
     "service_name": {
       "name": "service_name",
       "type": "string",
-      "description": "The name to give the Hyper Protect Crypto Service instance",
+      "description": "The name to give the Hyper Protect Crypto Service instance. Max length allowed is 30 chars.",
       "required": true,
       "source": [
         "ibm_hpcs.hpcs_instance.name",
-        "ibm_resource_instance.hpcs_instance1.name"
+        "ibm_resource_instance.base_hpcs_instance.name"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 33
+        "line": 15
       }
     },
     "signature_server_url": {
       "name": "signature_server_url",
       "type": "string",
-      "description": "The URL and port number where the signing service. Required if you are using a third-party signing service to provide administrator signature keys",
+      "description": "The URL and port number of the signing service. Required if you are using a third-party signing service to provide administrator signature keys",
       "default": "",
       "pos": {
         "filename": "variables.tf",
-        "line": 90
+        "line": 72
       }
     },
     "signature_threshold": {
@@ -154,20 +168,21 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 70
+        "line": 52
       }
     },
     "tags": {
       "name": "tags",
       "type": "list(string)",
-      "description": "List of resource tags to apply to resources created by this module.",
+      "description": "Optional list of resource tags to apply to resources created",
       "default": [],
       "source": [
-        "ibm_resource_instance.hpcs_instance1.tags"
+        "ibm_hpcs.hpcs_instance.tags",
+        "ibm_resource_instance.base_hpcs_instance.tags"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 58
+        "line": 46
       },
       "min_length": 1,
       "max_length": 128,
@@ -178,7 +193,40 @@
       }
     }
   },
-  "outputs": {},
+  "outputs": {
+    "crn": {
+      "name": "crn",
+      "description": "HPCS instance crn",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 20
+      }
+    },
+    "guid": {
+      "name": "guid",
+      "description": "HPCS instance guid",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 15
+      }
+    },
+    "hpcs_name": {
+      "name": "hpcs_name",
+      "description": "HPCS instance name",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 5
+      }
+    },
+    "id": {
+      "name": "id",
+      "description": "HPCS instance id",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 10
+      }
+    }
+  },
   "required_core": [
     "\u003e= 1.3.0"
   ],
@@ -197,11 +245,14 @@
       "name": "hpcs_instance",
       "attributes": {
         "count": "initialization_using_recovery_crypto_units",
+        "failover_units": "number_of_failover_units",
         "location": "region",
         "name": "service_name",
         "plan": "plan",
+        "resource_group_id": "resource_group_id",
         "revocation_threshold": "revocation_threshold",
         "signature_threshold": "signature_threshold",
+        "tags": "tags",
         "units": "number_of_crypto_units"
       },
       "provider": {
@@ -209,13 +260,13 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 11
+        "line": 17
       }
     },
-    "ibm_resource_instance.hpcs_instance1": {
+    "ibm_resource_instance.base_hpcs_instance": {
       "mode": "managed",
       "type": "ibm_resource_instance",
-      "name": "hpcs_instance1",
+      "name": "base_hpcs_instance",
       "attributes": {
         "count": "initialization_using_recovery_crypto_units",
         "location": "region",
@@ -231,7 +282,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 32
+        "line": 40
       }
     }
   },
