@@ -264,7 +264,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 17
+        "line": 16
       }
     },
     "ibm_resource_instance.base_hpcs_instance": {
@@ -286,7 +286,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 41
+        "line": 40
       }
     }
   },
