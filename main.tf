@@ -4,17 +4,17 @@ This file is used to implement the HPCS module.
 
 locals {
   # tflint-ignore: terraform_unused_declarations
-  validate_region = var.initialization_using_recovery_crypto_units == true ? (contains(["us-south", "us-east"], var.region) ? true : tobool("Currently us-south and us-east are the only supported regions for HPCS instance initialization using recovery crypto units.")) : true
+  validate_region = var.auto_initialization_using_recovery_crypto_units == true ? (contains(["us-south", "us-east"], var.region) ? true : tobool("Currently us-south and us-east are the only supported regions for HPCS instance initialization using recovery crypto units.")) : true
   # tflint-ignore: terraform_unused_declarations
-  validate_num_of_administrators = var.initialization_using_recovery_crypto_units == true ? ((length(var.admins) >= 1 && length(var.admins) <= 8) ? true : tobool("At least one administrator is required for the instance crypto unit and you can set upto 8 adminsitrators.")) : true
+  validate_num_of_administrators = var.auto_initialization_using_recovery_crypto_units == true ? ((length(var.admins) >= 1 && length(var.admins) <= 8) ? true : tobool("At least one administrator is required for the instance crypto unit and you can set upto 8 adminsitrators.")) : true
   # tflint-ignore: terraform_unused_declarations
-  validate_admins_and_threshold = var.initialization_using_recovery_crypto_units == true ? ((length(var.admins) >= var.signature_threshold && length(var.admins) >= var.revocation_threshold) ? true : tobool("The adminstrators of the instance crypto units need to be equal to or greater than the threshold value.")) : true
+  validate_admins_and_threshold = var.auto_initialization_using_recovery_crypto_units == true ? ((length(var.admins) >= var.signature_threshold && length(var.admins) >= var.revocation_threshold) ? true : tobool("The adminstrators of the instance crypto units need to be equal to or greater than the threshold value.")) : true
   # tflint-ignore: terraform_unused_declarations
-  validate_num_of_failover_units = var.initialization_using_recovery_crypto_units == true ? (var.number_of_failover_units <= var.number_of_crypto_units ? true : tobool("Number of failover_units must be less than or equal to the number of operational crypto units")) : true
+  validate_num_of_failover_units = var.auto_initialization_using_recovery_crypto_units == true ? (var.number_of_failover_units <= var.number_of_crypto_units ? true : tobool("Number of failover_units must be less than or equal to the number of operational crypto units")) : true
 }
 
 resource "ibm_hpcs" "hpcs_instance" {
-  count                = var.initialization_using_recovery_crypto_units ? 1 : 0
+  count                = var.auto_initialization_using_recovery_crypto_units ? 1 : 0
   location             = var.region
   resource_group_id    = var.resource_group_id
   name                 = var.service_name
@@ -38,7 +38,7 @@ resource "ibm_hpcs" "hpcs_instance" {
 
 
 resource "ibm_resource_instance" "base_hpcs_instance" {
-  count             = var.initialization_using_recovery_crypto_units ? 0 : 1
+  count             = var.auto_initialization_using_recovery_crypto_units ? 0 : 1
   name              = var.service_name
   service           = "hs-crypto"
   location          = var.region

@@ -11,10 +11,10 @@
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
 You can use this module to provision and configure an IBM Cloud Hyper Protect Crypto Services instance. There are two ways to use this module:
-* Create Hyper Protect Crypto Service instance and initialize the instance manually.
-* Create and initialize the Hyper Protect Crypto Service instance automatically. It supports `recovery crypto unit` approach of initialization.
+* Create Hyper Protect Crypto Services instance and initialize the instance manually.
+* Create and initialize the Hyper Protect Crypto Services instance automatically. It supports only `recovery crypto unit` method of initialization.
 
-## Create Hyper Protect Crypto Service instance
+## Create Hyper Protect Crypto Services instance
 
 ### Usage
 
@@ -33,20 +33,20 @@ provider "ibm" {
 
 module "hpcs" {
   # replace "main" with a GIT release version to lock into a specific release
-  source            = ""git::https://github.com/terraform-ibm-modules/terraform-ibm-hpcs?ref=main""
-  resource_group_id = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
-  region            = "us-south"
-  service_name     = "my-hpcs-instance"
-  tags                                       = var.resource_tags
-  plan                                       = "standard"
-  initialization_using_recovery_crypto_units = false
+  source                                          = ""git::https://github.com/terraform-ibm-modules/terraform-ibm-hpcs?ref=main""
+  resource_group_id                               = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+  region                                          = "us-south"
+  service_name                                    = "my-hpcs-instance"
+  tags                                            = var.resource_tags
+  plan                                            = "standard"
+  auto_initialization_using_recovery_crypto_units = false
 }
 ```
 
 There are multiple ways to initialize the service instance few of them include some manual steps, they are as follows:
  - [Initializing service instances by using smart cards and the Hyper Protect Crypto Services Management Utilities](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm-management-utilities) : This approach gives you the highest security, which enables you to store and manage master key parts using smart cards.
  - [Initializing service instances by using key part files](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm) : You can also initialize your service instance using master key parts that are stored in files on your local workstation. You can use this approach regardless of whether or not your service instance includes recovery crypto units.
- - [Initializing service instances using recovery crypto units](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm-recovery-crypto-unit) : If you create your service instance in Dallas (us-south) or Washington DC (us-east) where the recovery crypto units are enabled, you can choose this approach where the master key is randomly generated within a recovery crypto unit and then exported to other crypto units.
+ - [Initializing service instances using recovery crypto units](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm-recovery-crypto-unit) : If you create your service instance in **Dallas (us-south) or Washington DC (us-east)** where the recovery crypto units are enabled, you can choose this approach where the master key is randomly generated within a recovery crypto unit and then exported to other crypto units.
 
 ## Create and initialize the Hyper Protect Crypto Service instance
 
@@ -60,6 +60,8 @@ export CLOUDTKEFILES=<absolute path of dir_name>
 ibmcloud tke sigkey-add
 ```
 
+> NOTE: If you need to use third party signing service,, follow this [link](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-signing-service-signature-key&interface=ui) to setup.
+
 > NOTE: The administrator name associated with the signature key, the absolute path of signature keys and the password that was used to protect signature keys need to provide as `var.admins`.
 
 ### Usage
@@ -72,14 +74,14 @@ provider "ibm" {
 
 module "hpcs" {
   # replace "main" with a GIT release version to lock into a specific release
-  source            = ""git::https://github.com/terraform-ibm-modules/terraform-ibm-hpcs?ref=main""
-  resource_group_id = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
-  region            = "us-south"
-  service_name     = "my-hpcs-instance"
-  tags                                       = var.resource_tags
-  initialization_using_recovery_crypto_units = true
-  number_of_crypto_units                     = var.number_of_crypto_units
-  admins                                     = var.admins
+  source                                          = ""git::https://github.com/terraform-ibm-modules/terraform-ibm-hpcs?ref=main""
+  resource_group_id                               = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+  region                                          = "us-south"
+  service_name                                    = "my-hpcs-instance"
+  tags                                            = var.resource_tags
+  auto_initialization_using_recovery_crypto_units = true
+  number_of_crypto_units                          = var.number_of_crypto_units
+  admins                                          = var.admins
 }
 ```
 
@@ -125,7 +127,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_admins"></a> [admins](#input\_admins) | A list of administrators for the instance crypto units. You can set up to 8 administrators. | <pre>list(object({<br>    name = string # max length: 30 chars<br>    key  = string # the absolute path and the file name of the signature key file if key files are created using TKE CLI and are not using a third-party signing service<br>    # if you are using a signing service, the key name is appended to a URI that will be sent to the signing service<br>    token = string # sensitive: the administrator password/token to authorize and access the corresponding signature key file<br>  }))</pre> | `[]` | no |
-| <a name="input_initialization_using_recovery_crypto_units"></a> [initialization\_using\_recovery\_crypto\_units](#input\_initialization\_using\_recovery\_crypto\_units) | Set to true if initialization using recovery crypto units is required | `bool` | `false` | no |
+| <a name="input_auto_initialization_using_recovery_crypto_units"></a> [auto\_initialization\_using\_recovery\_crypto\_units](#input\_auto\_initialization\_using\_recovery\_crypto\_units) | Set to true if auto initialization using recovery crypto units is required | `bool` | `false` | no |
 | <a name="input_number_of_crypto_units"></a> [number\_of\_crypto\_units](#input\_number\_of\_crypto\_units) | The number of operational crypto units for your service instance | `number` | `2` | no |
 | <a name="input_number_of_failover_units"></a> [number\_of\_failover\_units](#input\_number\_of\_failover\_units) | The number of failover crypto units for your service instance. Default is 0 if not specified and cross-region high availability will not be enabled. | `number` | `0` | no |
 | <a name="input_plan"></a> [plan](#input\_plan) | The name of the service plan that you choose for your Hyper Protect Crypto Service instance | `string` | `"standard"` | no |

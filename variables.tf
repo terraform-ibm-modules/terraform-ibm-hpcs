@@ -27,9 +27,9 @@ variable "plan" {
   }
 }
 
-variable "initialization_using_recovery_crypto_units" {
+variable "auto_initialization_using_recovery_crypto_units" {
   type        = bool
-  description = "Set to true if initialization using recovery crypto units is required"
+  description = "Set to true if auto initialization using recovery crypto units is required"
   default     = false
 }
 

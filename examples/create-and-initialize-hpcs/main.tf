@@ -7,12 +7,12 @@ module "resource_group" {
 }
 
 module "ibm_hpcs" {
-  source                                     = "../../"
-  service_name                               = "${var.prefix}-instance"
-  resource_group_id                          = module.resource_group.resource_group_id
-  region                                     = var.region
-  tags                                       = var.resource_tags
-  initialization_using_recovery_crypto_units = true
-  number_of_crypto_units                     = var.number_of_crypto_units
-  admins                                     = var.admins
+  source                                          = "../../"
+  service_name                                    = "${var.prefix}-instance"
+  resource_group_id                               = module.resource_group.resource_group_id
+  region                                          = var.region
+  tags                                            = var.resource_tags
+  auto_initialization_using_recovery_crypto_units = true
+  number_of_crypto_units                          = var.number_of_crypto_units
+  admins                                          = var.admins
 }

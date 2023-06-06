@@ -12,10 +12,10 @@
         "line": 78
       }
     },
-    "initialization_using_recovery_crypto_units": {
-      "name": "initialization_using_recovery_crypto_units",
+    "auto_initialization_using_recovery_crypto_units": {
+      "name": "auto_initialization_using_recovery_crypto_units",
       "type": "bool",
-      "description": "Set to true if initialization using recovery crypto units is required",
+      "description": "Set to true if auto initialization using recovery crypto units is required",
       "default": false,
       "source": [
         "ibm_hpcs.hpcs_instance.count",
@@ -247,7 +247,7 @@
       "type": "ibm_hpcs",
       "name": "hpcs_instance",
       "attributes": {
-        "count": "initialization_using_recovery_crypto_units",
+        "count": "auto_initialization_using_recovery_crypto_units",
         "failover_units": "number_of_failover_units",
         "location": "region",
         "name": "service_name",
@@ -272,7 +272,7 @@
       "type": "ibm_resource_instance",
       "name": "base_hpcs_instance",
       "attributes": {
-        "count": "initialization_using_recovery_crypto_units",
+        "count": "auto_initialization_using_recovery_crypto_units",
         "location": "region",
         "name": "service_name",
         "parameters": "number_of_crypto_units",
