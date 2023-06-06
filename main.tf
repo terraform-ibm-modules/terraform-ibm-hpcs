@@ -45,7 +45,7 @@ resource "ibm_resource_instance" "base_hpcs_instance" {
   plan              = var.plan
   resource_group_id = var.resource_group_id
   tags              = (var.tags != null ? var.tags : null)
-  service_endpoints = (var.service_endpoints != null ? var.service_endpoints : null)
+  service_endpoints = var.service_endpoints
   parameters = {
     units                = var.number_of_crypto_units
     signature_threshold  = var.signature_threshold
