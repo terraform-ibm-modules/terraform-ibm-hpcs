@@ -2,6 +2,9 @@
 package test
 
 import (
+	"fmt"
+	"os"
+	"os/exec"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -10,6 +13,43 @@ import (
 
 // Use existing resource group
 const resourceGroup = "geretain-test-resources"
+
+var admin string
+
+func TestMain(m *testing.M) {
+
+	mydir, err := os.Getwd()
+	if err != nil {
+		fmt.Println(err)
+	}
+	cmd, err := exec.Command("/bin/sh", "./scripts/create_keys.sh", mydir).Output()
+	if err != nil {
+		fmt.Printf("error %s", err)
+	}
+	output := string(cmd)
+
+	admin = output
+	fmt.Print(admin)
+	os.Exit(m.Run())
+}
+
+func TestRunHpcsExample(t *testing.T) {
+	t.Parallel()
+
+	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
+		Testing:      t,
+		TerraformDir: "examples/create-and-initialize-hpcs",
+		Prefix:       "hpcs-crypto",
+		Region:       "us-south",
+		TerraformVars: map[string]interface{}{
+			"admins": "[" + admin + "]",
+		},
+	})
+
+	output, err := options.RunTestConsistency()
+	assert.Nil(t, err, "This should not have errored")
+	assert.NotNil(t, output, "Expected some output")
+}
 
 func TestRunBasicExample(t *testing.T) {
 	t.Parallel()

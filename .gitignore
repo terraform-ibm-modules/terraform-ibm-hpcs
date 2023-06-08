@@ -54,3 +54,6 @@ Brewfile.lock.json
 
 # Visual Studio Code
 .vscode/
+
+#CLOUDTKEFILES
+**/CLOUDTKEFILES
