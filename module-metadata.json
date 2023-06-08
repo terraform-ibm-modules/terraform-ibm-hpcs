@@ -44,7 +44,7 @@
     "number_of_failover_units": {
       "name": "number_of_failover_units",
       "type": "number",
-      "description": "The number of failover crypto units for your service instance. Default is 0 if not specified and cross-region high availability will not be enabled.",
+      "description": "The number of failover crypto units for your service instance. Default is 0 and cross-region high availability will not be enabled.",
       "default": 0,
       "source": [
         "ibm_hpcs.hpcs_instance.failover_units"
@@ -122,7 +122,7 @@
     "service_endpoints": {
       "name": "service_endpoints",
       "type": "string",
-      "description": "The service_endpoints to access your service instance. Default value is public-and-private if not specified.",
+      "description": "The service_endpoints to access your service instance. Default value is public-and-private.",
       "default": "public-and-private",
       "source": [
         "ibm_resource_instance.base_hpcs_instance.service_endpoints"
@@ -151,7 +151,6 @@
       "name": "signature_server_url",
       "type": "string",
       "description": "The URL and port number of the signing service. Required if you are using a third-party signing service to provide administrator signature keys",
-      "default": "",
       "source": [
         "ibm_hpcs.hpcs_instance.signature_server_url"
       ],
@@ -177,7 +176,7 @@
     "tags": {
       "name": "tags",
       "type": "list(string)",
-      "description": "Optional list of resource tags to apply to resources created",
+      "description": "Optional list of resource tags to apply to the HPCS instance",
       "default": [],
       "source": [
         "ibm_hpcs.hpcs_instance.tags",

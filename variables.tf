@@ -44,7 +44,7 @@ variable "number_of_crypto_units" {
 }
 
 variable "tags" {
-  description = "Optional list of resource tags to apply to resources created"
+  description = "Optional list of resource tags to apply to the HPCS instance"
   type        = list(string)
   default     = []
 }
@@ -72,7 +72,7 @@ variable "revocation_threshold" {
 variable "signature_server_url" {
   type        = string
   description = "The URL and port number of the signing service. Required if you are using a third-party signing service to provide administrator signature keys"
-  default     = ""
+  default     = null
 }
 
 variable "admins" {
@@ -89,7 +89,7 @@ variable "admins" {
 
 variable "number_of_failover_units" {
   type        = number
-  description = "The number of failover crypto units for your service instance. Default is 0 if not specified and cross-region high availability will not be enabled."
+  description = "The number of failover crypto units for your service instance. Default is 0 and cross-region high availability will not be enabled."
   default     = 0
   validation {
     condition     = contains([0, 2, 3], var.number_of_failover_units)
@@ -99,7 +99,7 @@ variable "number_of_failover_units" {
 
 variable "service_endpoints" {
   type        = string
-  description = "The service_endpoints to access your service instance. Default value is public-and-private if not specified."
+  description = "The service_endpoints to access your service instance. Default value is public-and-private."
   default     = "public-and-private"
   validation {
     condition     = contains(["public-and-private", "private-only"], var.service_endpoints)
