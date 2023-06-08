@@ -2,7 +2,6 @@
 
 set -euo pipefail
 
-result='{}'
 CLOUDTKEFILES=$1
 
 #Function to generate admin key
@@ -16,7 +15,7 @@ generate() {
         mkdir -p "$resultDir" >&2
         echo "Directory '$resultDir' created." >&2
     else
-        rm -rf $resultDir >&2
+        rm -rf "$resultDir" >&2
         mkdir -p "$resultDir" >&2
         echo "Directory '$resultDir' created." >&2
     fi
@@ -27,18 +26,19 @@ generate() {
     token="$(openssl rand -base64 16)" >&2
 
     #Generate the signature key
-    echo $(
-        /usr/bin/expect <<EOF
+    /usr/bin/expect <<EOF
+    log_user 0
     spawn ibmcloud tke sigkey-add
     expect "Enter an administrator name to be associated with the signature key:"
+
     send "admin\r"
+
     expect {
     "Enter a password to protect the signature key:" {send $token\r; exp_continue}
     "Re-enter the password to confirm:" {send $token\r}
     }
-    expect 
+    expect
 EOF
-    ) >&2
 
     #Return json output
     jq -n -r --arg name "admin" --arg token "$token" --arg key "$resultDir/1.sigkey" '{"name":$name,"key":$key,"token":$token}'
