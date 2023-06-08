@@ -15,7 +15,7 @@
     "auto_initialization_using_recovery_crypto_units": {
       "name": "auto_initialization_using_recovery_crypto_units",
       "type": "bool",
-      "description": "Set to true if auto initialization using recovery crypto units is required",
+      "description": "Set to true if auto initialization using recovery crypto units is required.",
       "default": false,
       "source": [
         "ibm_hpcs.hpcs_instance.count",
@@ -29,7 +29,7 @@
     "number_of_crypto_units": {
       "name": "number_of_crypto_units",
       "type": "number",
-      "description": "The number of operational crypto units for your service instance",
+      "description": "The number of operational crypto units for your service instance.",
       "default": 2,
       "required": true,
       "source": [
@@ -57,7 +57,7 @@
     "plan": {
       "name": "plan",
       "type": "string",
-      "description": "The name of the service plan that you choose for your Hyper Protect Crypto Service instance",
+      "description": "The name of the service plan that you choose for your Hyper Protect Crypto Service instance.",
       "default": "standard",
       "required": true,
       "source": [
@@ -88,7 +88,7 @@
     "resource_group_id": {
       "name": "resource_group_id",
       "type": "string",
-      "description": "The resource group name where the Hyper Protect Crypto Service instance will be created",
+      "description": "The resource group name where the Hyper Protect Crypto Service instance will be created.",
       "required": true,
       "source": [
         "ibm_hpcs.hpcs_instance.resource_group_id",
@@ -108,7 +108,7 @@
     "revocation_threshold": {
       "name": "revocation_threshold",
       "type": "number",
-      "description": "The number of administrator signatures that is required to remove an administrator after you leave imprint mode",
+      "description": "The number of administrator signatures that is required to remove an administrator after you leave imprint mode.",
       "default": 1,
       "required": true,
       "source": [
@@ -150,7 +150,7 @@
     "signature_server_url": {
       "name": "signature_server_url",
       "type": "string",
-      "description": "The URL and port number of the signing service. Required if you are using a third-party signing service to provide administrator signature keys",
+      "description": "The URL and port number of the signing service. Required if you are using a third-party signing service to provide administrator signature keys.",
       "source": [
         "ibm_hpcs.hpcs_instance.signature_server_url"
       ],
@@ -162,7 +162,7 @@
     "signature_threshold": {
       "name": "signature_threshold",
       "type": "number",
-      "description": "The number of administrator signatures that is required to execute administrative commands",
+      "description": "The number of administrator signatures that is required to execute administrative commands.",
       "default": 1,
       "required": true,
       "source": [
@@ -176,7 +176,7 @@
     "tags": {
       "name": "tags",
       "type": "list(string)",
-      "description": "Optional list of resource tags to apply to the HPCS instance",
+      "description": "Optional list of resource tags to apply to the HPCS instance.",
       "default": [],
       "source": [
         "ibm_hpcs.hpcs_instance.tags",

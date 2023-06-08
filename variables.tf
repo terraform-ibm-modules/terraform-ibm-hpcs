@@ -4,7 +4,7 @@
 
 variable "resource_group_id" {
   type        = string
-  description = "The resource group name where the Hyper Protect Crypto Service instance will be created"
+  description = "The resource group name where the Hyper Protect Crypto Service instance will be created."
 }
 
 variable "region" {
@@ -19,7 +19,7 @@ variable "service_name" {
 
 variable "plan" {
   type        = string
-  description = "The name of the service plan that you choose for your Hyper Protect Crypto Service instance"
+  description = "The name of the service plan that you choose for your Hyper Protect Crypto Service instance."
   default     = "standard"
   validation {
     condition     = contains(["standard"], var.plan)
@@ -29,13 +29,13 @@ variable "plan" {
 
 variable "auto_initialization_using_recovery_crypto_units" {
   type        = bool
-  description = "Set to true if auto initialization using recovery crypto units is required"
+  description = "Set to true if auto initialization using recovery crypto units is required."
   default     = false
 }
 
 variable "number_of_crypto_units" {
   type        = number
-  description = "The number of operational crypto units for your service instance"
+  description = "The number of operational crypto units for your service instance."
   default     = 2
   validation {
     condition     = contains([2, 3], var.number_of_crypto_units)
@@ -44,14 +44,14 @@ variable "number_of_crypto_units" {
 }
 
 variable "tags" {
-  description = "Optional list of resource tags to apply to the HPCS instance"
+  description = "Optional list of resource tags to apply to the HPCS instance."
   type        = list(string)
   default     = []
 }
 
 variable "signature_threshold" {
   type        = number
-  description = "The number of administrator signatures that is required to execute administrative commands"
+  description = "The number of administrator signatures that is required to execute administrative commands."
   default     = 1
   validation {
     condition     = var.signature_threshold >= 1 && var.signature_threshold <= 8
@@ -61,7 +61,7 @@ variable "signature_threshold" {
 
 variable "revocation_threshold" {
   type        = number
-  description = "The number of administrator signatures that is required to remove an administrator after you leave imprint mode"
+  description = "The number of administrator signatures that is required to remove an administrator after you leave imprint mode."
   default     = 1
   validation {
     condition     = var.revocation_threshold >= 1 && var.revocation_threshold <= 8
@@ -71,7 +71,7 @@ variable "revocation_threshold" {
 
 variable "signature_server_url" {
   type        = string
-  description = "The URL and port number of the signing service. Required if you are using a third-party signing service to provide administrator signature keys"
+  description = "The URL and port number of the signing service. Required if you are using a third-party signing service to provide administrator signature keys."
   default     = null
 }
 
@@ -100,6 +100,7 @@ variable "number_of_failover_units" {
 variable "service_endpoints" {
   type        = string
   description = "The service_endpoints to access your service instance. Default value is public-and-private."
+  nullable    = false
   default     = "public-and-private"
   validation {
     condition     = contains(["public-and-private", "private-only"], var.service_endpoints)

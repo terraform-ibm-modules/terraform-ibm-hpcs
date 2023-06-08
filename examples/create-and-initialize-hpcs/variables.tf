@@ -7,7 +7,7 @@ variable "ibmcloud_api_key" {
 
 variable "resource_group" {
   type        = string
-  description = "The resource group name where the Hyper Protect Crypto Service instance will be created"
+  description = "The resource group name where the Hyper Protect Crypto Service instance will be created."
   default     = null
 }
 
@@ -18,20 +18,20 @@ variable "prefix" {
 }
 
 variable "resource_tags" {
-  description = "Optional list of resource tags to apply to the HPCS instance"
+  description = "Optional list of resource tags to apply to the HPCS instance."
   type        = list(string)
   default     = []
 }
 
 variable "region" {
   type        = string
-  description = "The region where you want to deploy your instance. Supported regions are us-south and us-east"
+  description = "The region where you want to deploy your instance. Supported regions are us-south and us-east."
   default     = "us-south"
 }
 
 variable "number_of_crypto_units" {
   type        = number
-  description = "The number of operational crypto units for your Hyper Protect Crypto Service instance"
+  description = "The number of operational crypto units for your Hyper Protect Crypto Service instance."
   default     = 2
 }
 
