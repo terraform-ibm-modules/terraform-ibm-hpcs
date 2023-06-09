@@ -9,21 +9,21 @@
       "sensitive": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 78
+        "line": 82
       }
     },
     "auto_initialization_using_recovery_crypto_units": {
       "name": "auto_initialization_using_recovery_crypto_units",
       "type": "bool",
       "description": "Set to true if auto initialization using recovery crypto units is required.",
-      "default": false,
+      "default": true,
       "source": [
         "ibm_hpcs.hpcs_instance.count",
         "ibm_resource_instance.base_hpcs_instance.count"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 30
+        "line": 34
       }
     },
     "number_of_crypto_units": {
@@ -38,7 +38,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 36
+        "line": 40
       }
     },
     "number_of_failover_units": {
@@ -51,7 +51,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 90
+        "line": 94
       }
     },
     "plan": {
@@ -66,7 +66,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 20
+        "line": 24
       }
     },
     "region": {
@@ -116,7 +116,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 62
+        "line": 66
       }
     },
     "service_endpoints": {
@@ -129,7 +129,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 100
+        "line": 104
       },
       "computed": true
     },
@@ -156,7 +156,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 72
+        "line": 76
       }
     },
     "signature_threshold": {
@@ -170,7 +170,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 52
+        "line": 56
       }
     },
     "tags": {
@@ -184,7 +184,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 46
+        "line": 50
       },
       "min_length": 1,
       "max_length": 128,

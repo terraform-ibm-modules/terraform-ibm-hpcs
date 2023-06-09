@@ -15,6 +15,10 @@ variable "region" {
 variable "service_name" {
   type        = string
   description = "The name to give the Hyper Protect Crypto Service instance. Max length allowed is 30 chars."
+  validation {
+    condition     = length(var.service_name) <= 30
+    error_message = "Maximum length of service_name allowed is 30 chars"
+  }
 }
 
 variable "plan" {
@@ -30,7 +34,7 @@ variable "plan" {
 variable "auto_initialization_using_recovery_crypto_units" {
   type        = bool
   description = "Set to true if auto initialization using recovery crypto units is required."
-  default     = false
+  default     = true
 }
 
 variable "number_of_crypto_units" {
