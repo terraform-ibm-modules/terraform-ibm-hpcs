@@ -10,13 +10,18 @@
 [![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-You can use this module to provision and configure an IBM Cloud Hyper Protect Crypto Services instance. There are two ways to use this module:
-* Create Hyper Protect Crypto Services instance and initialize the instance manually.
-* Create and initialize the Hyper Protect Crypto Services instance automatically. It supports only `recovery crypto unit` method of initialization.
+You can use this module to provision an IBM Cloud Hyper Protect Crypto Services (HPCS) instance.
+
+The next step after provisioning an HPCS instance is to [initialize](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) it to manage the keys. By default, this module also initializes the instance using the [recovery crypto unit method](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm-recovery-crypto-unit) of initialization. Other [approaches of initialization](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-uko-initialize-instance-mode) (using smart cards and using key part files) are also supported, but it requires manual steps after creating service instance using this module.
+
+For more information, please refer:
+* [Components and concepts](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-uko-understand-concepts)
+* [About service instance initialization](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-introduce-service)
+
 
 ## Create Hyper Protect Crypto Services instance
 
-### Usage
+### Usage to create the HPCS instance
 
 <!--
 Add an example of the use of the module in the following code block.
@@ -48,23 +53,50 @@ There are multiple ways to initialize the service instance few of them include s
  - [Initializing service instances by using key part files](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm) : You can also initialize your service instance using master key parts that are stored in files on your local workstation. You can use this approach regardless of whether or not your service instance includes recovery crypto units.
  - [Initializing service instances using recovery crypto units](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm-recovery-crypto-unit) : If you create your service instance in **Dallas (us-south) or Washington DC (us-east)** where the recovery crypto units are enabled, you can choose this approach where the master key is randomly generated within a recovery crypto unit and then exported to other crypto units.
 
-## Create and initialize the Hyper Protect Crypto Service instance
+## Create and initialize the Hyper Protect Crypto Services instance
 
-Run the following commands to generate admin signature keys using `TKE` cli plugin if you are not using third party signing service.
+### Before you begin
 
-```
-ibmcloud plugin install tke
-mkdir <dir_name>
-cd <dir_name>
-export CLOUDTKEFILES=<absolute path of dir_name>
-ibmcloud tke sigkey-add
-```
+To initialize the instance with a third-party signing service, see [Using a signing service to manage signature keys for instance initialization](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-signing-service-signature-key&interface=ui) in the Cloud Docs.
 
-> NOTE: If you need to use third party signing service,, follow this [link](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-signing-service-signature-key&interface=ui) to setup.
+Otherwise, if you are not using a third-party signing service, run the following commands that use the IBM Cloud TKE CLI plug-in
+to generate admin signature keys.
 
-> NOTE: The administrator name associated with the signature key, the absolute path of signature keys and the password that was used to protect signature keys need to provide as `var.admins`.
+* Install the [IBM Cloud CLI](https://cloud.ibm.com/docs/cli?topic=cli-install-ibmcloud-cli)
 
-### Usage
+* Make sure you have a recent version the IBM Cloud Trusted Key Entry (TKE) CLI plug-in installed.
+  * Run this command to install the plug-in:
+    ```
+    ibmcloud plugin install tke
+    ```
+
+    Or
+
+  * Run this command to update your plug-in to the latest version with the following command:
+    ```
+    ibmcloud plugin update tke
+    ```
+
+* Set the environment variable `CLOUDTKEFILES` to specify the directory where you want to save signature key files.
+  ```
+  export CLOUDTKEFILES=<absolute path of directory>
+  ```
+
+* Login in to IBM CLoud CLI and make sure that you're logged in to the correct region and resource group where the service instance locates.
+  ```
+  ibmcloud login
+  ibmcloud target -r <region> -g <resource_group>
+  ```
+
+* Run the following command to create administrator signature keys. The signature keys are created in the path specified in `CLOUDTKEFILES` and stored in files that are protected by passwords. Repeat this step to generate more keys.
+  ```
+  ibmcloud tke sigkey-add
+  ```
+
+:information_source: **Requirement:** Make sure that information about the administrator who is associated with the key is set in the `admins` input variable.
+
+
+### Usage to create and initialize the HPCS instance
 
 ```hcl
 provider "ibm" {
