@@ -47,8 +47,7 @@ resource "ibm_resource_instance" "base_hpcs_instance" {
   tags              = var.tags
   service_endpoints = var.service_endpoints
   parameters = {
-    units                = var.number_of_crypto_units
-    signature_threshold  = var.signature_threshold
-    revocation_threshold = var.revocation_threshold
+    units          = var.number_of_crypto_units
+    failover_units = var.number_of_failover_units
   }
 }
