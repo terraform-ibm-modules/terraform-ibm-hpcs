@@ -22,14 +22,14 @@ func TestMain(m *testing.M) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	cmd, err := exec.Command("/bin/sh", "./scripts/create_keys.sh", mydir).Output()
+	cmd, err := exec.Command("bash", "./scripts/create_keys.sh", mydir).Output()
 	if err != nil {
 		fmt.Printf("error %s", err)
 	}
 	output := string(cmd)
 
 	admin = output
-	fmt.Print(admin)
+	// fmt.Print(admin)
 	os.Exit(m.Run())
 }
 
