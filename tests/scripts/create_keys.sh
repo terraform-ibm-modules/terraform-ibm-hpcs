@@ -27,6 +27,7 @@ generate() {
 
     #Generate the signature key
     /usr/bin/expect <<EOF
+    log_user 0
     spawn ibmcloud tke sigkey-add
     expect "Enter an administrator name to be associated with the signature key:"
 
@@ -48,8 +49,27 @@ handle_error() {
     exit 0
 }
 
-# apt-get install expect -y
-ls -lrth /usr/bin
+if [[ $OSTYPE == 'darwin'* ]]; then
+  OS="darwin"
+else
+  OS="linux"
+fi
+
+
+#######################################
+# expect
+#######################################
+
+if ! expect -version &> /dev/null; then
+  # If expect not detected on mac, install coreutils
+  if [ "$OS" == "darwin" ]; then
+    brew install expect >&2
+  else
+    echo "expect must be installed to verify downloads. Please install and retry." >&2
+    exit 1
+  fi
+fi
+
 ibmcloud plugin install tke -f >&2
 
 generate="$(generate "$CLOUDTKEFILES")"
