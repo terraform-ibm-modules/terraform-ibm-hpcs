@@ -27,7 +27,6 @@ generate() {
 
     #Generate the signature key
     /usr/bin/expect <<EOF
-    log_user 0
     spawn ibmcloud tke sigkey-add
     expect "Enter an administrator name to be associated with the signature key:"
 
@@ -49,7 +48,7 @@ handle_error() {
     exit 0
 }
 
-ibmcloud plugin install tke -f
+ibmcloud plugin install tke -f >&2
 
 generate="$(generate "$CLOUDTKEFILES")"
 
