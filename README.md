@@ -10,13 +10,18 @@
 [![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-You can use this module to provision and configure an IBM Cloud Hyper Protect Crypto Services instance. There are two ways to use this module:
-* Create Hyper Protect Crypto Services instance and initialize the instance manually.
-* Create and initialize the Hyper Protect Crypto Services instance automatically. It supports only `recovery crypto unit` method of initialization.
+You can use this module to provision an IBM Cloud Hyper Protect Crypto Services (HPCS) instance.
+
+The next step after provisioning an HPCS instance is to [initialize](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) it to manage the keys. By default, this module also initializes the instance using the [recovery crypto unit method](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm-recovery-crypto-unit) of initialization. Other [approaches of initialization](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-uko-initialize-instance-mode) (using smart cards and using key part files) are also supported, but it requires manual steps after creating service instance using this module.
+
+For more information, please refer:
+* [Components and concepts](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-uko-understand-concepts)
+* [About service instance initialization](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-introduce-service)
+
 
 ## Create Hyper Protect Crypto Services instance
 
-### Usage
+### Usage to create the HPCS instance
 
 <!--
 Add an example of the use of the module in the following code block.
@@ -48,23 +53,50 @@ There are multiple ways to initialize the service instance few of them include s
  - [Initializing service instances by using key part files](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm) : You can also initialize your service instance using master key parts that are stored in files on your local workstation. You can use this approach regardless of whether or not your service instance includes recovery crypto units.
  - [Initializing service instances using recovery crypto units](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm-recovery-crypto-unit) : If you create your service instance in **Dallas (us-south) or Washington DC (us-east)** where the recovery crypto units are enabled, you can choose this approach where the master key is randomly generated within a recovery crypto unit and then exported to other crypto units.
 
-## Create and initialize the Hyper Protect Crypto Service instance
+## Create and initialize the Hyper Protect Crypto Services instance
 
-Run the following commands to generate admin signature keys using `TKE` cli plugin if you are not using third party signing service.
+### Before you begin
 
-```
-ibmcloud plugin install tke
-mkdir <dir_name>
-cd <dir_name>
-export CLOUDTKEFILES=<absolute path of dir_name>
-ibmcloud tke sigkey-add
-```
+To initialize the instance with a third-party signing service, see [Using a signing service to manage signature keys for instance initialization](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-signing-service-signature-key&interface=ui) in the Cloud Docs.
 
-> NOTE: If you need to use third party signing service,, follow this [link](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-signing-service-signature-key&interface=ui) to setup.
+Otherwise, if you are not using a third-party signing service, run the following commands that use the IBM Cloud TKE CLI plug-in
+to generate admin signature keys.
 
-> NOTE: The administrator name associated with the signature key, the absolute path of signature keys and the password that was used to protect signature keys need to provide as `var.admins`.
+* Install the [IBM Cloud CLI](https://cloud.ibm.com/docs/cli?topic=cli-install-ibmcloud-cli)
 
-### Usage
+* Make sure you have a recent version the IBM Cloud Trusted Key Entry (TKE) CLI plug-in installed.
+  * Run this command to install the plug-in:
+    ```
+    ibmcloud plugin install tke
+    ```
+
+    Or
+
+  * Run this command to update your plug-in to the latest version with the following command:
+    ```
+    ibmcloud plugin update tke
+    ```
+
+* Set the environment variable `CLOUDTKEFILES` to specify the directory where you want to save signature key files.
+  ```
+  export CLOUDTKEFILES=<absolute path of directory>
+  ```
+
+* Login in to IBM CLoud CLI and make sure that you're logged in to the correct region and resource group where the service instance locates.
+  ```
+  ibmcloud login
+  ibmcloud target -r <region> -g <resource_group>
+  ```
+
+* Run the following command to create administrator signature keys. The signature keys are created in the path specified in `CLOUDTKEFILES` and stored in files that are protected by passwords. Repeat this step to generate more keys.
+  ```
+  ibmcloud tke sigkey-add
+  ```
+
+:information_source: **Requirement:** Make sure that information about the administrator who is associated with the key is set in the `admins` input variable.
+
+
+### Usage to create and initialize the HPCS instance
 
 ```hcl
 provider "ibm" {
@@ -127,18 +159,18 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_admins"></a> [admins](#input\_admins) | A list of administrators for the instance crypto units. You can set up to 8 administrators. | <pre>list(object({<br>    name = string # max length: 30 chars<br>    key  = string # the absolute path and the file name of the signature key file if key files are created using TKE CLI and are not using a third-party signing service<br>    # if you are using a signing service, the key name is appended to a URI that will be sent to the signing service<br>    token = string # sensitive: the administrator password/token to authorize and access the corresponding signature key file<br>  }))</pre> | `[]` | no |
-| <a name="input_auto_initialization_using_recovery_crypto_units"></a> [auto\_initialization\_using\_recovery\_crypto\_units](#input\_auto\_initialization\_using\_recovery\_crypto\_units) | Set to true if auto initialization using recovery crypto units is required | `bool` | `false` | no |
-| <a name="input_number_of_crypto_units"></a> [number\_of\_crypto\_units](#input\_number\_of\_crypto\_units) | The number of operational crypto units for your service instance | `number` | `2` | no |
-| <a name="input_number_of_failover_units"></a> [number\_of\_failover\_units](#input\_number\_of\_failover\_units) | The number of failover crypto units for your service instance. Default is 0 if not specified and cross-region high availability will not be enabled. | `number` | `0` | no |
-| <a name="input_plan"></a> [plan](#input\_plan) | The name of the service plan that you choose for your Hyper Protect Crypto Service instance | `string` | `"standard"` | no |
+| <a name="input_auto_initialization_using_recovery_crypto_units"></a> [auto\_initialization\_using\_recovery\_crypto\_units](#input\_auto\_initialization\_using\_recovery\_crypto\_units) | Set to true if auto initialization using recovery crypto units is required. | `bool` | `true` | no |
+| <a name="input_number_of_crypto_units"></a> [number\_of\_crypto\_units](#input\_number\_of\_crypto\_units) | The number of operational crypto units for your service instance. | `number` | `2` | no |
+| <a name="input_number_of_failover_units"></a> [number\_of\_failover\_units](#input\_number\_of\_failover\_units) | The number of failover crypto units for your service instance. Default is 0 and cross-region high availability will not be enabled. | `number` | `0` | no |
+| <a name="input_plan"></a> [plan](#input\_plan) | The name of the service plan that you choose for your Hyper Protect Crypto Service instance. | `string` | `"standard"` | no |
 | <a name="input_region"></a> [region](#input\_region) | The region where you want to deploy your instance. | `string` | n/a | yes |
-| <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The resource group name where the Hyper Protect Crypto Service instance will be created | `string` | n/a | yes |
-| <a name="input_revocation_threshold"></a> [revocation\_threshold](#input\_revocation\_threshold) | The number of administrator signatures that is required to remove an administrator after you leave imprint mode | `number` | `1` | no |
-| <a name="input_service_endpoints"></a> [service\_endpoints](#input\_service\_endpoints) | The service\_endpoints to access your service instance. Default value is public-and-private if not specified. | `string` | `"public-and-private"` | no |
+| <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The resource group name where the Hyper Protect Crypto Service instance will be created. | `string` | n/a | yes |
+| <a name="input_revocation_threshold"></a> [revocation\_threshold](#input\_revocation\_threshold) | The number of administrator signatures that is required to remove an administrator after you leave imprint mode. | `number` | `1` | no |
+| <a name="input_service_endpoints"></a> [service\_endpoints](#input\_service\_endpoints) | The service\_endpoints to access your service instance. Default value is public-and-private. | `string` | `"public-and-private"` | no |
 | <a name="input_service_name"></a> [service\_name](#input\_service\_name) | The name to give the Hyper Protect Crypto Service instance. Max length allowed is 30 chars. | `string` | n/a | yes |
-| <a name="input_signature_server_url"></a> [signature\_server\_url](#input\_signature\_server\_url) | The URL and port number of the signing service. Required if you are using a third-party signing service to provide administrator signature keys | `string` | `""` | no |
-| <a name="input_signature_threshold"></a> [signature\_threshold](#input\_signature\_threshold) | The number of administrator signatures that is required to execute administrative commands | `number` | `1` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | Optional list of resource tags to apply to resources created | `list(string)` | `[]` | no |
+| <a name="input_signature_server_url"></a> [signature\_server\_url](#input\_signature\_server\_url) | The URL and port number of the signing service. Required if you are using a third-party signing service to provide administrator signature keys. | `string` | `null` | no |
+| <a name="input_signature_threshold"></a> [signature\_threshold](#input\_signature\_threshold) | The number of administrator signatures that is required to execute administrative commands. | `number` | `1` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | Optional list of resource tags to apply to the HPCS instance. | `list(string)` | `[]` | no |
 
 ## Outputs
 

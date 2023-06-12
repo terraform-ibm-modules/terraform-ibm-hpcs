@@ -19,7 +19,7 @@ resource "ibm_hpcs" "hpcs_instance" {
   resource_group_id    = var.resource_group_id
   name                 = var.service_name
   plan                 = var.plan
-  tags                 = (var.tags != null ? var.tags : null)
+  tags                 = var.tags
   units                = var.number_of_crypto_units
   signature_threshold  = var.signature_threshold
   revocation_threshold = var.revocation_threshold
@@ -44,11 +44,10 @@ resource "ibm_resource_instance" "base_hpcs_instance" {
   location          = var.region
   plan              = var.plan
   resource_group_id = var.resource_group_id
-  tags              = (var.tags != null ? var.tags : null)
+  tags              = var.tags
   service_endpoints = var.service_endpoints
   parameters = {
-    units                = var.number_of_crypto_units
-    signature_threshold  = var.signature_threshold
-    revocation_threshold = var.revocation_threshold
+    units          = var.number_of_crypto_units
+    failover_units = var.number_of_failover_units
   }
 }

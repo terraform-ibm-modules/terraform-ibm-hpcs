@@ -9,27 +9,27 @@
       "sensitive": true,
       "pos": {
         "filename": "variables.tf",
-        "line": 78
+        "line": 82
       }
     },
     "auto_initialization_using_recovery_crypto_units": {
       "name": "auto_initialization_using_recovery_crypto_units",
       "type": "bool",
-      "description": "Set to true if auto initialization using recovery crypto units is required",
-      "default": false,
+      "description": "Set to true if auto initialization using recovery crypto units is required.",
+      "default": true,
       "source": [
         "ibm_hpcs.hpcs_instance.count",
         "ibm_resource_instance.base_hpcs_instance.count"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 30
+        "line": 34
       }
     },
     "number_of_crypto_units": {
       "name": "number_of_crypto_units",
       "type": "number",
-      "description": "The number of operational crypto units for your service instance",
+      "description": "The number of operational crypto units for your service instance.",
       "default": 2,
       "required": true,
       "source": [
@@ -38,26 +38,26 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 36
+        "line": 40
       }
     },
     "number_of_failover_units": {
       "name": "number_of_failover_units",
       "type": "number",
-      "description": "The number of failover crypto units for your service instance. Default is 0 if not specified and cross-region high availability will not be enabled.",
+      "description": "The number of failover crypto units for your service instance. Default is 0 and cross-region high availability will not be enabled.",
       "default": 0,
       "source": [
         "ibm_hpcs.hpcs_instance.failover_units"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 90
+        "line": 94
       }
     },
     "plan": {
       "name": "plan",
       "type": "string",
-      "description": "The name of the service plan that you choose for your Hyper Protect Crypto Service instance",
+      "description": "The name of the service plan that you choose for your Hyper Protect Crypto Service instance.",
       "default": "standard",
       "required": true,
       "source": [
@@ -66,7 +66,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 20
+        "line": 24
       }
     },
     "region": {
@@ -88,7 +88,7 @@
     "resource_group_id": {
       "name": "resource_group_id",
       "type": "string",
-      "description": "The resource group name where the Hyper Protect Crypto Service instance will be created",
+      "description": "The resource group name where the Hyper Protect Crypto Service instance will be created.",
       "required": true,
       "source": [
         "ibm_hpcs.hpcs_instance.resource_group_id",
@@ -108,7 +108,7 @@
     "revocation_threshold": {
       "name": "revocation_threshold",
       "type": "number",
-      "description": "The number of administrator signatures that is required to remove an administrator after you leave imprint mode",
+      "description": "The number of administrator signatures that is required to remove an administrator after you leave imprint mode.",
       "default": 1,
       "required": true,
       "source": [
@@ -116,20 +116,20 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 62
+        "line": 66
       }
     },
     "service_endpoints": {
       "name": "service_endpoints",
       "type": "string",
-      "description": "The service_endpoints to access your service instance. Default value is public-and-private if not specified.",
+      "description": "The service_endpoints to access your service instance. Default value is public-and-private.",
       "default": "public-and-private",
       "source": [
         "ibm_resource_instance.base_hpcs_instance.service_endpoints"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 100
+        "line": 104
       },
       "computed": true
     },
@@ -150,20 +150,19 @@
     "signature_server_url": {
       "name": "signature_server_url",
       "type": "string",
-      "description": "The URL and port number of the signing service. Required if you are using a third-party signing service to provide administrator signature keys",
-      "default": "",
+      "description": "The URL and port number of the signing service. Required if you are using a third-party signing service to provide administrator signature keys.",
       "source": [
         "ibm_hpcs.hpcs_instance.signature_server_url"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 72
+        "line": 76
       }
     },
     "signature_threshold": {
       "name": "signature_threshold",
       "type": "number",
-      "description": "The number of administrator signatures that is required to execute administrative commands",
+      "description": "The number of administrator signatures that is required to execute administrative commands.",
       "default": 1,
       "required": true,
       "source": [
@@ -171,13 +170,13 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 52
+        "line": 56
       }
     },
     "tags": {
       "name": "tags",
       "type": "list(string)",
-      "description": "Optional list of resource tags to apply to resources created",
+      "description": "Optional list of resource tags to apply to the HPCS instance.",
       "default": [],
       "source": [
         "ibm_hpcs.hpcs_instance.tags",
@@ -185,7 +184,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 46
+        "line": 50
       },
       "min_length": 1,
       "max_length": 128,
