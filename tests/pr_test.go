@@ -4,6 +4,7 @@ package test
 import (
 	"fmt"
 	"os"
+	"os/exec"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -21,13 +22,13 @@ func TestMain(m *testing.M) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	// cmd, err := exec.Command("/bin/sh", "./scripts/create_keys.sh", mydir).Output()
-	// if err != nil {
-	// 	fmt.Printf("error %s", err)
-	// }
-	// output := string(cmd)
+	cmd, err := exec.Command("/bin/sh", "."+mydir+"/scripts/create_keys.sh", mydir).Output()
+	if err != nil {
+		fmt.Printf("error %s", err)
+	}
+	output := string(cmd)
 
-	admin = mydir
+	admin = output
 	fmt.Print(admin)
 	os.Exit(m.Run())
 }
