@@ -48,6 +48,8 @@ handle_error() {
     exit 0
 }
 
+# apt-get install expect -y
+ls -lrth /usr/bin
 ibmcloud plugin install tke -f >&2
 
 generate="$(generate "$CLOUDTKEFILES")"
