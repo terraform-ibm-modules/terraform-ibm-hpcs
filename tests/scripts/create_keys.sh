@@ -49,6 +49,8 @@ handle_error() {
     exit 0
 }
 
+ibmcloud plugin install tke -f
+
 generate="$(generate "$CLOUDTKEFILES")"
 
 jq -n -r --arg result "$generate" '$result'
