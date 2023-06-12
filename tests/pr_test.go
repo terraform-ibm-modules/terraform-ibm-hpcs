@@ -22,7 +22,7 @@ func TestMain(m *testing.M) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	cmd, err := exec.Command("/bin/sh", "."+mydir+"/scripts/create_keys.sh", mydir).Output()
+	cmd, err := exec.Command("bash", "./scripts/create_keys.sh", mydir).Output()
 	if err != nil {
 		fmt.Printf("error %s", err)
 	}
