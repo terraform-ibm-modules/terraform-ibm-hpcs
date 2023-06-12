@@ -28,8 +28,13 @@ func TestMain(m *testing.M) {
 	}
 	output := string(cmd)
 
+	cmd2, err := exec.Command("/bin/sh", "-c", mydir+"/CLOUDTKEFILES").Output()
+	if err != nil {
+		fmt.Printf("error %s", err)
+	}
+	output2 := string(cmd2)
 	admin = output
-	fmt.Print(admin)
+	fmt.Print(output2)
 	os.Exit(m.Run())
 }
 
