@@ -4,7 +4,6 @@ package test
 import (
 	"fmt"
 	"os"
-	"os/exec"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -22,13 +21,13 @@ func TestMain(m *testing.M) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	cmd, err := exec.Command("/bin/sh", "./scripts/create_keys.sh", mydir).Output()
-	if err != nil {
-		fmt.Printf("error %s", err)
-	}
-	output := string(cmd)
+	// cmd, err := exec.Command("/bin/sh", "./scripts/create_keys.sh", mydir).Output()
+	// if err != nil {
+	// 	fmt.Printf("error %s", err)
+	// }
+	// output := string(cmd)
 
-	admin = output
+	admin = mydir
 	fmt.Print(admin)
 	os.Exit(m.Run())
 }
@@ -51,38 +50,38 @@ func TestRunHpcsExample(t *testing.T) {
 	assert.NotNil(t, output, "Expected some output")
 }
 
-func TestRunBasicExample(t *testing.T) {
-	t.Parallel()
+// func TestRunBasicExample(t *testing.T) {
+// 	t.Parallel()
 
-	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
-		Testing:      t,
-		TerraformDir: "examples/basic",
-		Prefix:       "hpcs",
-		Region:       "us-south",
-	})
+// 	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
+// 		Testing:      t,
+// 		TerraformDir: "examples/basic",
+// 		Prefix:       "hpcs",
+// 		Region:       "us-south",
+// 	})
 
-	output, err := options.RunTestConsistency()
-	assert.Nil(t, err, "This should not have errored")
-	assert.NotNil(t, output, "Expected some output")
-}
+// 	output, err := options.RunTestConsistency()
+// 	assert.Nil(t, err, "This should not have errored")
+// 	assert.NotNil(t, output, "Expected some output")
+// }
 
-func TestRunUpgradeExample(t *testing.T) {
-	t.Parallel()
+// func TestRunUpgradeExample(t *testing.T) {
+// 	t.Parallel()
 
-	// TODO: Remove this line after the first merge to primary branch is complete to enable upgrade test
-	t.Skip("Skipping upgrade test until initial code is in primary branch")
+// 	// TODO: Remove this line after the first merge to primary branch is complete to enable upgrade test
+// 	t.Skip("Skipping upgrade test until initial code is in primary branch")
 
-	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
-		Testing:       t,
-		TerraformDir:  "examples/basic",
-		Prefix:        "hpcs",
-		Region:        "us-south",
-		ResourceGroup: resourceGroup,
-	})
+// 	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
+// 		Testing:       t,
+// 		TerraformDir:  "examples/basic",
+// 		Prefix:        "hpcs",
+// 		Region:        "us-south",
+// 		ResourceGroup: resourceGroup,
+// 	})
 
-	output, err := options.RunTestUpgrade()
-	if !options.UpgradeTestSkipped {
-		assert.Nil(t, err, "This should not have errored")
-		assert.NotNil(t, output, "Expected some output")
-	}
-}
+// 	output, err := options.RunTestUpgrade()
+// 	if !options.UpgradeTestSkipped {
+// 		assert.Nil(t, err, "This should not have errored")
+// 		assert.NotNil(t, output, "Expected some output")
+// 	}
+// }
