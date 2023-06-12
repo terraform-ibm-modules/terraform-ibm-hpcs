@@ -16,6 +16,8 @@ const resourceGroup = "geretain-test-resources"
 
 var admin string
 
+// var mydir string
+
 func TestMain(m *testing.M) {
 
 	mydir, err := os.Getwd()
@@ -28,13 +30,14 @@ func TestMain(m *testing.M) {
 	}
 	output := string(cmd)
 
-	cmd2, err := exec.Command("/bin/sh", "-c", mydir+"/CLOUDTKEFILES").Output()
-	if err != nil {
-		fmt.Printf("error %s", err)
-	}
-	output2 := string(cmd2)
 	admin = output
-	fmt.Print(output2)
+
+	cmd2, err := exec.Command("/bin/sh", "-c", "ls -lrth "+mydir+"/CLOUDTKEFILES").Output()
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Print(string(cmd2))
+	fmt.Print(admin)
 	os.Exit(m.Run())
 }
 
