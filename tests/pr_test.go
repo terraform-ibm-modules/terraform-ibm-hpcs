@@ -38,7 +38,7 @@ func TestRunHpcsExample(t *testing.T) {
 
 	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
 		Testing:      t,
-		TerraformDir: "examples/create-and-initialize-hpcs",
+		TerraformDir: "examples/complete",
 		Prefix:       "hpcs-crypto",
 		Region:       "us-south",
 		TerraformVars: map[string]interface{}{
