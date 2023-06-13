@@ -12,11 +12,11 @@ variable "region" {
   description = "The region where you want to deploy your instance."
 }
 
-variable "service_name" {
+variable "name" {
   type        = string
   description = "The name to give the Hyper Protect Crypto Service instance. Max length allowed is 30 chars."
   validation {
-    condition     = length(var.service_name) <= 30
+    condition     = length(var.name) <= 30
     error_message = "Maximum length of service_name allowed is 30 chars"
   }
 }

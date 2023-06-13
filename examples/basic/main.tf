@@ -11,7 +11,7 @@ module "resource_group" {
 
 module "hpcs_instance" {
   source                                          = "../.."
-  service_name                                    = "${var.prefix}-hpcs"
+  name                                            = "${var.prefix}-hpcs"
   region                                          = var.region
   tags                                            = var.resource_tags
   plan                                            = "standard"

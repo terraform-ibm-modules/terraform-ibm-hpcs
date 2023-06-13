@@ -8,7 +8,7 @@ module "resource_group" {
 
 module "ibm_hpcs" {
   source                                          = "../../"
-  service_name                                    = "${var.prefix}-instance"
+  name                                            = "${var.prefix}-instance"
   resource_group_id                               = module.resource_group.resource_group_id
   region                                          = var.region
   tags                                            = var.resource_tags

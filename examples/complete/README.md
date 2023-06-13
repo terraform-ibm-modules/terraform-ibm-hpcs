@@ -1,4 +1,4 @@
-# Example that creates and initialize HPCS instance
+# Complete example that creates and initialize HPCS instance
 
 An end-to-end example that creates the following:
 

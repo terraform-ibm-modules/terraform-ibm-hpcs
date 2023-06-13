@@ -17,7 +17,7 @@ resource "ibm_hpcs" "hpcs_instance" {
   count                = var.auto_initialization_using_recovery_crypto_units ? 1 : 0
   location             = var.region
   resource_group_id    = var.resource_group_id
-  name                 = var.service_name
+  name                 = var.name
   plan                 = var.plan
   tags                 = var.tags
   units                = var.number_of_crypto_units
@@ -39,7 +39,7 @@ resource "ibm_hpcs" "hpcs_instance" {
 
 resource "ibm_resource_instance" "base_hpcs_instance" {
   count             = var.auto_initialization_using_recovery_crypto_units ? 0 : 1
-  name              = var.service_name
+  name              = var.name
   service           = "hs-crypto"
   location          = var.region
   plan              = var.plan
