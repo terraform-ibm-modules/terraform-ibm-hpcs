@@ -50,22 +50,22 @@ handle_error() {
 }
 
 if [[ $OSTYPE == 'darwin'* ]]; then
-    OS="darwin"
+  OS="darwin"
 else
-    OS="linux"
+  OS="linux"
 fi
 
 #######################################
 # expect
 #######################################
 
-if ! expect -version &>/dev/null; then
-    # If expect not detected on mac, install expect
-    if [ "$OS" == "darwin" ]; then
-        brew install expect >&2
-    else
-        apt-get install expect -y >&2
-    fi
+if ! expect -version &> /dev/null; then
+  # If expect not detected on mac, install expect
+  if [ "$OS" == "darwin" ]; then
+    brew install expect >&2
+  else
+    apt-get install expect -y >&2
+  fi
 fi
 
 ibmcloud plugin install tke -f >&2
