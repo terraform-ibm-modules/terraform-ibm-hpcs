@@ -49,6 +49,27 @@ handle_error() {
     exit 0
 }
 
+if [[ $OSTYPE == 'darwin'* ]]; then
+  OS="darwin"
+else
+  OS="linux"
+fi
+
+#######################################
+# expect
+#######################################
+
+if ! expect -version &> /dev/null; then
+  # If expect not detected on mac, install expect
+  if [ "$OS" == "darwin" ]; then
+    brew install expect >&2
+  else
+    apt-get install expect -y >&2
+  fi
+fi
+
+ibmcloud plugin install tke -f >&2
+
 generate="$(generate "$CLOUDTKEFILES")"
 
 jq -n -r --arg result "$generate" '$result'
