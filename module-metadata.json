@@ -4,7 +4,7 @@
     "admins": {
       "name": "admins",
       "type": "list(object({\n    name = string # max length: 30 chars\n    key  = string # the absolute path and the file name of the signature key file if key files are created using TKE CLI and are not using a third-party signing service\n    # if you are using a signing service, the key name is appended to a URI that will be sent to the signing service\n    token = string # sensitive: the administrator password/token to authorize and access the corresponding signature key file\n  }))",
-      "description": "A list of administrators for the instance crypto units. You can set up to 8 administrators.",
+      "description": "A list of administrators for the instance crypto units. See [instructions](https://github.com/terraform-ibm-modules/terraform-ibm-hpcs#before-you-begin) to create administrator signature keys. You can set up to 8 administrators. ",
       "default": [],
       "sensitive": true,
       "pos": {

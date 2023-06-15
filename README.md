@@ -3,8 +3,7 @@
 <!-- Update the title to match the module name and add a description -->
 # IBM Cloud Hyper Protect Crypto Services
 <!-- UPDATE BADGE: Update the link for the following badge-->
-[![Incubating (Not yet consumable)](https://img.shields.io/badge/status-Incubating%20(Not%20yet%20consumable)-red)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
-[![Build status](https://github.com/terraform-ibm-modules/terraform-ibm-hpcs/actions/workflows/ci.yml/badge.svg)](https://github.com/terraform-ibm-modules/terraform-ibm-hpcs/actions/workflows/ci.yml)
+[![Stable (With quality checks)](https://img.shields.io/badge/Status-Stable%20(With%20quality%20checks)-green)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![latest release](https://img.shields.io/github/v/release/terraform-ibm-modules/terraform-ibm-hpcs?logo=GitHub&sort=semver)](https://github.com/terraform-ibm-modules/terraform-ibm-hpcs/releases/latest)
 [![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
@@ -38,11 +37,11 @@ provider "ibm" {
 
 module "hpcs" {
   # replace "main" with a GIT release version to lock into a specific release
-  source                                          = ""git::https://github.com/terraform-ibm-modules/terraform-ibm-hpcs?ref=main""
-  resource_group_id                               = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+  source                                          = "git::https://github.com/terraform-ibm-modules/terraform-ibm-hpcs?ref=main"
+  resource_group_id                               = "000fb3134f214c3a9017554db4510f70" # pragma: allowlist secret
   region                                          = "us-south"
   service_name                                    = "my-hpcs-instance"
-  tags                                            = var.resource_tags
+  tags                                            = ["tag1","tag2"]
   plan                                            = "standard"
   auto_initialization_using_recovery_crypto_units = false
 }
@@ -55,7 +54,7 @@ There are multiple ways to initialize the service instance few of them include s
 
 ## Create and initialize the Hyper Protect Crypto Services instance
 
-### Before you begin
+### Before you begin: creating administrator signature keys
 
 To initialize the instance with a third-party signing service, see [Using a signing service to manage signature keys for instance initialization](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-signing-service-signature-key&interface=ui) in the Cloud Docs.
 
@@ -106,14 +105,25 @@ provider "ibm" {
 
 module "hpcs" {
   # replace "main" with a GIT release version to lock into a specific release
-  source                                          = ""git::https://github.com/terraform-ibm-modules/terraform-ibm-hpcs?ref=main""
-  resource_group_id                               = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+  source                                          = "git::https://github.com/terraform-ibm-modules/terraform-ibm-hpcs?ref=main"
+  resource_group_id                               = "000fb3134f214c3a9017554db4510f70" # pragma: allowlist secret
   region                                          = "us-south"
   service_name                                    = "my-hpcs-instance"
-  tags                                            = var.resource_tags
+  tags                                            = ["tag1","tag2"]
   auto_initialization_using_recovery_crypto_units = true
-  number_of_crypto_units                          = var.number_of_crypto_units
-  admins                                          = var.admins
+  number_of_crypto_units                          = 3
+  admins = [
+    {
+      name  = "admin1"
+      key   = "/cloudTKE/1.sigkey"
+      token = "sensitive1234"
+    },
+    {
+      name  = "admin2"
+      key   = "/cloudTKE/2.sigkey"
+      token = "sensitive1234"
+    }
+  ]
 }
 ```
 
@@ -158,7 +168,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_admins"></a> [admins](#input\_admins) | A list of administrators for the instance crypto units. You can set up to 8 administrators. | <pre>list(object({<br>    name = string # max length: 30 chars<br>    key  = string # the absolute path and the file name of the signature key file if key files are created using TKE CLI and are not using a third-party signing service<br>    # if you are using a signing service, the key name is appended to a URI that will be sent to the signing service<br>    token = string # sensitive: the administrator password/token to authorize and access the corresponding signature key file<br>  }))</pre> | `[]` | no |
+| <a name="input_admins"></a> [admins](#input\_admins) | A list of administrators for the instance crypto units. See [instructions](https://github.com/terraform-ibm-modules/terraform-ibm-hpcs#before-you-begin) to create administrator signature keys. You can set up to 8 administrators. | <pre>list(object({<br>    name = string # max length: 30 chars<br>    key  = string # the absolute path and the file name of the signature key file if key files are created using TKE CLI and are not using a third-party signing service<br>    # if you are using a signing service, the key name is appended to a URI that will be sent to the signing service<br>    token = string # sensitive: the administrator password/token to authorize and access the corresponding signature key file<br>  }))</pre> | `[]` | no |
 | <a name="input_auto_initialization_using_recovery_crypto_units"></a> [auto\_initialization\_using\_recovery\_crypto\_units](#input\_auto\_initialization\_using\_recovery\_crypto\_units) | Set to true if auto initialization using recovery crypto units is required. | `bool` | `true` | no |
 | <a name="input_name"></a> [name](#input\_name) | The name to give the Hyper Protect Crypto Service instance. Max length allowed is 30 chars. | `string` | n/a | yes |
 | <a name="input_number_of_crypto_units"></a> [number\_of\_crypto\_units](#input\_number\_of\_crypto\_units) | The number of operational crypto units for your service instance. | `number` | `2` | no |
