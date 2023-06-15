@@ -37,7 +37,7 @@ provider "ibm" {
 
 module "hpcs" {
   # replace "main" with a GIT release version to lock into a specific release
-  source                                          = ""git::https://github.com/terraform-ibm-modules/terraform-ibm-hpcs?ref=main""
+  source                                          = "git::https://github.com/terraform-ibm-modules/terraform-ibm-hpcs?ref=main"
   resource_group_id                               = "000fb3134f214c3a9017554db4510f70" # pragma: allowlist secret
   region                                          = "us-south"
   service_name                                    = "my-hpcs-instance"
@@ -105,7 +105,7 @@ provider "ibm" {
 
 module "hpcs" {
   # replace "main" with a GIT release version to lock into a specific release
-  source                                          = ""git::https://github.com/terraform-ibm-modules/terraform-ibm-hpcs?ref=main""
+  source                                          = "git::https://github.com/terraform-ibm-modules/terraform-ibm-hpcs?ref=main"
   resource_group_id                               = "000fb3134f214c3a9017554db4510f70" # pragma: allowlist secret
   region                                          = "us-south"
   service_name                                    = "my-hpcs-instance"
