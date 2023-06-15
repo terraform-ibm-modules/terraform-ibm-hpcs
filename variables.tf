@@ -88,7 +88,7 @@ variable "admins" {
   }))
   default     = []
   sensitive   = true
-  description = "A list of administrators for the instance crypto units. You can set up to 8 administrators."
+  description = "A list of administrators for the instance crypto units. You can set up to 8 administrators. See [instructions](https://github.com/terraform-ibm-modules/terraform-ibm-hpcs#before-you-begin) to create administrator signature keys."
 }
 
 variable "number_of_failover_units" {
