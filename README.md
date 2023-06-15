@@ -1,175 +1,193 @@
-# Managing HPCS Service Instances using Terraform Modules
+<!-- BEGIN MODULE HOOK -->
 
-This is a collection of modules that make it easier to provision and manage HPCS Instance IBM Cloud Platform:
+<!-- Update the title to match the module name and add a description -->
+# IBM Cloud Hyper Protect Crypto Services
+<!-- UPDATE BADGE: Update the link for the following badge-->
+[![Incubating (Not yet consumable)](https://img.shields.io/badge/status-Incubating%20(Not%20yet%20consumable)-red)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
+[![Build status](https://github.com/terraform-ibm-modules/terraform-ibm-hpcs/actions/workflows/ci.yml/badge.svg)](https://github.com/terraform-ibm-modules/terraform-ibm-hpcs/actions/workflows/ci.yml)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+[![latest release](https://img.shields.io/github/v/release/terraform-ibm-modules/terraform-ibm-hpcs?logo=GitHub&sort=semver)](https://github.com/terraform-ibm-modules/terraform-ibm-hpcs/releases/latest)
+[![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-* [Provisioning HPCS Instances](./examples/ibm-hpcs-instance)
-* [Initialising HPCS Instance](./examples/init-using-local)
-* [Managing Keys on HPCS Instance](./examples/ibm-hpcs-kms-key)
+You can use this module to provision an IBM Cloud Hyper Protect Crypto Services (HPCS) instance.
 
-## HPCS Initialisation Architecture
+The next step after provisioning an HPCS instance is to [initialize](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) it to manage the keys. By default, this module also initializes the instance using the [recovery crypto unit method](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm-recovery-crypto-unit) of initialization. Other [approaches of initialization](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-uko-initialize-instance-mode) (using smart cards and using key part files) are also supported, but it requires manual steps after creating service instance using this module.
 
-![HPCS Architecture](./examples/ibm-hpcs-initialisation/references/diagrams/architechture.png?raw=true)
-The figure above depicts the basic architecture of the IBM Cloud HPCS Init Terraform Automation.
-The main components are..
+For more information, please refer:
+* [Components and concepts](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-uko-understand-concepts)
+* [About service instance initialization](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-introduce-service)
 
-- **COS Bucket**: HPCS Crypto unit credentials that stored in a Bucket as a json file will be taken as an input by `hpcs-init` terraform module and the secret tke-files that are obtained after execution of template will be stored back as zip file in cos bucket.
-- **Terraform**: Reads the terraform configuration files and templates, execute the plan, and communicate with the plugins, manages the resource state and .tfstate file after apply.
-- **IBM Cloud TKE Plugin**: The Python script that automates the initialisation process uses IBM CLOUD TKE Plugin
 
-## Terraform versions
+## Create Hyper Protect Crypto Services instance
 
-Terraform 0.13.
+### Usage to create the HPCS instance
 
-## Usage
+<!--
+Add an example of the use of the module in the following code block.
 
-Full example is in [main.tf](main.tf)
-
-To run this example you need to execute:
-
-```bash
-$ terraform init
-$ terraform plan
-$ terraform apply
-```
-
-Run `terraform destroy` when you don't need these resources. This command zeroises the cryptounit.. to remove master keys and signature keys, Use following commands respectively `ibmcloud tke mk-rm` , `ibmcloud tke sigkey-rm`
-Please refer `ibmcloud tke help` for more info.
-
-## Example Usage
-
-### Provision HPCS Instance
-
+Use real values instead of "var.<var_name>" or other placeholder values
+unless real values don't help users know what to change.
+-->
 
 ```hcl
-module "ibm-hpcs-instance" {
-  source = "../../modules/ibm-hpcs-instance"
-  resource_group_id      = data.ibm_resource_group.resource_group.id
-  service_name           = var.service_name
-  region                 = var.region
-  plan                   = var.plan
-  tags                   = var.tags
-  service_endpoints      = var.service_endpoints
-  number_of_crypto_units = var.number_of_crypto_units
+provider "ibm" {
+  ibmcloud_api_key = ""
+  region           = "us-south"
+}
+
+module "hpcs" {
+  # replace "main" with a GIT release version to lock into a specific release
+  source                                          = ""git::https://github.com/terraform-ibm-modules/terraform-ibm-hpcs?ref=main""
+  resource_group_id                               = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+  region                                          = "us-south"
+  service_name                                    = "my-hpcs-instance"
+  tags                                            = var.resource_tags
+  plan                                            = "standard"
+  auto_initialization_using_recovery_crypto_units = false
 }
 ```
 
-### Initialize HPCS Instance
+There are multiple ways to initialize the service instance few of them include some manual steps, they are as follows:
+ - [Initializing service instances by using smart cards and the Hyper Protect Crypto Services Management Utilities](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm-management-utilities) : This approach gives you the highest security, which enables you to store and manage master key parts using smart cards.
+ - [Initializing service instances by using key part files](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm) : You can also initialize your service instance using master key parts that are stored in files on your local workstation. You can use this approach regardless of whether or not your service instance includes recovery crypto units.
+ - [Initializing service instances using recovery crypto units](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm-recovery-crypto-unit) : If you create your service instance in **Dallas (us-south) or Washington DC (us-east)** where the recovery crypto units are enabled, you can choose this approach where the master key is randomly generated within a recovery crypto unit and then exported to other crypto units.
+
+## Create and initialize the Hyper Protect Crypto Services instance
+
+### Before you begin
+
+To initialize the instance with a third-party signing service, see [Using a signing service to manage signature keys for instance initialization](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-signing-service-signature-key&interface=ui) in the Cloud Docs.
+
+Otherwise, if you are not using a third-party signing service, run the following commands that use the IBM Cloud TKE CLI plug-in
+to generate admin signature keys.
+
+* Install the [IBM Cloud CLI](https://cloud.ibm.com/docs/cli?topic=cli-install-ibmcloud-cli)
+
+* Make sure you have a recent version the IBM Cloud Trusted Key Entry (TKE) CLI plug-in installed.
+  * Run this command to install the plug-in:
+    ```
+    ibmcloud plugin install tke
+    ```
+
+    Or
+
+  * Run this command to update your plug-in to the latest version with the following command:
+    ```
+    ibmcloud plugin update tke
+    ```
+
+* Set the environment variable `CLOUDTKEFILES` to specify the directory where you want to save signature key files.
+  ```
+  export CLOUDTKEFILES=<absolute path of directory>
+  ```
+
+* Login in to IBM CLoud CLI and make sure that you're logged in to the correct region and resource group where the service instance locates.
+  ```
+  ibmcloud login
+  ibmcloud target -r <region> -g <resource_group>
+  ```
+
+* Run the following command to create administrator signature keys. The signature keys are created in the path specified in `CLOUDTKEFILES` and stored in files that are protected by passwords. Repeat this step to generate more keys.
+  ```
+  ibmcloud tke sigkey-add
+  ```
+
+:information_source: **Requirement:** Make sure that information about the administrator who is associated with the key is set in the `admins` input variable.
+
+
+### Usage to create and initialize the HPCS instance
 
 ```hcl
-module "hpcs_init" {
-  source             = "../../modules/ibm-hpcs-initialisation/hpcs-init"
-  tke_files_path     = var.tke_files_path
-  input_file_name    = var.input_file_name
-  hpcs_instance_guid = data.ibm_resource_instance.hpcs_instance.guid
+provider "ibm" {
+  ibmcloud_api_key = ""
+  region           = "us-south"
+}
+
+module "hpcs" {
+  # replace "main" with a GIT release version to lock into a specific release
+  source                                          = ""git::https://github.com/terraform-ibm-modules/terraform-ibm-hpcs?ref=main""
+  resource_group_id                               = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+  region                                          = "us-south"
+  service_name                                    = "my-hpcs-instance"
+  tags                                            = var.resource_tags
+  auto_initialization_using_recovery_crypto_units = true
+  number_of_crypto_units                          = var.number_of_crypto_units
+  admins                                          = var.admins
 }
 ```
 
-### Manage HPCS Keys
-`Note:` To Manage Keys, Instance should be Initialized..
+## Required IAM access policies
+You need the following permissions to run this module.
 
-```hcl
-module "ibm-hpcs-kms-key" {
-  source           = "../../modules/ibm-hpcs-kms-key/"
-  instance_id      = data.ibm_resource_instance.hpcs_instance.guid
-  name             = var.name
-  standard_key     = var.standard_key
-  force_delete     = var.force_delete
-  endpoint_type    = var.endpoint_type
-  key_material     = var.key_material
-  encrypted_nonce  = var.encrypted_nonce
-  iv_value         = var.iv_value
-  expiration_date  = var.expiration_date
-}
-```
+- Account Management
+    - **Resource Group** service
+        - `Viewer` platform access
+- IAM Services
+    - **Hyper Protect Crypto Services** service
+        - `Editor` platform access
+        - `Manager` service access
 
+<!-- END MODULE HOOK -->
+<!-- BEGIN EXAMPLES HOOK -->
+## Examples
+
+- [ Basic example](examples/basic)
+- [ Complete example that creates and initialize HPCS instance](examples/complete)
+<!-- END EXAMPLES HOOK -->
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| terraform | ~> 0.13 |
-| OS | Mac/Linux |
-| python | ~> 3.5 |
-| pip | should supports python 3 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.49.0 |
 
+## Modules
 
-## Providers
+No modules.
 
-| Name | Version |
-|------|---------|
-| ibm | n/a |
+## Resources
+
+| Name | Type |
+|------|------|
+| [ibm_hpcs.hpcs_instance](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/hpcs) | resource |
+| [ibm_resource_instance.base_hpcs_instance](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/resource_instance) | resource |
 
 ## Inputs
 
-| Name              | Description                                                                    | Type   |Default  | Required|
-|-------------------|--------------------------------------------------------------------------------|--------|---------|---------|
-| service_name             | A descriptive name used to identify the resource instance               |`string`| n/a     | yes     |
-| plan                     | The name of the plan type supported by service.                         |`string`| n/a     | yes     |
-| region                   | Target location or environment to create the resource instance          |`string`| n/a     | yes     |
-| resource\_group_name     | Name of the resource group                                              |`string`| n/a     | yes     |
-| tags                     | Tags for the database                                                   |`set`   | n/a     | no      |
-| service_endpoints        | Types of the service endpoints.                                         |`string`| n/a     | no      |
-| number_of_crypto_units   | Number of Crypto Units to be attached to instance                       |`string`| n/a     | no      |
-| api_key                  | Api key of the COS bucket.                                              |`string`| n/a     | no      |
-| cos_crn                  | COS instance CRN.                                                       |`string`| n/a     | no      |
-| endpoint                 | COS endpoint.                                                           |`string`| n/a     | no      |
-| bucket_name              | COS bucket name.                                                        |`string`| n/a     | no      |
-| input_file_name          | Input json file name that is present in the cos-bucket or in the local. |`string`| n/a     | yes     |
-| tke_files_path           | Path to which tke files has to be exported.                             |`string`| n/a     | yes     |
-| key\_name                | Name of the key.                                                        |`string`| n/a     | yes     |
-| name                     | Name of the Key                                                         |`string`| n/a     | no      |
-| standard_key             | Determines if it has to be a standard key or root key                   |`bool`  | false   | no      |
-| force_delete             | Determines if it has to be force deleted                                |`bool`  | false   | no      |
-| endpoint_type            | public or private                                                       |`string`| `public`| no      |
-| key_material             | Key Payload.                                                            |`string`| n/a     | no      |
-| encrypted_nonce          | Encrypted Nonce. Only for imported root key.                            |`string`| n/a     | no      |
-| iv_value                 | IV Value. Only for imported root key.                                   |`string`| n/a     | no      |
-| expiration_date          | Expination Date.                                                        |`string`| n/a     | no      |
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_admins"></a> [admins](#input\_admins) | A list of administrators for the instance crypto units. You can set up to 8 administrators. | <pre>list(object({<br>    name = string # max length: 30 chars<br>    key  = string # the absolute path and the file name of the signature key file if key files are created using TKE CLI and are not using a third-party signing service<br>    # if you are using a signing service, the key name is appended to a URI that will be sent to the signing service<br>    token = string # sensitive: the administrator password/token to authorize and access the corresponding signature key file<br>  }))</pre> | `[]` | no |
+| <a name="input_auto_initialization_using_recovery_crypto_units"></a> [auto\_initialization\_using\_recovery\_crypto\_units](#input\_auto\_initialization\_using\_recovery\_crypto\_units) | Set to true if auto initialization using recovery crypto units is required. | `bool` | `true` | no |
+| <a name="input_name"></a> [name](#input\_name) | The name to give the Hyper Protect Crypto Service instance. Max length allowed is 30 chars. | `string` | n/a | yes |
+| <a name="input_number_of_crypto_units"></a> [number\_of\_crypto\_units](#input\_number\_of\_crypto\_units) | The number of operational crypto units for your service instance. | `number` | `2` | no |
+| <a name="input_number_of_failover_units"></a> [number\_of\_failover\_units](#input\_number\_of\_failover\_units) | The number of failover crypto units for your service instance. Default is 0 and cross-region high availability will not be enabled. | `number` | `0` | no |
+| <a name="input_plan"></a> [plan](#input\_plan) | The name of the service plan that you choose for your Hyper Protect Crypto Service instance. | `string` | `"standard"` | no |
+| <a name="input_region"></a> [region](#input\_region) | The region where you want to deploy your instance. | `string` | n/a | yes |
+| <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The resource group name where the Hyper Protect Crypto Service instance will be created. | `string` | n/a | yes |
+| <a name="input_revocation_threshold"></a> [revocation\_threshold](#input\_revocation\_threshold) | The number of administrator signatures that is required to remove an administrator after you leave imprint mode. | `number` | `1` | no |
+| <a name="input_service_endpoints"></a> [service\_endpoints](#input\_service\_endpoints) | The service\_endpoints to access your service instance. Default value is public-and-private. | `string` | `"public-and-private"` | no |
+| <a name="input_signature_server_url"></a> [signature\_server\_url](#input\_signature\_server\_url) | The URL and port number of the signing service. Required if you are using a third-party signing service to provide administrator signature keys. | `string` | `null` | no |
+| <a name="input_signature_threshold"></a> [signature\_threshold](#input\_signature\_threshold) | The number of administrator signatures that is required to execute administrative commands. | `number` | `1` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | Optional list of resource tags to apply to the HPCS instance. | `list(string)` | `[]` | no |
 
+## Outputs
 
-Note:
-* COS Credententials are required when `download_from_cos` and `upload_to_cos` null resources are used
-* Cloud TKE Files will be downloaded at `tke_files_path`+` < GUID of the Service Instance >_tkefiles`. To perform any operation after initialisation on tkefiles outside terraform `CLOUDTKEFILES` should be exported to above mentioned path
+| Name | Description |
+|------|-------------|
+| <a name="output_crn"></a> [crn](#output\_crn) | HPCS instance crn |
+| <a name="output_guid"></a> [guid](#output\_guid) | HPCS instance guid |
+| <a name="output_hpcs_name"></a> [hpcs\_name](#output\_hpcs\_name) | HPCS instance name |
+| <a name="output_id"></a> [id](#output\_id) | HPCS instance id |
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN CONTRIBUTING HOOK -->
 
-## Pre-Requisites for Initialisation:
-* python version 3.5 and above
-* pip version 3 and above
+<!-- Leave this section as is so that your module has a link to local development environment set up steps for contributors to follow -->
+## Contributing
 
-``` hcl
-  pip install pexpect
-```
-* `ibm-cos-sdk` package is required if initialisation is performed using objeck storage example..
-``` hcl
-pip install ibm-cos-sdk
-```
-* Login to IBM Cloud Account using cli
-```hcl
-ibmcloud login --apikey `<XXXYourAPIKEYXXXXX>` -r `<region>` -g `<resource_group>` -a `< cloud endpoint>
-```
-* Generate oauth-tokens `ibmcloud iam oauth-tokens`. This step should be done as and when token expires.
-* To install tke plugin `ibmcloud plugin install tke`. find more info on tke plugin [here](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm#initialize-crypto-prerequisites)
+You can report issues and request features for this module in GitHub issues in the module repo. See [Report an issue or request a feature](https://github.com/terraform-ibm-modules/.github/blob/main/.github/SUPPORT.md).
 
-### Pre-commit Hooks
-
-Run the following command to execute the pre-commit hooks defined in `.pre-commit-config.yaml` file
-
-  `pre-commit run -a`
-
-We can install pre-coomit tool using
-
-  `pip install pre-commit`
-
-## Notes On Initialization:
-* The current script adds only one signature key admin.
-* The signature key associated with the Admin name given in the json file will be selected as the current signature key.
-* If number of master keys added is more than three, Master key registry will be `loaded`, `commited` and `setimmidiate` with last three added master keys.
-* Please find the example json [here](references/input.json).
-* Input can be fed in two ways either through local or through IBM Cloud Object Storage
-* The input file is download from the cos bucket using `download_from_cos` null resource
-* Secret TKE Files that are obtained after initialisation can be stored back in the COS Bucket as a Zip File using `upload_to_cos`null resource
-* After uploading zip file to COS Bucket all the secret files and input file can be deleted from the local machine using `remove_tke_files` null resource.
-
-## Future Enhancements:
-* Automation of Pre-Requisites.
-* Capability to add and select one or more admin.
-* Integration with Hashicorp vault.
+To set up your local development environment, see [Local development setup](https://terraform-ibm-modules.github.io/documentation/#/local-dev-setup) in the project documentation.
+<!-- Source for this readme file: https://github.com/terraform-ibm-modules/common-dev-assets/tree/main/module-assets/ci/module-template-automation -->
+<!-- END CONTRIBUTING HOOK -->
