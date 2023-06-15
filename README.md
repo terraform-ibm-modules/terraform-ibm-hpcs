@@ -38,10 +38,10 @@ provider "ibm" {
 module "hpcs" {
   # replace "main" with a GIT release version to lock into a specific release
   source                                          = ""git::https://github.com/terraform-ibm-modules/terraform-ibm-hpcs?ref=main""
-  resource_group_id                               = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+  resource_group_id                               = "000fb3134f214c3a9017554db4510f70" # pragma: allowlist secret
   region                                          = "us-south"
   service_name                                    = "my-hpcs-instance"
-  tags                                            = var.resource_tags
+  tags                                            = ["tag1","tag2"]
   plan                                            = "standard"
   auto_initialization_using_recovery_crypto_units = false
 }
@@ -106,23 +106,23 @@ provider "ibm" {
 module "hpcs" {
   # replace "main" with a GIT release version to lock into a specific release
   source                                          = ""git::https://github.com/terraform-ibm-modules/terraform-ibm-hpcs?ref=main""
-  resource_group_id                               = "000fb3134f214c3a9017554db4510f70"
+  resource_group_id                               = "000fb3134f214c3a9017554db4510f70" # pragma: allowlist secret
   region                                          = "us-south"
   service_name                                    = "my-hpcs-instance"
   tags                                            = ["tag1","tag2"]
   auto_initialization_using_recovery_crypto_units = true
   number_of_crypto_units                          = 3
-  admins                                          = [{
+  admins = [
     {
-     name  = "admin1"
-     key   = "/cloudTKE/1.sigkey"
-     token = "sensitive1234"
+      name  = "admin1"
+      key   = "/cloudTKE/1.sigkey"
+      token = "sensitive1234"
     },
     {
-     name  = "admin2"
-     key   = "/cloudTKE/2.sigkey"
-     token = "sensitive1234"
-  }
+      name  = "admin2"
+      key   = "/cloudTKE/2.sigkey"
+      token = "sensitive1234"
+    }
   ]
 }
 ```
