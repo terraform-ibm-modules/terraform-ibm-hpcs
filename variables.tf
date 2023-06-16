@@ -111,4 +111,10 @@ variable "service_endpoints" {
     error_message = "Allowed values of service_endpoints are public-and-private and private-only"
   }
 }
+
+variable "hsm_connector_id" {
+  type        = string
+  description = "The HSM connector ID provided by IBM. Available to selected customers only."
+  default     = null
+}
 ##############################################################################

@@ -11,6 +11,8 @@ locals {
   validate_admins_and_threshold = var.auto_initialization_using_recovery_crypto_units == true ? ((length(var.admins) >= var.signature_threshold && length(var.admins) >= var.revocation_threshold) ? true : tobool("The adminstrators of the instance crypto units need to be equal to or greater than the threshold value.")) : true
   # tflint-ignore: terraform_unused_declarations
   validate_num_of_failover_units = var.auto_initialization_using_recovery_crypto_units == true ? (var.number_of_failover_units <= var.number_of_crypto_units ? true : tobool("Number of failover_units must be less than or equal to the number of operational crypto units")) : true
+  # tflint-ignore: terraform_unused_declarations
+  validate_inputs = var.hsm_connector_id != null && var.auto_initialization_using_recovery_crypto_units == true ? tobool("Provided inputs are not correct. If hsm_conector_id is set to a value then auto_initialization_using_recovery_crypto_units should not be true.") : true
 }
 
 resource "ibm_hpcs" "hpcs_instance" {
@@ -36,7 +38,6 @@ resource "ibm_hpcs" "hpcs_instance" {
   }
 }
 
-
 resource "ibm_resource_instance" "base_hpcs_instance" {
   count             = var.auto_initialization_using_recovery_crypto_units ? 0 : 1
   name              = var.name
@@ -47,7 +48,9 @@ resource "ibm_resource_instance" "base_hpcs_instance" {
   tags              = var.tags
   service_endpoints = var.service_endpoints
   parameters = {
-    units          = var.number_of_crypto_units
+    units          = (var.hsm_connector_id != null) ? 3 : var.number_of_crypto_units # units - 3 is fixed for Hybrid-HPCS
     failover_units = var.number_of_failover_units
+    byohsm         = (var.hsm_connector_id != null) ? true : null # true for Hybrid-HPCS
+    hsm_connector  = (var.hsm_connector_id != null) ? var.hsm_connector_id : null
   }
 }
