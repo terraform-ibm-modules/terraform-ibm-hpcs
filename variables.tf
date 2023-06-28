@@ -23,11 +23,11 @@ variable "name" {
 
 variable "plan" {
   type        = string
-  description = "The name of the service plan that you choose for your Hyper Protect Crypto Service instance."
+  description = "The name of the service plan that you choose for your Hyper Protect Crypto Service instance. Beta-plan is for Hybrid HPCS."
   default     = "standard"
   validation {
-    condition     = contains(["standard"], var.plan)
-    error_message = "Only the standard plan is supported currently"
+    condition     = contains(["standard", "beta-plan"], var.plan)
+    error_message = "Only the standard and beta-plan is supported currently"
   }
 }
 
@@ -114,7 +114,7 @@ variable "service_endpoints" {
 
 variable "hsm_connector_id" {
   type        = string
-  description = "The HSM connector ID provided by IBM. Available to selected customers only."
+  description = "The HSM connector ID provided by IBM required for Hybrid HPCS. Available to selected customers only."
   default     = null
 }
 ##############################################################################

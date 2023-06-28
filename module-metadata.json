@@ -29,7 +29,7 @@
     "hsm_connector_id": {
       "name": "hsm_connector_id",
       "type": "string",
-      "description": "The HSM connector ID provided by IBM. Available to selected customers only.",
+      "description": "The HSM connector ID provided by IBM required for Hybrid HPCS. Available to selected customers only.",
       "source": [
         "ibm_resource_instance.base_hpcs_instance.parameters"
       ],
@@ -82,7 +82,7 @@
     "plan": {
       "name": "plan",
       "type": "string",
-      "description": "The name of the service plan that you choose for your Hyper Protect Crypto Service instance.",
+      "description": "The name of the service plan that you choose for your Hyper Protect Crypto Service instance. Beta-plan is for Hybrid HPCS.",
       "default": "standard",
       "required": true,
       "source": [

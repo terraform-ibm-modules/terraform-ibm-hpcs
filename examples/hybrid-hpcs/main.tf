@@ -14,7 +14,7 @@ module "hpcs_instance" {
   name                                            = "${var.prefix}-hpcs"
   region                                          = var.region
   tags                                            = var.resource_tags
-  plan                                            = "standard"
+  plan                                            = "beta-plan"
   resource_group_id                               = module.resource_group.resource_group_id
   auto_initialization_using_recovery_crypto_units = false
   hsm_connector_id                                = var.hsm_connector_id

@@ -13,7 +13,7 @@ variable "region" {
 variable "prefix" {
   type        = string
   description = "Prefix to append to all resources created by this example."
-  default     = "hybrid"
+  default     = "example-hybrid"
 }
 
 variable "resource_group" {
@@ -31,5 +31,4 @@ variable "resource_tags" {
 variable "hsm_connector_id" {
   type        = string
   description = "The HSM connector ID provided by IBM. Available to selected customers only."
-  nullable    = false
 }
