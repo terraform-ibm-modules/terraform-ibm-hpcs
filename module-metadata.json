@@ -26,6 +26,18 @@
         "line": 34
       }
     },
+    "hsm_connector_id": {
+      "name": "hsm_connector_id",
+      "type": "string",
+      "description": "The HSM connector ID provided by IBM required for Hybrid HPCS. Available to selected customers only.",
+      "source": [
+        "ibm_resource_instance.base_hpcs_instance.parameters"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 115
+      }
+    },
     "name": {
       "name": "name",
       "type": "string",
@@ -47,8 +59,7 @@
       "default": 2,
       "required": true,
       "source": [
-        "ibm_hpcs.hpcs_instance.units",
-        "ibm_resource_instance.base_hpcs_instance.parameters"
+        "ibm_hpcs.hpcs_instance.units"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -71,7 +82,7 @@
     "plan": {
       "name": "plan",
       "type": "string",
-      "description": "The name of the service plan that you choose for your Hyper Protect Crypto Service instance.",
+      "description": "The name of the service plan that you choose for your Hyper Protect Crypto Service instance. Beta-plan is for Hybrid HPCS.",
       "default": "standard",
       "required": true,
       "source": [
@@ -263,7 +274,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 16
+        "line": 18
       }
     },
     "ibm_resource_instance.base_hpcs_instance": {
@@ -274,7 +285,7 @@
         "count": "auto_initialization_using_recovery_crypto_units",
         "location": "region",
         "name": "name",
-        "parameters": "number_of_crypto_units",
+        "parameters": "hsm_connector_id",
         "plan": "plan",
         "resource_group_id": "resource_group_id",
         "service_endpoints": "service_endpoints",
@@ -285,7 +296,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 40
+        "line": 41
       }
     }
   },
