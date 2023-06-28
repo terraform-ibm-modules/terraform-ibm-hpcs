@@ -82,7 +82,7 @@
     "plan": {
       "name": "plan",
       "type": "string",
-      "description": "The name of the service plan that you choose for your Hyper Protect Crypto Service instance. Beta-plan is for Hybrid HPCS.",
+      "description": "The name of the service plan that you choose for your Hyper Protect Crypto Service instance.",
       "default": "standard",
       "required": true,
       "source": [

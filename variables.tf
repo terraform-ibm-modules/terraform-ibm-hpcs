@@ -23,11 +23,11 @@ variable "name" {
 
 variable "plan" {
   type        = string
-  description = "The name of the service plan that you choose for your Hyper Protect Crypto Service instance. Beta-plan is for Hybrid HPCS."
+  description = "The name of the service plan that you choose for your Hyper Protect Crypto Service instance."
   default     = "standard"
   validation {
-    condition     = contains(["standard", "beta-plan"], var.plan)
-    error_message = "Only the standard and beta-plan is supported currently"
+    condition     = contains(["standard"], var.plan)
+    error_message = "Only the standard plan is supported currently"
   }
 }
 
