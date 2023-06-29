@@ -55,7 +55,7 @@ variable "tags" {
 
 variable "signature_threshold" {
   type        = number
-  description = "The number of administrator signatures that is required to execute administrative commands."
+  description = "The number of administrator signatures that is required to execute administrative commands. Required if auto_initialization_using_recovery_crypto_units set to true. "
   default     = 1
   validation {
     condition     = var.signature_threshold >= 1 && var.signature_threshold <= 8
@@ -65,7 +65,7 @@ variable "signature_threshold" {
 
 variable "revocation_threshold" {
   type        = number
-  description = "The number of administrator signatures that is required to remove an administrator after you leave imprint mode."
+  description = "The number of administrator signatures that is required to remove an administrator after you leave imprint mode. Required if auto_initialization_using_recovery_crypto_units set to true."
   default     = 1
   validation {
     condition     = var.revocation_threshold >= 1 && var.revocation_threshold <= 8
@@ -75,7 +75,7 @@ variable "revocation_threshold" {
 
 variable "signature_server_url" {
   type        = string
-  description = "The URL and port number of the signing service. Required if you are using a third-party signing service to provide administrator signature keys."
+  description = "The URL and port number of the signing service. Required if auto_initialization_using_recovery_crypto_units set to true and using a third-party signing service to provide administrator signature keys."
   default     = null
 }
 
@@ -88,7 +88,7 @@ variable "admins" {
   }))
   default     = []
   sensitive   = true
-  description = "A list of administrators for the instance crypto units. See [instructions](https://github.com/terraform-ibm-modules/terraform-ibm-hpcs#before-you-begin) to create administrator signature keys. You can set up to 8 administrators. "
+  description = "A list of administrators for the instance crypto units. See [instructions](https://github.com/terraform-ibm-modules/terraform-ibm-hpcs#before-you-begin) to create administrator signature keys. You can set up to 8 administrators. Required if auto_initialization_using_recovery_crypto_units set to true. "
 }
 
 variable "number_of_failover_units" {
