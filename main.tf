@@ -4,6 +4,8 @@ This file is used to implement the HPCS module.
 
 locals {
   # tflint-ignore: terraform_unused_declarations
+  validate_inputs = var.hsm_connector_id != null && var.auto_initialization_using_recovery_crypto_units == true ? tobool("Provided inputs are not correct. If hsm_conector_id is set to a value then auto_initialization_using_recovery_crypto_units can not be true.") : true
+  # tflint-ignore: terraform_unused_declarations
   validate_region = var.auto_initialization_using_recovery_crypto_units == true ? (contains(["us-south", "us-east"], var.region) ? true : tobool("Currently us-south and us-east are the only supported regions for HPCS instance initialization using recovery crypto units.")) : true
   # tflint-ignore: terraform_unused_declarations
   validate_num_of_administrators = var.auto_initialization_using_recovery_crypto_units == true ? ((length(var.admins) >= 1 && length(var.admins) <= 8) ? true : tobool("At least one administrator is required for the instance crypto unit and you can set upto 8 adminsitrators.")) : true
@@ -36,7 +38,6 @@ resource "ibm_hpcs" "hpcs_instance" {
   }
 }
 
-
 resource "ibm_resource_instance" "base_hpcs_instance" {
   count             = var.auto_initialization_using_recovery_crypto_units ? 0 : 1
   name              = var.name
@@ -47,7 +48,9 @@ resource "ibm_resource_instance" "base_hpcs_instance" {
   tags              = var.tags
   service_endpoints = var.service_endpoints
   parameters = {
-    units          = var.number_of_crypto_units
+    units          = (var.hsm_connector_id != null) ? 3 : var.number_of_crypto_units # units - 3 is fixed for Hybrid-HPCS
     failover_units = var.number_of_failover_units
+    byohsm         = (var.hsm_connector_id != null) ? true : null # true for Hybrid-HPCS
+    hsm_connector  = (var.hsm_connector_id != null) ? var.hsm_connector_id : null
   }
 }

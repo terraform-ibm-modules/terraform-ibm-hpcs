@@ -4,7 +4,7 @@
     "admins": {
       "name": "admins",
       "type": "list(object({\n    name = string # max length: 30 chars\n    key  = string # the absolute path and the file name of the signature key file if key files are created using TKE CLI and are not using a third-party signing service\n    # if you are using a signing service, the key name is appended to a URI that will be sent to the signing service\n    token = string # sensitive: the administrator password/token to authorize and access the corresponding signature key file\n  }))",
-      "description": "A list of administrators for the instance crypto units. See [instructions](https://github.com/terraform-ibm-modules/terraform-ibm-hpcs#before-you-begin) to create administrator signature keys. You can set up to 8 administrators. ",
+      "description": "A list of administrators for the instance crypto units. See [instructions](https://github.com/terraform-ibm-modules/terraform-ibm-hpcs#before-you-begin) to create administrator signature keys. You can set up to 8 administrators. Required if auto_initialization_using_recovery_crypto_units set to true. ",
       "default": [],
       "sensitive": true,
       "pos": {
@@ -24,6 +24,18 @@
       "pos": {
         "filename": "variables.tf",
         "line": 34
+      }
+    },
+    "hsm_connector_id": {
+      "name": "hsm_connector_id",
+      "type": "string",
+      "description": "The HSM connector ID provided by IBM required for Hybrid HPCS. Available to selected customers only.",
+      "source": [
+        "ibm_resource_instance.base_hpcs_instance.parameters"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 115
       }
     },
     "name": {
@@ -47,8 +59,7 @@
       "default": 2,
       "required": true,
       "source": [
-        "ibm_hpcs.hpcs_instance.units",
-        "ibm_resource_instance.base_hpcs_instance.parameters"
+        "ibm_hpcs.hpcs_instance.units"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -122,7 +133,7 @@
     "revocation_threshold": {
       "name": "revocation_threshold",
       "type": "number",
-      "description": "The number of administrator signatures that is required to remove an administrator after you leave imprint mode.",
+      "description": "The number of administrator signatures that is required to remove an administrator after you leave imprint mode. Required if auto_initialization_using_recovery_crypto_units set to true.",
       "default": 1,
       "required": true,
       "source": [
@@ -150,7 +161,7 @@
     "signature_server_url": {
       "name": "signature_server_url",
       "type": "string",
-      "description": "The URL and port number of the signing service. Required if you are using a third-party signing service to provide administrator signature keys.",
+      "description": "The URL and port number of the signing service. Required if auto_initialization_using_recovery_crypto_units set to true and using a third-party signing service to provide administrator signature keys.",
       "source": [
         "ibm_hpcs.hpcs_instance.signature_server_url"
       ],
@@ -162,7 +173,7 @@
     "signature_threshold": {
       "name": "signature_threshold",
       "type": "number",
-      "description": "The number of administrator signatures that is required to execute administrative commands.",
+      "description": "The number of administrator signatures that is required to execute administrative commands. Required if auto_initialization_using_recovery_crypto_units set to true. ",
       "default": 1,
       "required": true,
       "source": [
@@ -263,7 +274,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 16
+        "line": 18
       }
     },
     "ibm_resource_instance.base_hpcs_instance": {
@@ -274,7 +285,7 @@
         "count": "auto_initialization_using_recovery_crypto_units",
         "location": "region",
         "name": "name",
-        "parameters": "number_of_crypto_units",
+        "parameters": "hsm_connector_id",
         "plan": "plan",
         "resource_group_id": "resource_group_id",
         "service_endpoints": "service_endpoints",
@@ -285,7 +296,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 40
+        "line": 41
       }
     }
   },
