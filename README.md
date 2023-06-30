@@ -17,7 +17,7 @@ The next step after provisioning an HPCS instance is to [initialize](https://clo
 - Provisioning and initializing the service by using your own  hardware security module (HSM).
 
 
-Please refer [Components and concepts](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-uko-understand-concepts) and [About service instance initialization](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-introduce-service) for more information.
+For more information, see [Components and concepts](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-uko-understand-concepts) and [About service instance initialization](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-introduce-service) in the Cloud Docs.
 
 
 ## Create Hyper Protect Crypto Services instance
