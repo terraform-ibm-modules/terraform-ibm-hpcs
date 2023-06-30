@@ -11,10 +11,10 @@
 
 You can use this module to provision an IBM Cloud Hyper Protect Crypto Services (HPCS) instance.
 
-The next step after provisioning an HPCS instance is to [initialize](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) it to manage the keys. This module supports the following:
-* Provisioning and initialization of service using the [recovery crypto unit method](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm-recovery-crypto-unit).
-* Provisioning of service that will be followed by other [approaches of initialization](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-uko-initialize-instance-mode) (using smart cards and using key part files). It requires manual steps after provisioning the service instance.
-* Provisioning and initialization of service using your own HSM (if available).
+The next step after provisioning an HPCS instance is to [initialize](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) the service to manage the keys. This module supports the following approaches:
+- Provisioning and initializing the service by using the [recovery crypto units method](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm-recovery-crypto-unit).
+- Provisioning the service by other [approaches](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-uko-initialize-instance-mode) (for example, by using smart cards or  key part files). These approaches require manual steps after provisioning the service instance.
+- Provisioning and initializing the service by using your own  hardware security module (HSM).
 
 
 Please refer [Components and concepts](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-uko-understand-concepts) and [About service instance initialization](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-introduce-service) for more information.
