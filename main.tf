@@ -27,6 +27,7 @@ resource "ibm_hpcs" "hpcs_instance" {
   revocation_threshold = var.revocation_threshold
   failover_units       = var.number_of_failover_units
   signature_server_url = var.signature_server_url
+  service_endpoints    = var.service_endpoints # Can only be set to private-only if Terraform has access to the private endpoints, ie. Terraform is run in IBM Cloud https://github.com/IBM-Cloud/terraform-provider-ibm/issues/4660
 
   dynamic "admins" {
     for_each = nonsensitive(var.admins != null ? var.admins : [])
@@ -46,7 +47,7 @@ resource "ibm_resource_instance" "base_hpcs_instance" {
   plan              = var.plan
   resource_group_id = var.resource_group_id
   tags              = var.tags
-  service_endpoints = var.service_endpoints
+
   parameters = {
     units          = (var.hsm_connector_id != null) ? 3 : var.number_of_crypto_units # units - 3 is fixed for Hybrid-HPCS
     failover_units = var.number_of_failover_units
