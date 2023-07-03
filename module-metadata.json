@@ -4,7 +4,7 @@
     "admins": {
       "name": "admins",
       "type": "list(object({\n    name = string # max length: 30 chars\n    key  = string # the absolute path and the file name of the signature key file if key files are created using TKE CLI and are not using a third-party signing service\n    # if you are using a signing service, the key name is appended to a URI that will be sent to the signing service\n    token = string # sensitive: the administrator password/token to authorize and access the corresponding signature key file\n  }))",
-      "description": "A list of administrators for the instance crypto units. See [instructions](https://github.com/terraform-ibm-modules/terraform-ibm-hpcs#before-you-begin) to create administrator signature keys. You can set up to 8 administrators. Only used if auto_initialization_using_recovery_crypto_units is true",
+      "description": "A list of administrators for the instance crypto units. See [instructions](https://github.com/terraform-ibm-modules/terraform-ibm-hpcs#before-you-begin) to create administrator signature keys. You can set up to 8 administrators. Required if auto_initialization_using_recovery_crypto_units set to true. ",
       "default": [],
       "sensitive": true,
       "pos": {
@@ -133,7 +133,7 @@
     "revocation_threshold": {
       "name": "revocation_threshold",
       "type": "number",
-      "description": "The number of administrator signatures that is required to remove an administrator after you leave imprint mode. Only used if auto_initialization_using_recovery_crypto_units is true",
+      "description": "The number of administrator signatures that is required to remove an administrator after you leave imprint mode. Required if auto_initialization_using_recovery_crypto_units set to true.",
       "default": 1,
       "required": true,
       "source": [
@@ -147,7 +147,7 @@
     "service_endpoints": {
       "name": "service_endpoints",
       "type": "string",
-      "description": "The service_endpoints to access your service instance. . Only used if auto_initialization_using_recovery_crypto_units is true. Can only be set to private-only if Terraform has access to the private endpoints. Default value is public-and-private.",
+      "description": "The service_endpoints to access your service instance. Only used if auto_initialization_using_recovery_crypto_units is true. Can only be set to private-only if Terraform has access to the private endpoints. Default value is public-and-private.",
       "default": "public-and-private",
       "source": [
         "ibm_hpcs.hpcs_instance.service_endpoints"
@@ -161,7 +161,7 @@
     "signature_server_url": {
       "name": "signature_server_url",
       "type": "string",
-      "description": "The URL and port number of the signing service. Required if you are using a third-party signing service to provide administrator signature keys. Only used if auto_initialization_using_recovery_crypto_units is true",
+      "description": "The URL and port number of the signing service. Required if auto_initialization_using_recovery_crypto_units set to true and using a third-party signing service to provide administrator signature keys. Only used if auto_initialization_using_recovery_crypto_units is true",
       "source": [
         "ibm_hpcs.hpcs_instance.signature_server_url"
       ],
@@ -173,7 +173,7 @@
     "signature_threshold": {
       "name": "signature_threshold",
       "type": "number",
-      "description": "The number of administrator signatures that is required to execute administrative commands. Only used if auto_initialization_using_recovery_crypto_units is true",
+      "description": "The number of administrator signatures that is required to execute administrative commands. Required if auto_initialization_using_recovery_crypto_units set to true. ",
       "default": 1,
       "required": true,
       "source": [
