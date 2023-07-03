@@ -34,7 +34,7 @@ variable "plan" {
 variable "auto_initialization_using_recovery_crypto_units" {
   type        = bool
   description = "Set to true if auto initialization using recovery crypto units is required."
-  default     = true
+  default     = false
 }
 
 variable "number_of_crypto_units" {
@@ -94,10 +94,10 @@ variable "admins" {
 variable "number_of_failover_units" {
   type        = number
   description = "The number of failover crypto units for your service instance. Default is 0 and cross-region high availability will not be enabled."
-  default     = 0
+  default     = 2
   validation {
-    condition     = contains([0, 2, 3], var.number_of_failover_units)
-    error_message = "Allowed values of failover_units is 0, 2, 3."
+    condition     = contains([2, 3], var.number_of_failover_units)
+    error_message = "Allowed values of failover_units is 2, 3."
   }
 }
 
