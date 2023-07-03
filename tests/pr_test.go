@@ -98,6 +98,13 @@ func TestMain(m *testing.M) {
 func TestRunHpcsFsCloudExample(t *testing.T) {
 	t.Parallel()
 
+	usernames := []string{"admin1"}
+
+	admins, err := CreateSigKeys(usernames, sigDirectory)
+	if !assert.Nilf(t, err, "Error creating sigkeys: %v", err) {
+		log.Fatalf("Error creating sigkeys: %v", err)
+	}
+
 	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
 		Testing:      t,
 		TerraformDir: "examples/fscloud",
