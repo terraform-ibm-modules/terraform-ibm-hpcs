@@ -17,7 +17,6 @@ For more information, please refer:
 * [Components and concepts](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-uko-understand-concepts)
 * [About service instance initialization](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-introduce-service)
 
-
 ## Create Hyper Protect Crypto Services instance
 
 ### Usage to create the HPCS instance
