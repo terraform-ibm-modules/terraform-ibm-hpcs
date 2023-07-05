@@ -1,0 +1,4 @@
+version: "v1"
+CRA_TARGETS:
+  - CRA_TARGET: "examples/fscloud"
+    CRA_IGNORE_RULES_FILE: "cra-tf-validate-ignore-rules.json"
