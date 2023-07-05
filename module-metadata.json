@@ -147,10 +147,10 @@
     "service_endpoints": {
       "name": "service_endpoints",
       "type": "string",
-      "description": "The service_endpoints to access your service instance. Default value is public-and-private.",
+      "description": "The service_endpoints to access your service instance. Only used if auto_initialization_using_recovery_crypto_units is true. Can only be set to private-only if Terraform has access to the private endpoints. Default value is public-and-private.",
       "default": "public-and-private",
       "source": [
-        "ibm_resource_instance.base_hpcs_instance.service_endpoints"
+        "ibm_hpcs.hpcs_instance.service_endpoints"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -161,7 +161,7 @@
     "signature_server_url": {
       "name": "signature_server_url",
       "type": "string",
-      "description": "The URL and port number of the signing service. Required if auto_initialization_using_recovery_crypto_units set to true and using a third-party signing service to provide administrator signature keys.",
+      "description": "The URL and port number of the signing service. Required if auto_initialization_using_recovery_crypto_units set to true and using a third-party signing service to provide administrator signature keys. Only used if auto_initialization_using_recovery_crypto_units is true",
       "source": [
         "ibm_hpcs.hpcs_instance.signature_server_url"
       ],
@@ -264,6 +264,7 @@
         "plan": "plan",
         "resource_group_id": "resource_group_id",
         "revocation_threshold": "revocation_threshold",
+        "service_endpoints": "service_endpoints",
         "signature_server_url": "signature_server_url",
         "signature_threshold": "signature_threshold",
         "tags": "tags",
@@ -288,7 +289,6 @@
         "parameters": "hsm_connector_id",
         "plan": "plan",
         "resource_group_id": "resource_group_id",
-        "service_endpoints": "service_endpoints",
         "tags": "tags"
       },
       "provider": {
@@ -296,7 +296,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 41
+        "line": 42
       }
     }
   },

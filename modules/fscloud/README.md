@@ -7,7 +7,7 @@ Due to the high level of security provided by IBM Hyper Protect Crypto Service, 
 As a result, several manual steps must be taken after deploying and initializing the instance to ensure compliance with the IBM Cloud Framework for Financial Services.
 
 - Enable Dual Authorization Deletion https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-manage-dual-auth
-- Switch Allowed Network policy to `private-only` https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-managing-network-access-policies
+- Switch Allowed Network policy to `private-only` https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-managing-network-access-policies (Note this can be set through terraform if `auto_initialization_using_recovery_crypto_units` is true)
 
 
 
