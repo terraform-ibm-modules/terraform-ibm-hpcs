@@ -11,15 +11,11 @@
 
 You can use this module to provision an IBM Cloud Hyper Protect Crypto Services (HPCS) instance.
 
-The next step after provisioning an HPCS instance is to [initialize](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) the service to manage the keys. This module supports the following approaches:
-- Provisioning and initializing the service by using the [recovery crypto units method](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm-recovery-crypto-unit).
-- Provisioning the service by other [approaches](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-uko-initialize-instance-mode) (for example, by using smart cards or  key part files). These approaches require manual steps after provisioning the service instance.
-- Provisioning and initializing the service by using your own  hardware security module (HSM).
+The next step after provisioning an HPCS instance is to [initialize](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) it to manage the keys. By default, this module also initializes the instance using the [recovery crypto unit method](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm-recovery-crypto-unit) of initialization. Other [approaches of initialization](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-uko-initialize-instance-mode) (using smart cards and using key part files) are also supported, but it requires manual steps after creating service instance using this module.
 
-
-For more information, see [Components and concepts](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-uko-understand-concepts) and [About service instance initialization](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-introduce-service) in the Cloud Docs.
-
-
+For more information, please refer:
+* [Components and concepts](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-uko-understand-concepts)
+* [About service instance initialization](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-introduce-service)
 ## Create Hyper Protect Crypto Services instance
 
 ### Usage to create the HPCS instance
@@ -146,6 +142,7 @@ You need the following permissions to run this module.
 
 - [ Basic example](examples/basic)
 - [ Complete example that creates and initialize HPCS instance](examples/complete)
+- [ Financial Services Cloud profile](examples/fscloud)
 - [ Hybrid-HPCS example](examples/hybrid-hpcs)
 <!-- END EXAMPLES HOOK -->
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
@@ -181,8 +178,8 @@ No modules.
 | <a name="input_region"></a> [region](#input\_region) | The region where you want to deploy your instance. | `string` | n/a | yes |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The resource group name where the Hyper Protect Crypto Service instance will be created. | `string` | n/a | yes |
 | <a name="input_revocation_threshold"></a> [revocation\_threshold](#input\_revocation\_threshold) | The number of administrator signatures that is required to remove an administrator after you leave imprint mode. Required if auto\_initialization\_using\_recovery\_crypto\_units set to true. | `number` | `1` | no |
-| <a name="input_service_endpoints"></a> [service\_endpoints](#input\_service\_endpoints) | The service\_endpoints to access your service instance. Default value is public-and-private. | `string` | `"public-and-private"` | no |
-| <a name="input_signature_server_url"></a> [signature\_server\_url](#input\_signature\_server\_url) | The URL and port number of the signing service. Required if auto\_initialization\_using\_recovery\_crypto\_units set to true and using a third-party signing service to provide administrator signature keys. | `string` | `null` | no |
+| <a name="input_service_endpoints"></a> [service\_endpoints](#input\_service\_endpoints) | The service\_endpoints to access your service instance. Only used if auto\_initialization\_using\_recovery\_crypto\_units is true. Can only be set to private-only if Terraform has access to the private endpoints. Default value is public-and-private. | `string` | `"public-and-private"` | no |
+| <a name="input_signature_server_url"></a> [signature\_server\_url](#input\_signature\_server\_url) | The URL and port number of the signing service. Required if auto\_initialization\_using\_recovery\_crypto\_units set to true and using a third-party signing service to provide administrator signature keys. Only used if auto\_initialization\_using\_recovery\_crypto\_units is true | `string` | `null` | no |
 | <a name="input_signature_threshold"></a> [signature\_threshold](#input\_signature\_threshold) | The number of administrator signatures that is required to execute administrative commands. Required if auto\_initialization\_using\_recovery\_crypto\_units set to true. | `number` | `1` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Optional list of resource tags to apply to the HPCS instance. | `list(string)` | `[]` | no |
 

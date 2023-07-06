@@ -1,6 +1,3 @@
-##############################################################################
-# Resource Group
-##############################################################################
 
 module "resource_group" {
   source  = "terraform-ibm-modules/resource-group/ibm"
@@ -10,12 +7,13 @@ module "resource_group" {
   existing_resource_group_name = var.resource_group
 }
 
-module "hpcs_instance" {
-  source                                          = "../.."
-  name                                            = "${var.prefix}-hpcs"
+module "ibm_hpcs" {
+  source                                          = "../../modules/fscloud"
+  name                                            = "${var.prefix}-instance"
+  resource_group_id                               = module.resource_group.resource_group_id
   region                                          = var.region
   tags                                            = var.resource_tags
-  plan                                            = "standard"
-  resource_group_id                               = module.resource_group.resource_group_id
   auto_initialization_using_recovery_crypto_units = false
+  number_of_crypto_units                          = var.number_of_crypto_units
+  admins                                          = var.admins
 }
