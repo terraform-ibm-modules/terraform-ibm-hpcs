@@ -26,6 +26,17 @@
         "line": 34
       }
     },
+    "base64_encoded_admins": {
+      "name": "base64_encoded_admins",
+      "type": "list(object({\n    name  = string # max length: 30 chars\n    key   = string #  base64 encoded value of signature key files if key files are created using TKE CLI and are not using a third-party signing service\n    token = string # sensitive: the administrator password/token to authorize and access the corresponding signature key file\n  }))",
+      "description": "A list of administrators for the instance crypto units. See [instructions](https://github.com/terraform-ibm-modules/terraform-ibm-hpcs#before-you-begin) to create administrator signature keys. You can set up to 8 administrators. Required if auto_initialization_using_recovery_crypto_units set to true. The signature keys should passed as base64 encoded values.",
+      "default": [],
+      "sensitive": true,
+      "pos": {
+        "filename": "variables.tf",
+        "line": 94
+      }
+    },
     "hsm_connector_id": {
       "name": "hsm_connector_id",
       "type": "string",
@@ -35,7 +46,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 115
+        "line": 126
       }
     },
     "name": {
@@ -76,7 +87,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 94
+        "line": 105
       }
     },
     "plan": {
@@ -154,7 +165,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 104
+        "line": 115
       },
       "computed": true
     },
@@ -249,6 +260,12 @@
       "version_constraints": [
         "\u003e= 1.49.0"
       ]
+    },
+    "local": {
+      "source": "hashicorp/local",
+      "version_constraints": [
+        "\u003e= 2.4.0"
+      ]
     }
   },
   "managed_resources": {
@@ -275,7 +292,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 18
+        "line": 29
       }
     },
     "ibm_resource_instance.base_hpcs_instance": {
@@ -296,7 +313,19 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 42
+        "line": 60
+      }
+    },
+    "local_file.admin_files": {
+      "mode": "managed",
+      "type": "local_file",
+      "name": "admin_files",
+      "provider": {
+        "name": "local"
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 54
       }
     }
   },

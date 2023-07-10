@@ -125,6 +125,44 @@ module "hpcs" {
 }
 ```
 
+### Usage to create and initialize the HPCS instance using Schematics
+
+* Convert the signature keys to Base64 encoding.
+  ```sh
+  cat 1.sigkey | base64
+  cat 2.sigkey | base64
+  ```
+
+```hcl
+provider "ibm" {
+  ibmcloud_api_key = ""
+  region           = "us-south"
+}
+
+module "hpcs" {
+  # replace "main" with a GIT release version to lock into a specific release
+  source                                          = "git::https://github.com/terraform-ibm-modules/terraform-ibm-hpcs?ref=main"
+  resource_group_id                               = "000fb3134f214c3a9017554db4510f70" # pragma: allowlist secret
+  region                                          = "us-south"
+  service_name                                    = "my-hpcs-instance"
+  tags                                            = ["tag1","tag2"]
+  auto_initialization_using_recovery_crypto_units = true
+  number_of_crypto_units                          = 3
+  base64_encoded_admins = [
+    {
+      name  = "admin1"
+      key   = "eyJlbmNrZXkiOiJyYW5kb21fa2V5Iiwia2V5VHlwZSI6InJhbmRvbSIsIm5hbWUiOiJhZG1pbjEiLCJzZWFTYWx0IjoicmFuZG9tIiwic2tpIjoicmFuZG9tIn0="
+      token = "sensitive1234"
+    },
+    {
+      name  = "admin2"
+      key   = "eyJlbmNrZXkiOiJyYW5kb20yX2tleSIsImtleVR5cGUiOiJyYW5kb20yIiwibmFtZSI6ImFkbWluMiIsInNlYVNhbHQiOiJyYW5kb20yIiwic2tpIjoicmFuZG9tMiJ9"
+      token = "sensitive1234"
+    }
+  ]
+}
+```
+
 ## Required IAM access policies
 You need the following permissions to run this module.
 
@@ -152,6 +190,7 @@ You need the following permissions to run this module.
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.49.0 |
+| <a name="requirement_local"></a> [local](#requirement\_local) | >= 2.4.0 |
 
 ## Modules
 
@@ -163,6 +202,7 @@ No modules.
 |------|------|
 | [ibm_hpcs.hpcs_instance](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/hpcs) | resource |
 | [ibm_resource_instance.base_hpcs_instance](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/resource_instance) | resource |
+| [local_file.admin_files](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | resource |
 
 ## Inputs
 
@@ -170,6 +210,7 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_admins"></a> [admins](#input\_admins) | A list of administrators for the instance crypto units. See [instructions](https://github.com/terraform-ibm-modules/terraform-ibm-hpcs#before-you-begin) to create administrator signature keys. You can set up to 8 administrators. Required if auto\_initialization\_using\_recovery\_crypto\_units set to true. | <pre>list(object({<br>    name = string # max length: 30 chars<br>    key  = string # the absolute path and the file name of the signature key file if key files are created using TKE CLI and are not using a third-party signing service<br>    # if you are using a signing service, the key name is appended to a URI that will be sent to the signing service<br>    token = string # sensitive: the administrator password/token to authorize and access the corresponding signature key file<br>  }))</pre> | `[]` | no |
 | <a name="input_auto_initialization_using_recovery_crypto_units"></a> [auto\_initialization\_using\_recovery\_crypto\_units](#input\_auto\_initialization\_using\_recovery\_crypto\_units) | Set to true if auto initialization using recovery crypto units is required. | `bool` | `true` | no |
+| <a name="input_base64_encoded_admins"></a> [base64\_encoded\_admins](#input\_base64\_encoded\_admins) | A list of administrators for the instance crypto units. See [instructions](https://github.com/terraform-ibm-modules/terraform-ibm-hpcs#before-you-begin) to create administrator signature keys. You can set up to 8 administrators. Required if auto\_initialization\_using\_recovery\_crypto\_units set to true. The signature keys should passed as base64 encoded values. | <pre>list(object({<br>    name  = string # max length: 30 chars<br>    key   = string #  base64 encoded value of signature key files if key files are created using TKE CLI and are not using a third-party signing service<br>    token = string # sensitive: the administrator password/token to authorize and access the corresponding signature key file<br>  }))</pre> | `[]` | no |
 | <a name="input_hsm_connector_id"></a> [hsm\_connector\_id](#input\_hsm\_connector\_id) | The HSM connector ID provided by IBM required for Hybrid HPCS. Available to selected customers only. | `string` | `null` | no |
 | <a name="input_name"></a> [name](#input\_name) | The name to give the Hyper Protect Crypto Service instance. Max length allowed is 30 chars. | `string` | n/a | yes |
 | <a name="input_number_of_crypto_units"></a> [number\_of\_crypto\_units](#input\_number\_of\_crypto\_units) | The number of operational crypto units for your service instance. | `number` | `2` | no |

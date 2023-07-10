@@ -91,6 +91,17 @@ variable "admins" {
   description = "A list of administrators for the instance crypto units. See [instructions](https://github.com/terraform-ibm-modules/terraform-ibm-hpcs#before-you-begin) to create administrator signature keys. You can set up to 8 administrators. Required if auto_initialization_using_recovery_crypto_units set to true. "
 }
 
+variable "base64_encoded_admins" {
+  type = list(object({
+    name  = string # max length: 30 chars
+    key   = string #  base64 encoded value of signature key files if key files are created using TKE CLI and are not using a third-party signing service
+    token = string # sensitive: the administrator password/token to authorize and access the corresponding signature key file
+  }))
+  default     = []
+  sensitive   = true
+  description = "A list of administrators for the instance crypto units. See [instructions](https://github.com/terraform-ibm-modules/terraform-ibm-hpcs#before-you-begin) to create administrator signature keys. You can set up to 8 administrators. Required if auto_initialization_using_recovery_crypto_units set to true. The signature keys should passed as base64 encoded values."
+}
+
 variable "number_of_failover_units" {
   type        = number
   description = "The number of failover crypto units for your service instance. Default is 0 and cross-region high availability will not be enabled."
