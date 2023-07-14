@@ -55,7 +55,7 @@ variable "tags" {
 
 variable "signature_threshold" {
   type        = number
-  description = "The number of administrator signatures that is required to execute administrative commands. Only used if auto_initialization_using_recovery_crypto_units is true"
+  description = "The number of administrator signatures required to execute administrative commands. Only used if auto_initialization_using_recovery_crypto_units is true"
   default     = 1
   validation {
     condition     = var.signature_threshold >= 1 && var.signature_threshold <= 8
@@ -65,7 +65,7 @@ variable "signature_threshold" {
 
 variable "revocation_threshold" {
   type        = number
-  description = "The number of administrator signatures that is required to remove an administrator after you leave imprint mode. Only used if auto_initialization_using_recovery_crypto_units is true"
+  description = "The number of administrator signatures required to remove an administrator after you leave imprint mode. Only used if auto_initialization_using_recovery_crypto_units is true"
   default     = 1
   validation {
     condition     = var.revocation_threshold >= 1 && var.revocation_threshold <= 8
