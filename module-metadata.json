@@ -215,6 +215,14 @@
         "line": 20
       }
     },
+    "extensions": {
+      "name": "extensions",
+      "description": "HPCS instance extensions",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 25
+      }
+    },
     "guid": {
       "name": "guid",
       "description": "HPCS instance guid",
