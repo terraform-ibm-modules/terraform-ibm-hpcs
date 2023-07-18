@@ -31,5 +31,5 @@ variable "resource_tags" {
 variable "service_endpoints" {
   type        = string
   description = "The service_endpoints to access your service instance."
-  default     = "private-only"
+  default     = "public-and-private"
 }

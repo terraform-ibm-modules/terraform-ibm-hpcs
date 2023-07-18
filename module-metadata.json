@@ -215,8 +215,8 @@
         "line": 20
       }
     },
-    "extensions": {
-      "name": "extensions",
+    "endpoints": {
+      "name": "endpoints",
       "description": "HPCS instance extensions",
       "pos": {
         "filename": "outputs.tf",
