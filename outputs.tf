@@ -23,7 +23,7 @@ output "crn" {
 }
 
 output "endpoints" {
-  description = "HPCS instance extensions"
+  description = "HPCS instance endpoints"
   value       = var.auto_initialization_using_recovery_crypto_units ? ibm_hpcs.hpcs_instance[0].extensions : ibm_resource_instance.base_hpcs_instance[0].extensions
 }
 

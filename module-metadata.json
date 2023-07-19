@@ -217,7 +217,7 @@
     },
     "endpoints": {
       "name": "endpoints",
-      "description": "HPCS instance extensions",
+      "description": "HPCS instance endpoints",
       "pos": {
         "filename": "outputs.tf",
         "line": 25

@@ -192,7 +192,7 @@ No modules.
 | Name | Description |
 |------|-------------|
 | <a name="output_crn"></a> [crn](#output\_crn) | HPCS instance crn |
-| <a name="output_endpoints"></a> [endpoints](#output\_endpoints) | HPCS instance extensions |
+| <a name="output_endpoints"></a> [endpoints](#output\_endpoints) | HPCS instance endpoints |
 | <a name="output_guid"></a> [guid](#output\_guid) | HPCS instance guid |
 | <a name="output_hpcs_name"></a> [hpcs\_name](#output\_hpcs\_name) | HPCS instance name |
 | <a name="output_id"></a> [id](#output\_id) | HPCS instance id |
