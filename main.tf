@@ -49,9 +49,10 @@ resource "ibm_resource_instance" "base_hpcs_instance" {
   tags              = var.tags
 
   parameters = {
-    units          = (var.hsm_connector_id != null) ? 3 : var.number_of_crypto_units # units - 3 is fixed for Hybrid-HPCS
-    failover_units = var.number_of_failover_units
-    byohsm         = (var.hsm_connector_id != null) ? true : null # true for Hybrid-HPCS
-    hsm_connector  = (var.hsm_connector_id != null) ? var.hsm_connector_id : null
+    units           = (var.hsm_connector_id != null) ? 3 : var.number_of_crypto_units # units - 3 is fixed for Hybrid-HPCS
+    failover_units  = var.number_of_failover_units
+    byohsm          = (var.hsm_connector_id != null) ? true : null # true for Hybrid-HPCS
+    hsm_connector   = (var.hsm_connector_id != null) ? var.hsm_connector_id : null
+    allowed_network = var.service_endpoints
   }
 }

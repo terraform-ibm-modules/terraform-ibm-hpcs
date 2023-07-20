@@ -215,6 +215,14 @@
         "line": 20
       }
     },
+    "endpoints": {
+      "name": "endpoints",
+      "description": "HPCS instance endpoints",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 25
+      }
+    },
     "guid": {
       "name": "guid",
       "description": "HPCS instance guid",
