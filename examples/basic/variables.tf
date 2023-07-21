@@ -27,3 +27,9 @@ variable "resource_tags" {
   description = "Optional list of tags to apply to the HPCS instance."
   default     = []
 }
+
+variable "service_endpoints" {
+  type        = string
+  description = "The service_endpoints to access your service instance."
+  default     = "public-and-private"
+}
