@@ -2,13 +2,13 @@
 # Resource Group
 ##############################################################################
 
-module "resource_group" {
-  source  = "terraform-ibm-modules/resource-group/ibm"
-  version = "1.0.5"
-  # if an existing resource group is not set (null) create a new one using prefix
-  resource_group_name          = var.resource_group == null ? "${var.prefix}-resource-group" : null
-  existing_resource_group_name = var.resource_group
-}
+# module "resource_group" {
+#   source  = "terraform-ibm-modules/resource-group/ibm"
+#   version = "1.0.5"
+#   # if an existing resource group is not set (null) create a new one using prefix
+#   resource_group_name          = var.resource_group == null ? "${var.prefix}-resource-group" : null
+#   existing_resource_group_name = var.resource_group
+# }
 
 # module "hpcs_instance" {
 #   source                                          = "../.."
@@ -26,35 +26,35 @@ module "kms_key_ring" {
   source      = "terraform-ibm-modules/kms-key-ring/ibm"
   version     = "v2.1.0"
   instance_id = "e205b45e-3e52-426f-a38c-7e712e8d351c"
-  key_ring_id = "${var.prefix}-key-ring"
+  key_ring_id = "${var.prefix}-key-ring-n"
 }
 
 module "kms_key_ring2" {
   source      = "terraform-ibm-modules/kms-key-ring/ibm"
   version     = "v2.1.0"
   instance_id = "e205b45e-3e52-426f-a38c-7e712e8d351c"
-  key_ring_id = "${var.prefix}-key-ring2"
+  key_ring_id = "${var.prefix}-key-ringn3"
 }
 
 module "kms_key_ring3" {
   source      = "terraform-ibm-modules/kms-key-ring/ibm"
   version     = "v2.1.0"
   instance_id = "e205b45e-3e52-426f-a38c-7e712e8d351c"
-  key_ring_id = "${var.prefix}-key-ring2"
+  key_ring_id = "${var.prefix}-key-ringn2"
 }
 
 module "kms_key_ring4" {
   source      = "terraform-ibm-modules/kms-key-ring/ibm"
   version     = "v2.1.0"
   instance_id = "e205b45e-3e52-426f-a38c-7e712e8d351c"
-  key_ring_id = "${var.prefix}-key-ring4"
+  key_ring_id = "${var.prefix}-key-ringn4"
 }
 
 module "kms_key_ring5" {
   source      = "terraform-ibm-modules/kms-key-ring/ibm"
   version     = "v2.1.0"
   instance_id = "e205b45e-3e52-426f-a38c-7e712e8d351c"
-  key_ring_id = "${var.prefix}-key-ring5"
+  key_ring_id = "${var.prefix}-key-ringn5"
 }
 
 # module "kms_key_ring6" {
@@ -73,7 +73,6 @@ resource "null_resource" "cluster" {
     # Bootstrap script called with private_ip of each node in the cluster
     command = "env"
   }
-
 }
 
 output "debug" {
