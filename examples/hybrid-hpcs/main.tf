@@ -26,35 +26,35 @@ module "kms_key_ring" {
   source      = "terraform-ibm-modules/kms-key-ring/ibm"
   version     = "v2.1.0"
   instance_id = "e205b45e-3e52-426f-a38c-7e712e8d351c"
-  key_ring_id = "${var.prefix}-key-ring-n1"
+  key_ring_id = "${var.prefix}-key-ring-n"
 }
 
 module "kms_key_ring2" {
   source      = "terraform-ibm-modules/kms-key-ring/ibm"
   version     = "v2.1.0"
   instance_id = "e205b45e-3e52-426f-a38c-7e712e8d351c"
-  key_ring_id = "${var.prefix}-key-ringn31"
+  key_ring_id = "${var.prefix}-key-ringn3"
 }
 
 module "kms_key_ring3" {
   source      = "terraform-ibm-modules/kms-key-ring/ibm"
   version     = "v2.1.0"
   instance_id = "e205b45e-3e52-426f-a38c-7e712e8d351c"
-  key_ring_id = "${var.prefix}-key-ringn21"
+  key_ring_id = "${var.prefix}-key-ringn2"
 }
 
 module "kms_key_ring4" {
   source      = "terraform-ibm-modules/kms-key-ring/ibm"
   version     = "v2.1.0"
   instance_id = "e205b45e-3e52-426f-a38c-7e712e8d351c"
-  key_ring_id = "${var.prefix}-key-ringn41"
+  key_ring_id = "${var.prefix}-key-ringn4"
 }
 
 module "kms_key_ring5" {
   source      = "terraform-ibm-modules/kms-key-ring/ibm"
   version     = "v2.1.0"
   instance_id = "e205b45e-3e52-426f-a38c-7e712e8d351c"
-  key_ring_id = "${var.prefix}-key-ringn51"
+  key_ring_id = "${var.prefix}-key-ringn5"
 }
 
 # module "kms_key_ring6" {
