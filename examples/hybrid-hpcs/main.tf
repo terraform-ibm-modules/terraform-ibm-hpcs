@@ -4,7 +4,7 @@
 
 module "resource_group" {
   source  = "terraform-ibm-modules/resource-group/ibm"
-  version = "1.0.5"
+  version = "1.0.6"
   # if an existing resource group is not set (null) create a new one using prefix
   resource_group_name          = var.resource_group == null ? "${var.prefix}-resource-group" : null
   existing_resource_group_name = var.resource_group
@@ -19,4 +19,5 @@ module "hpcs_instance" {
   resource_group_id                               = module.resource_group.resource_group_id
   auto_initialization_using_recovery_crypto_units = false
   hsm_connector_id                                = var.hsm_connector_id
+  service_endpoints                               = var.service_endpoints
 }

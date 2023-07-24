@@ -32,3 +32,9 @@ variable "hsm_connector_id" {
   type        = string
   description = "The HSM connector ID provided by IBM. Available to selected customers only."
 }
+
+variable "service_endpoints" {
+  type        = string
+  description = "The service_endpoints to access your service instance."
+  default     = "private-only"
+}

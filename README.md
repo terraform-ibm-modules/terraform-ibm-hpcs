@@ -12,12 +12,12 @@
 You can use this module to provision an IBM Cloud Hyper Protect Crypto Services (HPCS) instance.
 
 The next step after provisioning an HPCS instance is to [initialize](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) the service to manage the keys. This module supports the following approaches:
-- Provisioning and initializing the service by using the [recovery crypto units method](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm-recovery-crypto-unit).
-- Provisioning the service by other [approaches](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-uko-initialize-instance-mode) (for example, by using smart cards or  key part files). These approaches require manual steps after provisioning the service instance.
-- Provisioning and initializing the service by using your own  hardware security module (HSM).
+- Provision and initialize the service by using the [recovery crypto units method](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm-recovery-crypto-unit).
+- Provision the service and [initialize](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-instance-mode) it manually. For example, by using smart cards or key part files. This approach requires additional steps to execute after provisioning the service instance.
+- Provision and initialize the service by using your own hardware security module (HSM).
 
 
-For more information, see [Components and concepts](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-uko-understand-concepts) and [About service instance initialization](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-introduce-service) in the Cloud Docs.
+For more information, see [components and concepts](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-understand-concepts) of HPCS and [about service instance initialization](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-introduce-service) in the Cloud Docs.
 
 
 ## Create Hyper Protect Crypto Services instance
@@ -188,7 +188,7 @@ You need the following permissions to run this module.
 - [ Hybrid-HPCS example](examples/hybrid-hpcs)
 <!-- END EXAMPLES HOOK -->
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-## Requirements
+### Requirements
 
 | Name | Version |
 |------|---------|
@@ -196,11 +196,11 @@ You need the following permissions to run this module.
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.49.0 |
 | <a name="requirement_local"></a> [local](#requirement\_local) | >= 2.4.0 |
 
-## Modules
+### Modules
 
 No modules.
 
-## Resources
+### Resources
 
 | Name | Type |
 |------|------|
@@ -208,7 +208,7 @@ No modules.
 | [ibm_resource_instance.base_hpcs_instance](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/resource_instance) | resource |
 | [local_file.admin_files](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | resource |
 
-## Inputs
+### Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
@@ -228,7 +228,7 @@ No modules.
 | <a name="input_signature_threshold"></a> [signature\_threshold](#input\_signature\_threshold) | The number of administrator signatures required to execute administrative commands. Required if auto\_initialization\_using\_recovery\_crypto\_units set to true. | `number` | `1` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Optional list of resource tags to apply to the HPCS instance. | `list(string)` | `[]` | no |
 
-## Outputs
+### Outputs
 
 | Name | Description |
 |------|-------------|
