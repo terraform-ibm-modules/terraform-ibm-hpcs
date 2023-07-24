@@ -117,4 +117,22 @@ variable "hsm_connector_id" {
   description = "The HSM connector ID provided by IBM required for Hybrid HPCS. Available to selected customers only."
   default     = null
 }
+
+variable "create_timeout" {
+  type        = string
+  description = "Create timeout value of the HPCS instance."
+  default     = "120m"
+}
+
+variable "update_timeout" {
+  type        = string
+  description = "Update timeout value of the HPCS instance."
+  default     = "120m"
+}
+
+variable "delete_timeout" {
+  type        = string
+  description = "Delete timeout value of the HPCS instance."
+  default     = "120m"
+}
 ##############################################################################
