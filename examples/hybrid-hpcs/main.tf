@@ -69,6 +69,10 @@ data "ibm_kms_key_rings" "test" {
 }
 
 resource "null_resource" "cluster" {
+  triggers = {
+    always_run = "${timestamp()}"
+  }
+
   provisioner "local-exec" {
     # Bootstrap script called with private_ip of each node in the cluster
     command = "env"
