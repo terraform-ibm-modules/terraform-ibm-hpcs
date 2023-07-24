@@ -2,7 +2,7 @@
 # Outputs
 ##############################################################################
 
-output "hpcs_name" {
-  description = "HPCS instance name"
-  value       = module.hpcs_instance
-}
+# output "hpcs_name" {
+#   description = "HPCS instance name"
+#   value       = module.hpcs_instance
+# }

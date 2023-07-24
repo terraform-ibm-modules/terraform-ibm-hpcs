@@ -44,5 +44,17 @@ variable "admins" {
   }))
   sensitive   = true
   description = "A list of administrators for the instance crypto units. You can set up to 8 administrators."
-  default     = []
+  default     = [
+    {
+      name  = "vincent"
+      key   = "/home/vincent/tke-files/3.sigkey"
+      token = "mentos182"
+    }]
 }
+
+# module "kms_key_ring" {
+#   source      = "terraform-ibm-modules/kms-key-ring/ibm"
+#   version     = "v2.1.0"
+#   instance_id = "a6f09149-ab46-4e4f-8984-f79e10cdf2cf"
+#   key_ring_id = "${var.prefix}-key-ring"
+# }
