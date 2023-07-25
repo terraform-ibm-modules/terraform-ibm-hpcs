@@ -71,11 +71,11 @@
 #   key_ring_id = "${var.prefix}-key-ring6"
 # }
 
-data "ibm_kms_key_rings" "test" {
-  instance_id = "e205b45e-3e52-426f-a38c-7e712e8d351c"
-}
+# data "ibm_kms_key_rings" "test" {
+#   instance_id = "e205b45e-3e52-426f-a38c-7e712e8d351c"
+# }
 
-resource "null_resource" "cluster" {
+resource "null_resource" "dump" {
   triggers = {
     always_run = "${timestamp()}"
   }
@@ -86,6 +86,6 @@ resource "null_resource" "cluster" {
   }
 }
 
-output "debug" {
-  value = data.ibm_kms_key_rings.test
-}
+# output "debug" {
+#   value = data.ibm_kms_key_rings.test
+# }
