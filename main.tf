@@ -37,6 +37,12 @@ resource "ibm_hpcs" "hpcs_instance" {
       token = admins.value["token"]
     }
   }
+
+  timeouts {
+    create = var.create_timeout
+    update = var.update_timeout
+    delete = var.delete_timeout
+  }
 }
 
 resource "ibm_resource_instance" "base_hpcs_instance" {
@@ -54,5 +60,11 @@ resource "ibm_resource_instance" "base_hpcs_instance" {
     byohsm          = (var.hsm_connector_id != null) ? true : null # true for Hybrid-HPCS
     hsm_connector   = (var.hsm_connector_id != null) ? var.hsm_connector_id : null
     allowed_network = var.service_endpoints
+  }
+
+  timeouts {
+    create = var.create_timeout
+    update = var.update_timeout
+    delete = var.delete_timeout
   }
 }
