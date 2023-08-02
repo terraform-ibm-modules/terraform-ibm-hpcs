@@ -55,7 +55,7 @@ variable "tags" {
 
 variable "signature_threshold" {
   type        = number
-  description = "The number of administrator signatures that is required to execute administrative commands. Required if auto_initialization_using_recovery_crypto_units set to true. "
+  description = "The number of administrator signatures required to execute administrative commands. Required if auto_initialization_using_recovery_crypto_units set to true. "
   default     = 1
   validation {
     condition     = var.signature_threshold >= 1 && var.signature_threshold <= 8
@@ -65,7 +65,7 @@ variable "signature_threshold" {
 
 variable "revocation_threshold" {
   type        = number
-  description = "The number of administrator signatures that is required to remove an administrator after you leave imprint mode. Required if auto_initialization_using_recovery_crypto_units set to true."
+  description = "The number of administrator signatures required to remove an administrator after you leave imprint mode. Required if auto_initialization_using_recovery_crypto_units set to true."
   default     = 1
   validation {
     condition     = var.revocation_threshold >= 1 && var.revocation_threshold <= 8
@@ -75,7 +75,7 @@ variable "revocation_threshold" {
 
 variable "signature_server_url" {
   type        = string
-  description = "The URL and port number of the signing service. Required if auto_initialization_using_recovery_crypto_units set to true and using a third-party signing service to provide administrator signature keys. Only used if auto_initialization_using_recovery_crypto_units is true"
+  description = "The URL and port number of the signing service. Required if auto_initialization_using_recovery_crypto_units set to true and using a third-party signing service to provide administrator signature keys. Used only if auto_initialization_using_recovery_crypto_units is set to true."
   default     = null
 }
 
@@ -91,6 +91,17 @@ variable "admins" {
   description = "A list of administrators for the instance crypto units. See [instructions](https://github.com/terraform-ibm-modules/terraform-ibm-hpcs#before-you-begin) to create administrator signature keys. You can set up to 8 administrators. Required if auto_initialization_using_recovery_crypto_units set to true. "
 }
 
+variable "base64_encoded_admins" {
+  type = list(object({
+    name  = string # max length: 30 chars
+    key   = string #  base64 encoded value of signature key files if key files are created using TKE CLI and are not using a third-party signing service
+    token = string # sensitive: the administrator password/token to authorize and access the corresponding signature key file
+  }))
+  default     = []
+  sensitive   = true
+  description = "A list of up to 8 administrators for the instance crypto units. Required if auto_initialization_using_recovery_crypto_units is set to true. Pass the signature keys as base64 encoded values. For information about administrator signature keys, see the readme file."
+}
+
 variable "number_of_failover_units" {
   type        = number
   description = "The number of failover crypto units for your service instance. Default is 0 and cross-region high availability will not be enabled."
@@ -103,7 +114,7 @@ variable "number_of_failover_units" {
 
 variable "service_endpoints" {
   type        = string
-  description = "The service_endpoints to access your service instance. Only used if auto_initialization_using_recovery_crypto_units is true. Can only be set to private-only if Terraform has access to the private endpoints. Default value is public-and-private."
+  description = "The service_endpoints to access your service instance. Used only if auto_initialization_using_recovery_crypto_units is set to true. Can be set to private-only if Terraform has access to the private endpoints. Default value is public-and-private."
   nullable    = false
   default     = "public-and-private"
   validation {
