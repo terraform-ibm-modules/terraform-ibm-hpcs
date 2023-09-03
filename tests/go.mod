@@ -3,9 +3,9 @@ module github.com/terraform-ibm-modules/terraform-ibm-hpcs
 go 1.20
 
 require (
-	github.com/google/uuid v1.3.0
+	github.com/google/uuid v1.3.1
 	github.com/stretchr/testify v1.8.4
-	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.10.19
+	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.11.3
 )
 
 require (
