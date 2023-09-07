@@ -20,7 +20,8 @@ The next step after provisioning an HPCS instance is to [initialize](https://clo
 For more information, see [components and concepts](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-understand-concepts) of HPCS and [about service instance initialization](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-introduce-service) in the Cloud Docs.
 
 
-If you provision an HPCS instance with a `private-only` endpoint, both `public` and `private` endpoints URLs are included in the output. The public endpoint can be referenced only if there is a need for a temporary switch to enable public endpoint otherwise you can disregard the public endpoint.
+If you provision an HPCS instance with a `private-only` endpoint, both public and private endpoints URLs are included in the output. You can ignore the public endpoint. It is included for convenience in case you need to switch to it temporarily. However, make sure that you switch back to the private endpoint as soon as possible.
+
 
 
 ## Create Hyper Protect Crypto Services instance
