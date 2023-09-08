@@ -20,6 +20,10 @@ The next step after provisioning an HPCS instance is to [initialize](https://clo
 For more information, see [components and concepts](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-understand-concepts) of HPCS and [about service instance initialization](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-introduce-service) in the Cloud Docs.
 
 
+If you provision an HPCS instance with a `private-only` endpoint, both public and private endpoints URLs are included in the output. You can ignore the public endpoint. It is included for convenience in case you need to switch to it temporarily. However, make sure that you switch back to the private endpoint as soon as possible.
+
+
+
 ## Create Hyper Protect Crypto Services instance
 
 ### Usage to create the HPCS instance
@@ -42,7 +46,7 @@ module "hpcs" {
   source                                          = "git::https://github.com/terraform-ibm-modules/terraform-ibm-hpcs?ref=main"
   resource_group_id                               = "000fb3134f214c3a9017554db4510f70" # pragma: allowlist secret
   region                                          = "us-south"
-  service_name                                    = "my-hpcs-instance"
+  name                                            = "my-hpcs-instance"
   tags                                            = ["tag1","tag2"]
   plan                                            = "standard"
   auto_initialization_using_recovery_crypto_units = false
@@ -110,7 +114,7 @@ module "hpcs" {
   source                                          = "git::https://github.com/terraform-ibm-modules/terraform-ibm-hpcs?ref=main"
   resource_group_id                               = "000fb3134f214c3a9017554db4510f70" # pragma: allowlist secret
   region                                          = "us-south"
-  service_name                                    = "my-hpcs-instance"
+  name                                            = "my-hpcs-instance"
   tags                                            = ["tag1","tag2"]
   auto_initialization_using_recovery_crypto_units = true
   number_of_crypto_units                          = 3
@@ -148,7 +152,7 @@ module "hpcs" {
   source                                          = "git::https://github.com/terraform-ibm-modules/terraform-ibm-hpcs?ref=main"
   resource_group_id                               = "000fb3134f214c3a9017554db4510f70" # pragma: allowlist secret
   region                                          = "us-south"
-  service_name                                    = "my-hpcs-instance"
+  name                                            = "my-hpcs-instance"
   tags                                            = ["tag1","tag2"]
   auto_initialization_using_recovery_crypto_units = true
   number_of_crypto_units                          = 3
