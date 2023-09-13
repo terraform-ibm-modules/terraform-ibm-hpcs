@@ -12,4 +12,4 @@ _extends: repo-settings:.github/common-settings-v2.yml
 repository:
   name: "terraform-ibm-hpcs"
   description: "Create and configure an IBM Cloud Hyper Protect Crypto Services instance."
-  topics: core-team, terraform, ibm-cloud, terraform-module, hpcs, hyper-protect, kms
+  topics: core-team, terraform, ibm-cloud, terraform-module, hpcs, hyper-protect, kms, supported, graduated
