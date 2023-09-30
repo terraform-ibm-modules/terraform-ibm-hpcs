@@ -5,7 +5,7 @@ go 1.20
 require (
 	github.com/google/uuid v1.3.1
 	github.com/stretchr/testify v1.8.4
-	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.21.10
+	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.22.0
 )
 
 require (
