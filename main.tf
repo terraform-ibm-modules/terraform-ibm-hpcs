@@ -58,7 +58,7 @@ resource "ibm_hpcs" "hpcs_instance" {
 }
 
 resource "local_file" "admin_files" {
-  for_each       = nonsensitive(local.admins_map != null ? local.admins_map : {})
+  for_each       = local.admins_map != null ? nonsensitive(local.admins_map) : {}
   content_base64 = each.value.key
   filename       = "${path.module}/${each.key}.sigkey"
 }
