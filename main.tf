@@ -15,7 +15,6 @@ locals {
   validate_num_of_failover_units = var.auto_initialization_using_recovery_crypto_units == true ? (var.number_of_failover_units <= var.number_of_crypto_units ? true : tobool("Number of failover_units must be less than or equal to the number of operational crypto units")) : true
   # tflint-ignore: terraform_unused_declarations
   validate_admins_variables = var.auto_initialization_using_recovery_crypto_units == true ? ((length(var.admins) == 0 && length(var.base64_encoded_admins) == 0) || (length(var.admins) != 0 && length(var.base64_encoded_admins) != 0) ? tobool("Please provide exactly one of admins or base64_encoded_admins. Passing neither or both is invalid.") : true) : true
-  # Comment
 
   admins_map = length(var.base64_encoded_admins) != 0 ? { for admin in var.base64_encoded_admins : admin.name => admin } : null
   admins = local.admins_map != null ? [
