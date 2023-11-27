@@ -22,7 +22,19 @@ For more information, see [components and concepts](https://cloud.ibm.com/docs/h
 
 If you provision an HPCS instance with a `private-only` endpoint, both public and private endpoints URLs are included in the output. You can ignore the public endpoint. It is included for convenience in case you need to switch to it temporarily. However, make sure that you switch back to the private endpoint as soon as possible.
 
-
+<!-- Below content is automatically populated via pre-commit hook -->
+<!-- BEGIN OVERVIEW HOOK -->
+## Overview
+* [terraform-ibm-hpcs](#terraform-ibm-hpcs)
+* [Submodules](./modules)
+    * [fscloud](./modules/fscloud)
+* [Examples](./examples)
+    * [Basic example](./examples/basic)
+    * [Complete example that creates and initialize HPCS instance](./examples/complete)
+    * [Financial Services Cloud profile](./examples/fscloud)
+    * [Hybrid-HPCS example](./examples/hybrid-hpcs)
+* [Contributing](#contributing)
+<!-- END OVERVIEW HOOK -->
 
 ## Create Hyper Protect Crypto Services instance
 
@@ -183,14 +195,7 @@ You need the following permissions to run this module.
         - `Manager` service access
 
 <!-- END MODULE HOOK -->
-<!-- BEGIN EXAMPLES HOOK -->
-## Examples
 
-- [ Basic example](examples/basic)
-- [ Complete example that creates and initialize HPCS instance](examples/complete)
-- [ Financial Services Cloud profile](examples/fscloud)
-- [ Hybrid-HPCS example](examples/hybrid-hpcs)
-<!-- END EXAMPLES HOOK -->
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ### Requirements
 
