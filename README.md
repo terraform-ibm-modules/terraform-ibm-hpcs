@@ -1,8 +1,4 @@
-<!-- BEGIN MODULE HOOK -->
-
-<!-- Update the title to match the module name and add a description -->
 # IBM Cloud Hyper Protect Crypto Services
-<!-- UPDATE BADGE: Update the link for the following badge-->
 [![Graduated (Supported)](https://img.shields.io/badge/Status-Graduated%20(Supported)-brightgreen)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![latest release](https://img.shields.io/github/v/release/terraform-ibm-modules/terraform-ibm-hpcs?logo=GitHub&sort=semver)](https://github.com/terraform-ibm-modules/terraform-ibm-hpcs/releases/latest)
@@ -19,32 +15,37 @@ The next step after provisioning an HPCS instance is to [initialize](https://clo
 
 For more information, see [components and concepts](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-understand-concepts) of HPCS and [about service instance initialization](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-introduce-service) in the Cloud Docs.
 
-
 If you provision an HPCS instance with a `private-only` endpoint, both public and private endpoints URLs are included in the output. You can ignore the public endpoint. It is included for convenience in case you need to switch to it temporarily. However, make sure that you switch back to the private endpoint as soon as possible.
 
+<!-- Below content is automatically populated via pre-commit hook -->
+<!-- BEGIN OVERVIEW HOOK -->
+## Overview
+* [terraform-ibm-hpcs](#terraform-ibm-hpcs)
+* [Submodules](./modules)
+    * [fscloud](./modules/fscloud)
+* [Examples](./examples)
+    * [Basic example](./examples/basic)
+    * [Complete example that creates and initialize HPCS instance](./examples/complete)
+    * [Financial Services Cloud profile](./examples/fscloud)
+    * [Hybrid-HPCS example](./examples/hybrid-hpcs)
+* [Contributing](#contributing)
+<!-- END OVERVIEW HOOK -->
 
 
-## Create Hyper Protect Crypto Services instance
+## terraform-ibm-hpcs
 
 ### Usage to create the HPCS instance
 
-<!--
-Add an example of the use of the module in the following code block.
-
-Use real values instead of "var.<var_name>" or other placeholder values
-unless real values don't help users know what to change.
--->
-
 ```hcl
 provider "ibm" {
-  ibmcloud_api_key = ""
+  ibmcloud_api_key = "XXXXXXXXXXXXXX"
   region           = "us-south"
 }
 
 module "hpcs" {
-  # replace "main" with a GIT release version to lock into a specific release
-  source                                          = "git::https://github.com/terraform-ibm-modules/terraform-ibm-hpcs?ref=main"
-  resource_group_id                               = "000fb3134f214c3a9017554db4510f70" # pragma: allowlist secret
+  source                                          = "terraform-ibm-modules/hpcs/ibm"
+  version                                         = "X.X.X" # Replace "X.X.X" with a release version to lock into a specific release
+  resource_group_id                               = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
   region                                          = "us-south"
   name                                            = "my-hpcs-instance"
   tags                                            = ["tag1","tag2"]
@@ -58,9 +59,9 @@ There are multiple ways to initialize the service instance few of them include s
  - [Initializing service instances by using key part files](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm) : You can also initialize your service instance using master key parts that are stored in files on your local workstation. You can use this approach regardless of whether or not your service instance includes recovery crypto units.
  - [Initializing service instances using recovery crypto units](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm-recovery-crypto-unit) : If you create your service instance in **Dallas (us-south) or Washington DC (us-east)** where the recovery crypto units are enabled, you can choose this approach where the master key is randomly generated within a recovery crypto unit and then exported to other crypto units.
 
-## Create and initialize the Hyper Protect Crypto Services instance
+### Create and initialize the Hyper Protect Crypto Services instance
 
-### Before you begin: creating administrator signature keys
+#### Before you begin: creating administrator signature keys
 
 To initialize the instance with a third-party signing service, see [Using a signing service to manage signature keys for instance initialization](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-signing-service-signature-key&interface=ui) in the Cloud Docs.
 
@@ -105,14 +106,14 @@ to generate admin signature keys.
 
 ```hcl
 provider "ibm" {
-  ibmcloud_api_key = ""
+  ibmcloud_api_key = "XXXXXXXXXXXXXX"
   region           = "us-south"
 }
 
 module "hpcs" {
-  # replace "main" with a GIT release version to lock into a specific release
-  source                                          = "git::https://github.com/terraform-ibm-modules/terraform-ibm-hpcs?ref=main"
-  resource_group_id                               = "000fb3134f214c3a9017554db4510f70" # pragma: allowlist secret
+  source                                          = "terraform-ibm-modules/hpcs/ibm"
+  version                                         = "X.X.X" # Replace "X.X.X" with a release version to lock into a specific release
+  resource_group_id                               = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
   region                                          = "us-south"
   name                                            = "my-hpcs-instance"
   tags                                            = ["tag1","tag2"]
@@ -143,14 +144,14 @@ module "hpcs" {
 
 ```hcl
 provider "ibm" {
-  ibmcloud_api_key = ""
+  ibmcloud_api_key = "XXXXXXXXXXXXXX"
   region           = "us-south"
 }
 
 module "hpcs" {
-  # replace "main" with a GIT release version to lock into a specific release
-  source                                          = "git::https://github.com/terraform-ibm-modules/terraform-ibm-hpcs?ref=main"
-  resource_group_id                               = "000fb3134f214c3a9017554db4510f70" # pragma: allowlist secret
+  source                                          = "terraform-ibm-modules/hpcs/ibm"
+  version                                         = "X.X.X" # Replace "X.X.X" with a release version to lock into a specific release
+  resource_group_id                               = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
   region                                          = "us-south"
   name                                            = "my-hpcs-instance"
   tags                                            = ["tag1","tag2"]
@@ -171,7 +172,7 @@ module "hpcs" {
 }
 ```
 
-## Required IAM access policies
+### Required IAM access policies
 You need the following permissions to run this module.
 
 - Account Management
@@ -182,15 +183,6 @@ You need the following permissions to run this module.
         - `Editor` platform access
         - `Manager` service access
 
-<!-- END MODULE HOOK -->
-<!-- BEGIN EXAMPLES HOOK -->
-## Examples
-
-- [ Basic example](examples/basic)
-- [ Complete example that creates and initialize HPCS instance](examples/complete)
-- [ Financial Services Cloud profile](examples/fscloud)
-- [ Hybrid-HPCS example](examples/hybrid-hpcs)
-<!-- END EXAMPLES HOOK -->
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ### Requirements
 
