@@ -14,5 +14,4 @@ module "ibm_hpcs" {
   signature_server_url                            = var.signature_server_url
   admins                                          = var.admins
   hsm_connector_id                                = var.hsm_connector_id
-
 }
