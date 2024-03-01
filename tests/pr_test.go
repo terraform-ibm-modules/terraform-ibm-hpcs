@@ -3,19 +3,20 @@ package test
 
 import (
 	"fmt"
-	"github.com/google/uuid"
 	"log"
 	"os"
 	"os/exec"
 	"strings"
 	"testing"
 
+	"github.com/google/uuid"
+
 	"github.com/stretchr/testify/assert"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 )
 
 // Use existing resource group
-const resourceGroup = "geretain-test-resources"
+// const resourceGroup = "geretain-test-resources"
 
 var sigDirectory string
 
