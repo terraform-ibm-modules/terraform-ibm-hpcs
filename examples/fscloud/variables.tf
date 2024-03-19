@@ -14,7 +14,6 @@ variable "resource_group" {
 variable "prefix" {
   description = "A unique identifier for resources. Must begin with a lowercase letter and end with a lowerccase letter or number. This prefix will be prepended to any resources provisioned by this template. Prefixes must be 16 or fewer characters."
   type        = string
-  default     = "example-hpcs"
 }
 
 variable "resource_tags" {
@@ -26,7 +25,6 @@ variable "resource_tags" {
 variable "region" {
   type        = string
   description = "The region where you want to deploy your instance. Supported regions are us-south and us-east."
-  default     = "us-south"
 }
 
 variable "number_of_crypto_units" {
