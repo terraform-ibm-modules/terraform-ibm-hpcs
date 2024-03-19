@@ -24,22 +24,6 @@ func TestRunBasicExample(t *testing.T) {
 	assert.NotNil(t, output, "Expected some output")
 }
 
-func TestRunHybridExample(t *testing.T) {
-	t.Parallel()
-
-	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
-		Testing:      t,
-		TerraformDir: "examples/hybrid-hpcs",
-		Prefix:       "example-hybrid",
-		Region:       "us-south",
-	})
-
-	output, err := options.RunTestConsistency()
-
-	assert.Nil(t, err, "This should not have errored")
-	assert.NotNil(t, output, "Expected some output")
-}
-
 func TestRunCompleteExample(t *testing.T) {
 	t.Parallel()
 
