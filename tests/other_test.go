@@ -2,6 +2,7 @@
 package test
 
 import (
+	"log"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -27,11 +28,21 @@ func TestRunBasicExample(t *testing.T) {
 func TestRunCompleteExample(t *testing.T) {
 	t.Parallel()
 
+	usernames := []string{"admin1"}
+
+	admins, err := CreateSigKeys(usernames, sigDirectory)
+	if !assert.Nilf(t, err, "Error creating sigkeys: %v", err) {
+		log.Fatalf("Error creating sigkeys: %v", err)
+	}
+
 	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
 		Testing:      t,
 		TerraformDir: "examples/complete",
 		Prefix:       "example-hpcs",
 		Region:       "us-south",
+		TerraformVars: map[string]interface{}{
+			"admins": admins,
+		},
 	})
 
 	output, err := options.RunTestConsistency()
