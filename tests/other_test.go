@@ -3,6 +3,7 @@ package test
 
 import (
 	"log"
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -29,6 +30,12 @@ func TestRunCompleteExample(t *testing.T) {
 	t.Parallel()
 
 	usernames := []string{"admin1"}
+
+	cwd, err1 := os.Getwd()
+	if err1 != nil {
+		log.Fatalf("Error getting current working directory: %v", err1)
+	}
+	sigDirectory = cwd + "/keys"
 
 	admins, err := CreateSigKeys(usernames, sigDirectory)
 	if !assert.Nilf(t, err, "Error creating sigkeys: %v", err) {
