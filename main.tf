@@ -16,7 +16,8 @@ locals {
   # tflint-ignore: terraform_unused_declarations
   validate_admins_variables = var.auto_initialization_using_recovery_crypto_units == true ? ((length(var.admins) == 0 && length(var.base64_encoded_admins) == 0) || (length(var.admins) != 0 && length(var.base64_encoded_admins) != 0) ? tobool("Please provide exactly one of admins or base64_encoded_admins. Passing neither or both is invalid.") : true) : true
 
-  admins_map = length(var.base64_encoded_admins) != 0 ? { for admin in var.base64_encoded_admins : admin.name => admin } : null
+  admins_name_map = merge([for admin in var.base64_encoded_admins : { (admin.name) = { "name" = admin.name } }]...) # map created for non-sensitive value (admin name) only
+  admins_map      = length(var.base64_encoded_admins) != 0 ? { for admin in var.base64_encoded_admins : admin.name => admin } : null
   admins = local.admins_map != null ? [
     for admin in var.base64_encoded_admins : {
       name  = admin.name
@@ -24,6 +25,10 @@ locals {
       token = admin.token
     }
   ] : var.admins
+
+  # Following is the fix for the issue https://github.com/terraform-ibm-modules/terraform-ibm-hpcs/issues/173
+  temp_map               = (local.admins_name_map == null) ? {} : local.admins_name_map
+  nonsensitive_value_map = (local.temp_map == {}) ? {} : nonsensitive(local.temp_map)
 }
 
 resource "ibm_hpcs" "hpcs_instance" {
@@ -58,8 +63,8 @@ resource "ibm_hpcs" "hpcs_instance" {
 }
 
 resource "local_file" "admin_files" {
-  for_each       = local.admins_map != null ? nonsensitive(local.admins_map) : {}
-  content_base64 = each.value.key
+  for_each       = (local.nonsensitive_value_map)
+  content_base64 = local.admins_map[each.key].key
   filename       = "${path.module}/${each.key}.sigkey"
 }
 
