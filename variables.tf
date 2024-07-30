@@ -132,18 +132,18 @@ variable "hsm_connector_id" {
 variable "create_timeout" {
   type        = string
   description = "Create timeout value of the HPCS instance."
-  default     = "120m"
+  default     = "180m"
 }
 
 variable "update_timeout" {
   type        = string
   description = "Update timeout value of the HPCS instance."
-  default     = "120m"
+  default     = "180m"
 }
 
 variable "delete_timeout" {
   type        = string
   description = "Delete timeout value of the HPCS instance."
-  default     = "120m"
+  default     = "180m"
 }
 ##############################################################################
