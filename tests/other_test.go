@@ -35,7 +35,7 @@ func TestRunCompleteExample(t *testing.T) {
 	if err1 != nil {
 		log.Fatalf("Error getting current working directory: %v", err1)
 	}
-	sigDirectory = cwd + "/keys"
+	sigDirectory := cwd + "/keys"
 
 	admins, err := CreateSigKeys(usernames, sigDirectory)
 	if !assert.Nilf(t, err, "Error creating sigkeys: %v", err) {
