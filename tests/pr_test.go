@@ -18,8 +18,6 @@ import (
 // Use existing resource group
 // const resourceGroup = "geretain-test-resources"
 
-var sigDirectory string
-
 // Note: if this is needed again in another module move the code to github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper
 
 // CreateSigKeys generates signature keys for the provided usernames and stores them in the specified output directory.
@@ -87,11 +85,6 @@ func CreateSigKeys(usernames []string, outputDir string) (string, error) {
 }
 
 func TestMain(m *testing.M) {
-	cwd, err := os.Getwd()
-	if err != nil {
-		log.Fatalf("Error getting current working directory: %v", err)
-	}
-	sigDirectory = cwd + "/sigs"
 
 	os.Exit(m.Run())
 }
@@ -115,6 +108,12 @@ func TestRunUpgradeExample(t *testing.T) {
 	t.Parallel()
 
 	usernames := []string{"admin-pr"}
+
+	cwd, err := os.Getwd()
+	if err != nil {
+		log.Fatalf("Error getting current working directory: %v", err)
+	}
+	sigDirectory := cwd + "/sigs"
 
 	admins, err := CreateSigKeys(usernames, sigDirectory)
 	if !assert.Nilf(t, err, "Error creating sigkeys: %v", err) {
@@ -163,7 +162,7 @@ func TestRunCompleteExample(t *testing.T) {
 	if err1 != nil {
 		log.Fatalf("Error getting current working directory: %v", err1)
 	}
-	sigDirectory = cwd + "/keys"
+	sigDirectory := cwd + "/keys"
 
 	admins, err := CreateSigKeys(usernames, sigDirectory)
 	if !assert.Nilf(t, err, "Error creating sigkeys: %v", err) {
