@@ -2,7 +2,7 @@ module github.com/terraform-ibm-modules/terraform-ibm-hpcs
 
 go 1.23.0
 
-toolchain go1.24.0
+toolchain go1.24.1
 
 require (
 	github.com/google/uuid v1.6.0
