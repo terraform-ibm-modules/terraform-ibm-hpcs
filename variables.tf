@@ -10,6 +10,11 @@ variable "resource_group_id" {
 variable "region" {
   type        = string
   description = "The region where you want to deploy your instance."
+
+  validation {
+    condition     = var.auto_initialization_using_recovery_crypto_units != true || contains(["us-south", "us-east"], var.region)
+    error_message = "Currently us-south and us-east are the only supported regions for HPCS instance initialization using recovery crypto units."
+  }
 }
 
 variable "name" {
@@ -89,6 +94,22 @@ variable "admins" {
   default     = []
   sensitive   = true
   description = "A list of administrators for the instance crypto units. See [instructions](https://github.com/terraform-ibm-modules/terraform-ibm-hpcs#before-you-begin) to create administrator signature keys. You can set up to 8 administrators. Required if auto_initialization_using_recovery_crypto_units set to true. "
+
+  validation {
+    condition     = var.auto_initialization_using_recovery_crypto_units != true || ((length(var.admins) >= 1 && length(var.admins) <= 8) || (length(var.base64_encoded_admins) >= 1 && length(var.base64_encoded_admins) <= 8))
+    error_message = "At least one administrator is required for the instance crypto unit and you can set upto 8 adminsitrators."
+  }
+
+  validation {
+    condition     = var.auto_initialization_using_recovery_crypto_units != true || ((length(var.admins) >= var.signature_threshold || length(var.base64_encoded_admins) >= var.signature_threshold) && (length(var.admins) >= var.revocation_threshold || length(var.base64_encoded_admins) >= var.revocation_threshold))
+    error_message = "The adminstrators of the instance crypto units need to be equal to or greater than the threshold value."
+  }
+
+  validation {
+    condition     = var.auto_initialization_using_recovery_crypto_units != true || !((length(var.admins) == 0 && length(var.base64_encoded_admins) == 0) || (length(var.admins) != 0 && length(var.base64_encoded_admins) != 0))
+    error_message = "Please provide exactly one of admins or base64_encoded_admins. Passing neither or both is invalid."
+  }
+
 }
 
 variable "base64_encoded_admins" {
@@ -110,6 +131,13 @@ variable "number_of_failover_units" {
     condition     = contains([0, 2, 3], var.number_of_failover_units)
     error_message = "Allowed values of failover_units is 0, 2, 3."
   }
+
+  validation {
+
+    condition     = var.auto_initialization_using_recovery_crypto_units != true || (var.number_of_failover_units <= var.number_of_crypto_units)
+    error_message = "Number of failover_units must be less than or equal to the number of operational crypto units"
+
+  }
 }
 
 variable "service_endpoints" {
@@ -127,6 +155,11 @@ variable "hsm_connector_id" {
   type        = string
   description = "The HSM connector ID provided by IBM required for Hybrid HPCS. Available to selected customers only."
   default     = null
+
+  validation {
+    condition     = var.hsm_connector_id == null || var.auto_initialization_using_recovery_crypto_units != true
+    error_message = "Provided inputs are not correct. If hsm_connector_id is set to a value then auto_initialization_using_recovery_crypto_units cannot be true."
+  }
 }
 
 variable "create_timeout" {
