@@ -3,19 +3,6 @@ This file is used to implement the HPCS module.
 *********************************************************************/
 
 locals {
-  # tflint-ignore: terraform_unused_declarations
-  validate_inputs = var.hsm_connector_id != null && var.auto_initialization_using_recovery_crypto_units == true ? tobool("Provided inputs are not correct. If hsm_conector_id is set to a value then auto_initialization_using_recovery_crypto_units can not be true.") : true
-  # tflint-ignore: terraform_unused_declarations
-  validate_region = var.auto_initialization_using_recovery_crypto_units == true ? (contains(["us-south", "us-east"], var.region) ? true : tobool("Currently us-south and us-east are the only supported regions for HPCS instance initialization using recovery crypto units.")) : true
-  # tflint-ignore: terraform_unused_declarations
-  validate_num_of_administrators = var.auto_initialization_using_recovery_crypto_units == true ? ((length(var.admins) >= 1 && length(var.admins) <= 8) || (length(var.base64_encoded_admins) >= 1 && length(var.base64_encoded_admins) <= 8) ? true : tobool("At least one administrator is required for the instance crypto unit and you can set upto 8 adminsitrators.")) : true
-  # tflint-ignore: terraform_unused_declarations
-  validate_admins_and_threshold = var.auto_initialization_using_recovery_crypto_units == true ? (((length(var.admins) >= var.signature_threshold) || (length(var.base64_encoded_admins) >= var.signature_threshold) && (length(var.admins) >= var.revocation_threshold) || (length(var.base64_encoded_admins) >= var.revocation_threshold)) ? true : tobool("The adminstrators of the instance crypto units need to be equal to or greater than the threshold value.")) : true
-  # tflint-ignore: terraform_unused_declarations
-  validate_num_of_failover_units = var.auto_initialization_using_recovery_crypto_units == true ? (var.number_of_failover_units <= var.number_of_crypto_units ? true : tobool("Number of failover_units must be less than or equal to the number of operational crypto units")) : true
-  # tflint-ignore: terraform_unused_declarations
-  validate_admins_variables = var.auto_initialization_using_recovery_crypto_units == true ? ((length(var.admins) == 0 && length(var.base64_encoded_admins) == 0) || (length(var.admins) != 0 && length(var.base64_encoded_admins) != 0) ? tobool("Please provide exactly one of admins or base64_encoded_admins. Passing neither or both is invalid.") : true) : true
-
   admins_name_map = merge([for admin in var.base64_encoded_admins : { (admin.name) = { "name" = admin.name } }]...) # map created for non-sensitive value (admin name) only
   admins_map      = length(var.base64_encoded_admins) != 0 ? { for admin in var.base64_encoded_admins : admin.name => admin } : null
   admins = local.admins_map != null ? [
