@@ -12,7 +12,7 @@ variable "region" {
   description = "The region where you want to deploy your instance."
 
   validation {
-    condition     = var.auto_initialization_using_recovery_crypto_units != true || contains(["us-south", "us-east"], var.region)
+    condition     = var.auto_initialization_using_recovery_crypto_units != true || contains(["us-south", "us-east", "eu-fr2"], var.region)
     error_message = "Currently us-south and us-east are the only supported regions for HPCS instance initialization using recovery crypto units."
   }
 }
