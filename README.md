@@ -35,6 +35,8 @@ If you provision an HPCS instance with a `private-only` endpoint, both public an
 
 ## terraform-ibm-hpcs
 
+[![Terraform Registry](https://img.shields.io/badge/terraform-registry-623CE4?logo=terraform)](https://registry.terraform.io/modules/terraform-ibm-modules/hpcs/ibm/latest)
+
 ### Usage to create the HPCS instance
 
 ```hcl
