@@ -1,9 +1,13 @@
 # Complete example that creates and initialize HPCS instance
 
 <!-- BEGIN SCHEMATICS DEPLOY HOOK -->
-<a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=hpcs-complete-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-hpcs/tree/main/examples/complete"><img src="https://img.shields.io/badge/Deploy%20with IBM%20Cloud%20Schematics-0f62fe?logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom;"></a>
+<p>
+  <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=hpcs-complete-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-hpcs/tree/main/examples/complete">
+    <img src="https://img.shields.io/badge/Deploy%20with%20IBM%20Cloud%20Schematics-0f62fe?style=flat&logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics">
+  </a><br>
+  ℹ️ Ctrl/Cmd+Click or right-click on the Schematics deploy button to open in a new tab.
+</p>
 <!-- END SCHEMATICS DEPLOY HOOK -->
-
 
 An end-to-end example that creates the following:
 
@@ -12,7 +16,3 @@ An end-to-end example that creates the following:
  - Initialize the Hyper Protect Crypto Service using recovery crypto unit method.
 
 **Note:** As recovery crypto units are supported only in us-south and us-east region, this example can be used to create and initialize  Hyper Protect Crypto Service instance in `us-south` and `us-east` region only.
-
-<!-- BEGIN SCHEMATICS DEPLOY TIP HOOK -->
-:information_source: Ctrl/Cmd+Click or right-click on the Schematics deploy button to open in a new tab
-<!-- END SCHEMATICS DEPLOY TIP HOOK -->
