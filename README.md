@@ -21,16 +21,36 @@ If you provision an HPCS instance with a `private-only` endpoint, both public an
 <!-- Below content is automatically populated via pre-commit hook -->
 <!-- BEGIN OVERVIEW HOOK -->
 ## Overview
-* [terraform-ibm-hpcs](#terraform-ibm-hpcs)
-* [Submodules](./modules)
-    * [fscloud](./modules/fscloud)
-* [Examples](./examples)
-:information_source: Ctrl/Cmd+Click or right-click on the Schematics deploy button to open in a new tab
-    * <a href="./examples/basic">Basic example</a> <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=hpcs-basic-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-hpcs/tree/main/examples/basic"><img src="https://img.shields.io/badge/Deploy%20with IBM%20Cloud%20Schematics-0f62fe?logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
-    * <a href="./examples/complete">Complete example that creates and initialize HPCS instance</a> <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=hpcs-complete-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-hpcs/tree/main/examples/complete"><img src="https://img.shields.io/badge/Deploy%20with IBM%20Cloud%20Schematics-0f62fe?logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
-    * <a href="./examples/fscloud">Financial Services Cloud profile</a> <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=hpcs-fscloud-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-hpcs/tree/main/examples/fscloud"><img src="https://img.shields.io/badge/Deploy%20with IBM%20Cloud%20Schematics-0f62fe?logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
-    * <a href="./examples/hybrid-hpcs">Hybrid-HPCS example</a> <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=hpcs-hybrid-hpcs-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-hpcs/tree/main/examples/hybrid-hpcs"><img src="https://img.shields.io/badge/Deploy%20with IBM%20Cloud%20Schematics-0f62fe?logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
-* [Contributing](#contributing)
+<ul>
+  <li><a href="#terraform-ibm-hpcs">terraform-ibm-hpcs</a></li>
+  <li><a href="./modules">Submodules</a>
+    <ul>
+      <li><a href="./modules/fscloud">fscloud</a></li>
+    </ul>
+  </li>
+  <li><a href="./examples">Examples</a>
+    <ul>
+      <li>
+        <a href="./examples/basic">Basic example</a>
+        <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=hpcs-basic-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-hpcs/tree/main/examples/basic"><img src="https://img.shields.io/badge/Deploy%20with%20IBM%20Cloud%20Schematics-0f62fe?style=flat&logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
+      </li>
+      <li>
+        <a href="./examples/complete">Complete example that creates and initialize HPCS instance</a>
+        <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=hpcs-complete-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-hpcs/tree/main/examples/complete"><img src="https://img.shields.io/badge/Deploy%20with%20IBM%20Cloud%20Schematics-0f62fe?style=flat&logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
+      </li>
+      <li>
+        <a href="./examples/fscloud">Financial Services Cloud profile</a>
+        <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=hpcs-fscloud-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-hpcs/tree/main/examples/fscloud"><img src="https://img.shields.io/badge/Deploy%20with%20IBM%20Cloud%20Schematics-0f62fe?style=flat&logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
+      </li>
+      <li>
+        <a href="./examples/hybrid-hpcs">Hybrid-HPCS example</a>
+        <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=hpcs-hybrid-hpcs-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-hpcs/tree/main/examples/hybrid-hpcs"><img src="https://img.shields.io/badge/Deploy%20with%20IBM%20Cloud%20Schematics-0f62fe?style=flat&logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
+      </li>
+    </ul>
+    ℹ️ Ctrl/Cmd+Click or right-click on the Schematics deploy button to open in a new tab.
+  </li>
+  <li><a href="#contributing">Contributing</a></li>
+</ul>
 <!-- END OVERVIEW HOOK -->
 
 
