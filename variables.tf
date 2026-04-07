@@ -97,12 +97,12 @@ variable "admins" {
 
   validation {
     condition     = var.auto_initialization_using_recovery_crypto_units != true || ((length(var.admins) >= 1 && length(var.admins) <= 8) || (length(var.base64_encoded_admins) >= 1 && length(var.base64_encoded_admins) <= 8))
-    error_message = "At least one administrator is required for the instance crypto unit and you can set upto 8 adminsitrators."
+    error_message = "At least one administrator is required for the instance crypto unit and you can set upto 8 administrators."
   }
 
   validation {
     condition     = var.auto_initialization_using_recovery_crypto_units != true || ((length(var.admins) >= var.signature_threshold || length(var.base64_encoded_admins) >= var.signature_threshold) && (length(var.admins) >= var.revocation_threshold || length(var.base64_encoded_admins) >= var.revocation_threshold))
-    error_message = "The adminstrators of the instance crypto units need to be equal to or greater than the threshold value."
+    error_message = "The administrators of the instance crypto units need to be equal to or greater than the threshold value."
   }
 
   validation {
