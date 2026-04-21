@@ -5,7 +5,7 @@
 [![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-:warning: **Deprecated**: IBM Cloud® is announcing the full deprecation of IBM Cloud® Hyper Protect Crypto Services (HPCS) across selected regions. After the deprecation date (20 March, 2027), any deployments of IBM Cloud® Hyper Protect Crypto Services (HPCS) that are still running will be permanently disabled and deprovisioned. [Learn more](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-faqs-deprecation-of-ibm-cloud-hyper-protect-crypto-services)
+:warning: **Deprecated**: IBM Cloud® is announcing the full deprecation of IBM Cloud® Hyper Protect Crypto Services (HPCS). After the deprecation date (20 March, 2027), any deployments of IBM Cloud® Hyper Protect Crypto Services (HPCS) that are still running will be permanently disabled and deprovisioned. [Learn more](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-faqs-deprecation-of-ibm-cloud-hyper-protect-crypto-services)
 
 You can use this module to provision an IBM Cloud Hyper Protect Crypto Services (HPCS) instance.
 
