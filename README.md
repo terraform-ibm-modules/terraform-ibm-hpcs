@@ -1,20 +1,19 @@
 # IBM Cloud Hyper Protect Crypto Services
-
 [![Graduated (Supported)](https://img.shields.io/badge/Status-Graduated%20(Supported)-brightgreen)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![latest release](https://img.shields.io/github/v/release/terraform-ibm-modules/terraform-ibm-hpcs?logo=GitHub&sort=semver)](https://github.com/terraform-ibm-modules/terraform-ibm-hpcs/releases/latest)
 [![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-:warning: **Deprecated**: IBM Cloud® is announcing the full deprecation of IBM Cloud® Hyper Protect Crypto Services (HPCS). After the deprecation date (20 March, 2027), any deployments of IBM Cloud® Hyper Protect Crypto Services (HPCS) that are still running will be permanently disabled and deprovisioned. [Learn more](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-faqs-deprecation-of-ibm-cloud-hyper-protect-crypto-services).
+:warning: **Deprecated**: IBM Cloud® is announcing the full deprecation of IBM Cloud® Hyper Protect Crypto Services (HPCS). After the deprecation date (20 March, 2027), any deployments of IBM Cloud® Hyper Protect Crypto Services (HPCS) that are still running will be permanently disabled and deprovisioned. [Learn more](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-faqs-deprecation-of-ibm-cloud-hyper-protect-crypto-services)
 
 You can use this module to provision an IBM Cloud Hyper Protect Crypto Services (HPCS) instance.
 
 The next step after provisioning an HPCS instance is to [initialize](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) the service to manage the keys. This module supports the following approaches:
-
 - Provision and initialize the service by using the [recovery crypto units method](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm-recovery-crypto-unit).
 - Provision the service and [initialize](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-instance-mode) it manually. For example, by using smart cards or key part files. This approach requires additional steps to execute after provisioning the service instance.
 - Provision and initialize the service by using your own hardware security module (HSM).
+
 
 For more information, see [components and concepts](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-understand-concepts) of HPCS and [about service instance initialization](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-introduce-service) in the Cloud Docs.
 
@@ -23,7 +22,6 @@ If you provision an HPCS instance with a `private-only` endpoint, both public an
 <!-- Below content is automatically populated via pre-commit hook -->
 <!-- BEGIN OVERVIEW HOOK -->
 ## Overview
-
 <ul>
   <li><a href="#terraform-ibm-hpcs">terraform-ibm-hpcs</a></li>
   <li><a href="./modules">Submodules</a>
@@ -56,6 +54,7 @@ If you provision an HPCS instance with a `private-only` endpoint, both public an
 </ul>
 <!-- END OVERVIEW HOOK -->
 
+
 ## terraform-ibm-hpcs
 
 ### Usage to create the HPCS instance
@@ -79,10 +78,9 @@ module "hpcs" {
 ```
 
 There are multiple ways to initialize the service instance few of them include some manual steps, they are as follows:
-
-- [Initializing service instances by using smart cards and the Hyper Protect Crypto Services Management Utilities](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm-management-utilities) : This approach gives you the highest security, which enables you to store and manage master key parts using smart cards.
-- [Initializing service instances by using key part files](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm) : You can also initialize your service instance using master key parts that are stored in files on your local workstation. You can use this approach regardless of whether or not your service instance includes recovery crypto units.
-- [Initializing service instances using recovery crypto units](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm-recovery-crypto-unit) : If you create your service instance in **Dallas (us-south) or Washington DC (us-east)** where the recovery crypto units are enabled, you can choose this approach where the master key is randomly generated within a recovery crypto unit and then exported to other crypto units.
+ - [Initializing service instances by using smart cards and the Hyper Protect Crypto Services Management Utilities](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm-management-utilities) : This approach gives you the highest security, which enables you to store and manage master key parts using smart cards.
+ - [Initializing service instances by using key part files](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm) : You can also initialize your service instance using master key parts that are stored in files on your local workstation. You can use this approach regardless of whether or not your service instance includes recovery crypto units.
+ - [Initializing service instances using recovery crypto units](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm-recovery-crypto-unit) : If you create your service instance in **Dallas (us-south) or Washington DC (us-east)** where the recovery crypto units are enabled, you can choose this approach where the master key is randomly generated within a recovery crypto unit and then exported to other crypto units.
 
 ### Create and initialize the Hyper Protect Crypto Services instance
 
@@ -93,43 +91,39 @@ To initialize the instance with a third-party signing service, see [Using a sign
 Otherwise, if you are not using a third-party signing service, run the following commands that use the IBM Cloud TKE CLI plug-in
 to generate admin signature keys.
 
-- Install the [IBM Cloud CLI](https://cloud.ibm.com/docs/cli?topic=cli-install-ibmcloud-cli)
+* Install the [IBM Cloud CLI](https://cloud.ibm.com/docs/cli?topic=cli-install-ibmcloud-cli)
 
-- Make sure you have a recent version the IBM Cloud Trusted Key Entry (TKE) CLI plug-in installed.
-  - Run this command to install the plug-in:
-
+* Make sure you have a recent version the IBM Cloud Trusted Key Entry (TKE) CLI plug-in installed.
+  * Run this command to install the plug-in:
     ```
     ibmcloud plugin install tke
     ```
 
     Or
 
-  - Run this command to update your plug-in to the latest version with the following command:
-
+  * Run this command to update your plug-in to the latest version with the following command:
     ```
     ibmcloud plugin update tke
     ```
 
-- Set the environment variable `CLOUDTKEFILES` to specify the directory where you want to save signature key files.
-
+* Set the environment variable `CLOUDTKEFILES` to specify the directory where you want to save signature key files.
   ```
   export CLOUDTKEFILES=<absolute path of directory>
   ```
 
-- Login in to IBM CLoud CLI and make sure that you're logged in to the correct region and resource group where the service instance locates.
-
+* Login in to IBM CLoud CLI and make sure that you're logged in to the correct region and resource group where the service instance locates.
   ```
   ibmcloud login
   ibmcloud target -r <region> -g <resource_group>
   ```
 
-- Run the following command to create administrator signature keys. The signature keys are created in the path specified in `CLOUDTKEFILES` and stored in files that are protected by passwords. Repeat this step to generate more keys.
-
+* Run the following command to create administrator signature keys. The signature keys are created in the path specified in `CLOUDTKEFILES` and stored in files that are protected by passwords. Repeat this step to generate more keys.
   ```
   ibmcloud tke sigkey-add
   ```
 
 :information_source: **Requirement:** Make sure that information about the administrator who is associated with the key is set in the `admins` input variable.
+
 
 ### Usage to create and initialize the HPCS instance
 
@@ -165,8 +159,7 @@ module "hpcs" {
 
 ### Usage to create and initialize the HPCS instance using Schematics
 
-- Convert the signature keys to Base64 encoding.
-
+* Convert the signature keys to Base64 encoding.
   ```sh
   cat 1.sigkey | base64
   cat 2.sigkey | base64
@@ -203,16 +196,15 @@ module "hpcs" {
 ```
 
 ### Required IAM access policies
-
 You need the following permissions to run this module.
 
 - Account Management
-  - **Resource Group** service
-    - `Viewer` platform access
+    - **Resource Group** service
+        - `Viewer` platform access
 - IAM Services
-  - **Hyper Protect Crypto Services** service
-    - `Editor` platform access
-    - `Manager` service access
+    - **Hyper Protect Crypto Services** service
+        - `Editor` platform access
+        - `Manager` service access
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ### Requirements
