@@ -25,7 +25,7 @@ resource "ibm_hpcs" "hpcs_instance" {
   resource_group_id    = var.resource_group_id
   name                 = var.name
   plan                 = var.plan
-  tags                 = var.tags
+  tags                 = var.resource_tags
   units                = var.number_of_crypto_units
   signature_threshold  = var.signature_threshold
   revocation_threshold = var.revocation_threshold
@@ -62,7 +62,7 @@ resource "ibm_resource_instance" "base_hpcs_instance" {
   location          = var.region
   plan              = var.plan
   resource_group_id = var.resource_group_id
-  tags              = var.tags
+  tags              = var.resource_tags
 
   parameters = {
     units           = (var.hsm_connector_id != null) ? 3 : var.number_of_crypto_units # units - 3 is fixed for Hybrid-HPCS

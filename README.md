@@ -244,11 +244,11 @@ No modules.
 | <a name="input_plan"></a> [plan](#input\_plan) | The name of the service plan that you choose for your Hyper Protect Crypto Service instance. | `string` | `"standard"` | no |
 | <a name="input_region"></a> [region](#input\_region) | The region where you want to deploy your instance. | `string` | n/a | yes |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The resource group name where the Hyper Protect Crypto Service instance will be created. | `string` | n/a | yes |
+| <a name="input_resource_tags"></a> [resource\_tags](#input\_resource\_tags) | Add user resource tags to the Hyper Protect Crypto Services (HPCS) instance to organize, track, and manage costs. [Learn more](https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#tag-types). | `list(string)` | `[]` | no |
 | <a name="input_revocation_threshold"></a> [revocation\_threshold](#input\_revocation\_threshold) | The number of administrator signatures required to remove an administrator after you leave imprint mode. Required if auto\_initialization\_using\_recovery\_crypto\_units set to true. | `number` | `1` | no |
 | <a name="input_service_endpoints"></a> [service\_endpoints](#input\_service\_endpoints) | The service\_endpoints to access your service instance. Used only if auto\_initialization\_using\_recovery\_crypto\_units is set to true. Can be set to private-only if Terraform has access to the private endpoints. Default value is public-and-private. | `string` | `"public-and-private"` | no |
 | <a name="input_signature_server_url"></a> [signature\_server\_url](#input\_signature\_server\_url) | The URL and port number of the signing service. Required if auto\_initialization\_using\_recovery\_crypto\_units set to true and using a third-party signing service to provide administrator signature keys. Used only if auto\_initialization\_using\_recovery\_crypto\_units is set to true. | `string` | `null` | no |
 | <a name="input_signature_threshold"></a> [signature\_threshold](#input\_signature\_threshold) | The number of administrator signatures required to execute administrative commands. Required if auto\_initialization\_using\_recovery\_crypto\_units set to true. | `number` | `1` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | Optional list of resource tags to apply to the HPCS instance. | `list(string)` | `[]` | no |
 | <a name="input_update_timeout"></a> [update\_timeout](#input\_update\_timeout) | Update timeout value of the HPCS instance. | `string` | `"180m"` | no |
 
 ### Outputs

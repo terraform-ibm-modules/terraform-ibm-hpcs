@@ -14,7 +14,7 @@ module "hpcs_instance" {
   source                                          = "../.."
   name                                            = "${var.prefix}-hpcs"
   region                                          = var.region
-  tags                                            = var.resource_tags
+  resource_tags                                   = var.resource_tags
   plan                                            = "standard"
   resource_group_id                               = module.resource_group.resource_group_id
   auto_initialization_using_recovery_crypto_units = false
