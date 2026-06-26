@@ -4,7 +4,7 @@ module "ibm_hpcs" {
   name                                            = var.name
   resource_group_id                               = var.resource_group_id
   region                                          = var.region
-  tags                                            = var.tags
+  resource_tags                                   = var.resource_tags
   auto_initialization_using_recovery_crypto_units = var.auto_initialization_using_recovery_crypto_units
   number_of_crypto_units                          = var.number_of_crypto_units
   number_of_failover_units                        = var.number_of_failover_units

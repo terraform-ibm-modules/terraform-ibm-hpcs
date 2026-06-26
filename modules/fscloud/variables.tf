@@ -37,8 +37,8 @@ variable "number_of_crypto_units" {
   }
 }
 
-variable "tags" {
-  description = "Optional list of resource tags to apply to the HPCS instance."
+variable "resource_tags" {
+  description = "Add user resource tags to the Hyper Protect Crypto Services (HPCS) instance to organize, track, and manage costs. [Learn more](https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#tag-types)."
   type        = list(string)
   default     = []
 }
