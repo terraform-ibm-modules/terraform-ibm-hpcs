@@ -118,7 +118,6 @@ func TestRunUpgradeExample(t *testing.T) {
 	sigDirectory := cwd + "/sigs"
 
 	admins, err := CreateSigKeys(usernames, sigDirectory)
-	t.Logf("admins value: %v", admins)
 	if !assert.Nilf(t, err, "Error creating sigkeys: %v", err) {
 		log.Fatalf("Error creating sigkeys: %v", err)
 	}
