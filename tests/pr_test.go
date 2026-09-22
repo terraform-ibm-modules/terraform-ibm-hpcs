@@ -27,14 +27,12 @@ import (
 // The function first checks if the output directory exists. If it does not, it is created. If it does exist,
 // all files in the directory are deleted.
 //
-// The resulting keys are returned as a string formatted in a way that is compatible with Terraform variable
-// interpretation: as a list of maps, with each map representing an admin. Each map includes the "name", "key",
-// and "token" (password) for the admin.
+// The resulting keys are returned as a slice of maps, where each map represents an admin with "name", "key",
+// and "token" (password) fields. This type is compatible with Terraform's list(object) variable type when
+// passed through testhelper's TerraformVars.
 //
 // The function will return an error if there is any problem in creating the output directory, reading its contents,
 // deleting existing files, or running the 'ibmcloud tke sigkey-add' command.
-//
-// The output string can be directly used in Terraform variables in your test functions.
 //
 // Parameters:
 //
@@ -43,28 +41,28 @@ import (
 //
 // Returns:
 //
-//	A string representing the generated keys in a format compatible with Terraform variables.
+//	A []map[string]string representing the generated keys, compatible with Terraform list(object) variables.
 //	An error if any issues are encountered during execution.
-func CreateSigKeys(usernames []string, outputDir string) (string, error) {
+func CreateSigKeys(usernames []string, outputDir string) ([]map[string]string, error) {
 	if _, err := os.Stat(outputDir); os.IsNotExist(err) {
 		err := os.Mkdir(outputDir, 0755)
 		if err != nil {
-			return "", err
+			return nil, err
 		}
 	} else {
 		files, err := os.ReadDir(outputDir)
 		if err != nil {
-			return "", err
+			return nil, err
 		}
 		for _, f := range files {
 			err = os.Remove(outputDir + "/" + f.Name())
 			if err != nil {
-				return "", err
+				return nil, err
 			}
 		}
 	}
 
-	adminStrings := make([]string, 0, len(usernames))
+	admins := make([]map[string]string, 0, len(usernames))
 
 	for i, username := range usernames {
 		password := uuid.New().String()
@@ -74,14 +72,18 @@ func CreateSigKeys(usernames []string, outputDir string) (string, error) {
 		cmd.Stdin = strings.NewReader(fmt.Sprintf("%s\n%s\n%s\n", username, password, password))
 		cmdOutput, err := cmd.CombinedOutput()
 		if err != nil {
-			return "", fmt.Errorf("error while running 'ibmcloud tke sigkey-add': %v\nCommand output: %s", err, string(cmdOutput))
+			return nil, fmt.Errorf("error while running 'ibmcloud tke sigkey-add': %v\nCommand output: %s", err, string(cmdOutput))
 		}
 
 		key := fmt.Sprintf("%s/%d.sigkey", outputDir, i+1)
-		adminStrings = append(adminStrings, fmt.Sprintf("{ \"name\": \"%s\", \"key\": \"%s\", \"token\": \"%s\" }", username, key, password))
+		admins = append(admins, map[string]string{
+			"name":  username,
+			"key":   key,
+			"token": password,
+		})
 	}
 
-	return fmt.Sprintf("[%s]", strings.Join(adminStrings, ", ")), nil
+	return admins, nil
 }
 
 func TestMain(m *testing.M) {

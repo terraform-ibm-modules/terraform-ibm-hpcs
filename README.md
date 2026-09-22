@@ -72,7 +72,7 @@ module "hpcs" {
   resource_group_id                               = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
   region                                          = "us-south"
   name                                            = "my-hpcs-instance"
-  tags                                            = ["tag1","tag2"]
+  resource_tags                                   = ["tag1","tag2"]
   plan                                            = "standard"
   auto_initialization_using_recovery_crypto_units = false
 }
@@ -140,7 +140,7 @@ module "hpcs" {
   resource_group_id                               = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
   region                                          = "us-south"
   name                                            = "my-hpcs-instance"
-  tags                                            = ["tag1","tag2"]
+  resource_tags                                   = ["tag1","tag2"]
   auto_initialization_using_recovery_crypto_units = true
   number_of_crypto_units                          = 3
   admins = [
@@ -178,7 +178,7 @@ module "hpcs" {
   resource_group_id                               = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
   region                                          = "us-south"
   name                                            = "my-hpcs-instance"
-  tags                                            = ["tag1","tag2"]
+  resource_tags                                   = ["tag1","tag2"]
   auto_initialization_using_recovery_crypto_units = true
   number_of_crypto_units                          = 3
   base64_encoded_admins = [
