@@ -15,13 +15,13 @@ As a result, several manual steps must be taken after deploying and initializing
 ### Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
 
 ### Modules
 
 | Name | Source | Version |
-|------|--------|---------|
+| ---- | ------ | ------- |
 | <a name="module_ibm_hpcs"></a> [ibm\_hpcs](#module\_ibm\_hpcs) | ../../ | n/a |
 
 ### Resources
@@ -31,7 +31,7 @@ No resources.
 ### Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_admins"></a> [admins](#input\_admins) | A list of administrators for the instance crypto units. See [instructions](https://github.com/terraform-ibm-modules/terraform-ibm-hpcs#before-you-begin) to create administrator signature keys. You can set up to 8 administrators. Only used if auto\_initialization\_using\_recovery\_crypto\_units is true | <pre>list(object({<br/>    name = string # max length: 30 chars<br/>    key  = string # the absolute path and the file name of the signature key file if key files are created using TKE CLI and are not using a third-party signing service<br/>    # if you are using a signing service, the key name is appended to a URI that will be sent to the signing service<br/>    token = string # sensitive: the administrator password/token to authorize and access the corresponding signature key file<br/>  }))</pre> | `[]` | no |
 | <a name="input_auto_initialization_using_recovery_crypto_units"></a> [auto\_initialization\_using\_recovery\_crypto\_units](#input\_auto\_initialization\_using\_recovery\_crypto\_units) | Set to true if auto initialization using recovery crypto units is required. | `bool` | `false` | no |
 | <a name="input_hsm_connector_id"></a> [hsm\_connector\_id](#input\_hsm\_connector\_id) | The HSM connector ID provided by IBM required for Hybrid HPCS. Available to selected customers only. | `string` | `null` | no |
@@ -49,7 +49,7 @@ No resources.
 ### Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_crn"></a> [crn](#output\_crn) | HPCS instance crn |
 | <a name="output_guid"></a> [guid](#output\_guid) | HPCS instance guid |
 | <a name="output_hpcs_name"></a> [hpcs\_name](#output\_hpcs\_name) | HPCS instance name |
