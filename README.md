@@ -211,7 +211,7 @@ You need the following permissions to run this module.
 ### Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.79.0, < 3.0.0 |
 | <a name="requirement_local"></a> [local](#requirement\_local) | >= 2.4.0, < 3.0.0 |
@@ -223,7 +223,7 @@ No modules.
 ### Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [ibm_hpcs.hpcs_instance](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/hpcs) | resource |
 | [ibm_resource_instance.base_hpcs_instance](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/resource_instance) | resource |
 | [local_file.admin_files](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | resource |
@@ -231,7 +231,7 @@ No modules.
 ### Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_admins"></a> [admins](#input\_admins) | A list of administrators for the instance crypto units. See [instructions](https://github.com/terraform-ibm-modules/terraform-ibm-hpcs#before-you-begin) to create administrator signature keys. You can set up to 8 administrators. Required if auto\_initialization\_using\_recovery\_crypto\_units set to true. | <pre>list(object({<br/>    name = string # max length: 30 chars<br/>    key  = string # the absolute path and the file name of the signature key file if key files are created using TKE CLI and are not using a third-party signing service<br/>    # if you are using a signing service, the key name is appended to a URI that will be sent to the signing service<br/>    token = string # sensitive: the administrator password/token to authorize and access the corresponding signature key file<br/>  }))</pre> | `[]` | no |
 | <a name="input_auto_initialization_using_recovery_crypto_units"></a> [auto\_initialization\_using\_recovery\_crypto\_units](#input\_auto\_initialization\_using\_recovery\_crypto\_units) | Set to true if auto initialization using recovery crypto units is required. | `bool` | `true` | no |
 | <a name="input_base64_encoded_admins"></a> [base64\_encoded\_admins](#input\_base64\_encoded\_admins) | A list of up to 8 administrators for the instance crypto units. Required if auto\_initialization\_using\_recovery\_crypto\_units is set to true. Pass the signature keys as base64 encoded values. For information about administrator signature keys, see the readme file. | <pre>list(object({<br/>    name  = string # max length: 30 chars<br/>    key   = string #  base64 encoded value of signature key files if key files are created using TKE CLI and are not using a third-party signing service<br/>    token = string # sensitive: the administrator password/token to authorize and access the corresponding signature key file<br/>  }))</pre> | `[]` | no |
@@ -254,7 +254,7 @@ No modules.
 ### Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_crn"></a> [crn](#output\_crn) | HPCS instance crn |
 | <a name="output_endpoints"></a> [endpoints](#output\_endpoints) | HPCS instance endpoints |
 | <a name="output_guid"></a> [guid](#output\_guid) | HPCS instance guid |

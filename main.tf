@@ -1,6 +1,6 @@
-/********************************************************************
-This file is used to implement the HPCS module.
-*********************************************************************/
+#######################################################################
+# This file is used to implement the HPCS module.
+#######################################################################
 
 locals {
   admins_name_map = merge([for admin in var.base64_encoded_admins : { (admin.name) = { "name" = admin.name } }]...) # map created for non-sensitive value (admin name) only
